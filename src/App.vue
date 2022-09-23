@@ -1,10 +1,13 @@
-<script setup>
-</script>
-
-<template>
-<h1>Hello World</h1>
+<template lang="">
+    <div>
+        
+    </div>
 </template>
-
-<style scoped>
-
+<script>
+export default {
+    
+}
+</script>
+<style lang="">
+    
 </style>
