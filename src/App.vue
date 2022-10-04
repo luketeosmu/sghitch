@@ -7,11 +7,12 @@
 
 <script>
 import Login from './views/Login.vue'
+import Home from './views/Home.vue'
 export default {
     name: 'App',
   components: {
     Login,
-   
+    Home
   },
 }
 </script>
