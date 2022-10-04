@@ -2,6 +2,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from './views/Login.vue'
+import Register from './views/Register.vue'
+import Profile from './views/Profile.vue'
 import NewReq from './views/NewReq.vue'
 import MapsService from './services/MapsService'
 import Home from './views/Home.vue'
@@ -34,6 +36,16 @@ const routes = [
         component: Login
     },
     {
+        path: '/register',
+        name: 'Register',
+        component: Register
+    },
+    {
+        path: '/Profile',
+        name: 'Profile',
+        component: Profile
+    },
+    {
         path: '/newreq',
         name: 'NewReq',
         component: NewReq
@@ -43,6 +55,7 @@ const routes = [
         name: 'Home',
         component: Home
     }
+
 ]
 
 const router = createRouter({
