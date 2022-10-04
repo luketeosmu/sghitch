@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Login from './views/Login.vue'
 import NewReq from './views/NewReq.vue'
 import MapsService from './services/MapsService'
+import Home from './views/Home.vue'
 import './style.css'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -36,6 +37,11 @@ const routes = [
         path: '/newreq',
         name: 'NewReq',
         component: NewReq
+    },
+    {
+        path: '/home',
+        name: 'Home',
+        component: Home
     }
 ]
 
