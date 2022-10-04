@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="navbar-center">
-                <span class="font-bold text-4xl font-sans">Hitch</span>
+                <span class="font-bold text-4xl font-sans">Hitch.</span>
             </div>
             <div class="navbar-end">
                 <button @click='login()' type="button" class="block bg-yellow-100 p-3 rounded-2xl text-black font-semibold">New Request</button>

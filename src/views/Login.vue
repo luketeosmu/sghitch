@@ -73,24 +73,24 @@ export default {
     methods: {
         login() {},
         // login(){
-        //     try{
-        //         if(this.input.username != "" && this.input.password != "") {
-        //             // localStorage.setItem("user", this.input);
-        //             // this.$router.push('/');
-        //             UserService.authenticate(this.input)
-        //             .then((res) => {
-        //                 if(res == "failed"){
-        //                     alert("Incorrect username/password. Please try again.")
-        //                 } else {
-        //                     this.$router.push('/')
-        //                 }
-        //             })
-        //         } else {
-        //             alert("A username and password must be present. Please try again.");
-        //         }
-        //     } catch (error){
+            // try{
+            //     if(this.input.username != "" && this.input.password != "") {
+            //         // localStorage.setItem("user", this.input);
+            //         // this.$router.push('/');
+            //         UserService.authenticate(this.input)
+            //         .then((res) => {
+            //             if(res == "failed"){
+            //                 alert("Incorrect username/password. Please try again.")
+            //             } else {
+            //                 this.$router.push('/')
+            //             }
+            //         })
+            //     } else {
+            //         alert("A username and password must be present. Please try again.");
+            //     }
+            // } catch (error){
 
-        //     }
+            // }
         // },
 
 
