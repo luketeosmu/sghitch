@@ -2,8 +2,26 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from './views/Login.vue'
+import NewReq from './views/NewReq.vue'
+import MapsService from './services/MapsService'
 import './style.css'
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyAddncb3t3ZaveYLdocYKtWQg1vHX6FsAU",
+    authDomain: "hitcher-9ae90.firebaseapp.com",
+    projectId: "hitcher-9ae90",
+    storageBucket: "hitcher-9ae90.appspot.com",
+    messagingSenderId: "688326591641",
+    appId: "1:688326591641:web:03a0ecc41e5045c0d86408"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
 // import './index.css'
 
@@ -13,6 +31,11 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: Login
+    },
+    {
+        path: '/newreq',
+        name: 'NewReq',
+        component: NewReq
     }
 ]
 
