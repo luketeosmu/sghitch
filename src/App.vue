@@ -7,10 +7,12 @@
 
 <script>
 import Login from './views/Login.vue'
+import Register from './views/Register.vue';
 export default {
     name: 'App',
   components: {
     Login,
+    Register
    
   },
 }
