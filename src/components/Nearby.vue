@@ -2,7 +2,16 @@
     <div>
         <div v-if='requests.length > 0'>
             <a class="relative mb-5 mx-3 p-3 pt-12 bg-yellow-100 rounded-2xl flex justify-center hover:bg-yellow-200 cursor-pointer" >
-                <button class="btn btn-square btn-xs btn-warning absolute top-2 right-5 font-black" @click="minimize()"> X </button>
+                <!-- <button class="btn btn-square btn-xs btn-warning absolute top-2 right-5 font-black" @click="minimize()"> X </button> -->
+
+                <label class="btn btn-circle btn-xs swap swap-rotate absolute top-2 right-5">
+                <!-- this hidden checkbox controls the state -->
+                    <input type="checkbox"  @click="minimize(favourite)"/>
+                    <!-- close icon -->
+                    <svg class="w-4 h-4 swap-off fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49"/></svg>
+                    <!-- hamburger icon -->
+                    <svg class="w-4 h-4 swap-on fill-current " xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"/></svg>
+                </label>
                 <div id="nearby">
                     <Request :requests="requests"/>
                 </div>

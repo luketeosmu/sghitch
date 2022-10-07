@@ -5,6 +5,7 @@ import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import Profile from './views/Profile.vue'
 import NewReq from './views/NewReq.vue'
+import NewFav from './views/NewFav.vue'
 import MapsService from './services/MapsService'
 import Home from './views/Home.vue'
 import './style.css'
@@ -49,6 +50,11 @@ const routes = [
         path: '/newreq',
         name: 'NewReq',
         component: NewReq
+    },
+    {
+        path: '/newfav',
+        name: 'NewFav',
+        component: NewFav
     },
     {
         path: '/home',

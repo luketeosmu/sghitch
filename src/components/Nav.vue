@@ -7,16 +7,16 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
                     </label>
                     <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><a @click='home()'>Homepage</a></li>
+                        <li><a @click='home()'>Home</a></li>
                         <li><a @click='profile()'>Profile</a></li>
-                        <li><a >Favourites</a></li>
+                        <li><a @click='newFav()'>Favourites</a></li>
                     </ul>
                 </div>
                 <div class="dropdown hidden md:block">
                     <ul class="menu menu-horizontal p-0" tabindex="0">
                         <li><a class="btn btn-ghost" @click='home()'>Home</a></li>
                         <li><a class="btn btn-ghost" @click='profile()'>Profile</a></li>
-                        <li><a class="btn btn-ghost">Favourites</a></li>
+                        <li><a class="btn btn-ghost" @click='newFav()'>Favourites</a></li>
                     </ul>
                 </div>
             </div>
@@ -51,9 +51,9 @@ export default {
         profile() {
             this.$router.push('/profile')
         },
-        // favourites() {
-        //     this.$router.push('/favourites')
-        // },
+        newFav() {
+            this.$router.push('/newFav')
+        },
     }
 }
 </script>
