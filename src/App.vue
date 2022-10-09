@@ -13,7 +13,7 @@ import MapsService from './services/MapsService';
 import Home from './views/Home.vue'
 
 export default {
-    name: 'App',
+  name: 'App',
   components: {
     Login,
     Register,
