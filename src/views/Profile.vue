@@ -1,5 +1,6 @@
 <template lang="">
    <div>
+    <Nav />
     <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
     <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
 
@@ -56,11 +57,15 @@
               Los Angeles, California
             </div>
             <div class="mb-2 text-blueGray-600 mt-10">
-              <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>Solution Manager - Creative Tim Officer
+              Name: <input type="text" placeholder="Type here" class="input input-bordered input-accent w-full max-w-xs" />
             </div>
             <div class="mb-2 text-blueGray-600">
-              <i class="fas fa-university mr-2 text-lg text-blueGray-400"></i>University of Computer Science
+              Email : <input type="text" placeholder="Type here" class="input input-bordered input-accent w-full max-w-xs" />
             </div>
+            <div class="mb-2 text-blueGray-600 mt-10">
+              Mobile number: <input type="tel" placeholder="Type here" class="input input-bordered input-accent w-full max-w-xs" />
+            </div>
+            
           </div>
           <div class="mt-10 py-10 border-t border-blueGray-200 text-center">
             <div class="flex flex-wrap justify-center">
@@ -95,8 +100,15 @@
    </div>
 </template>
 <script>
+
+import Nav from "../components/Nav.vue"
+
 export default {
-    
+    name: "Profile",
+    props: {},
+    components: {
+        Nav,
+    }
 }
 </script>
 <style lang="">
