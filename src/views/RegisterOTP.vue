@@ -3,40 +3,16 @@
       <div class="absolute z-30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  ">
           <div class="card w-96 p-12 bg-yellow-50">
           <form>
-            <ul class="grid grid-rows-3 grid-flow-col gap-4">
-                <li class="relative">
-                  <input class="sr-only peer" type="radio" value="driver" name="answer" id="driver">
-                  <label class="block text-center w-full bg-yellow-300 mt-2 py-2 px-2 text-black font-semibold mb-2 bg-white border border-gray-300 rounded-lg cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:ring-2 peer-checked:border-transparent" for="driver"> Sign up as Driver </label>
-
-                  <div class="absolute hidden w-5 h-5 peer-checked:block top-5 right-3">
-                    
-                  </div>
-    
-                </li>
-
-                <li class="relative">
-                  <input class="sr-only peer" type="radio" value="driver" name="answer" id="hitcher">
-                  <label class="block text-center w-full bg-yellow-300 mt-2 py-2 px-2 rounded-2xl text-black font-semibold mb-2 bg-white border border-gray-300 rounded-lg cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:ring-2 peer-checked:border-transparent" for="hitcher"> Sign up as Hitcher </label>
-
-                  <div class="absolute hidden w-5 h-5 peer-checked:block top-5 right-3">
-                    
-                  </div>
-                
-                </li>
-
-                <li class="relative">
-                  <input class="sr-only peer" type="radio" value="both" name="answer" id="both">
-                  <label class="block text-center w-full bg-yellow-300 mt-2 py-2 px-2 rounded-2xl text-black font-semibold mb-2 bg-white border border-gray-300 rounded-lg cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:ring-2 peer-checked:border-transparent" for="both"> Sign up as Both </label>
-
-                  <div class="absolute hidden w-5 h-5 peer-checked:block top-5 right-3">
-                    
-                  </div>
-                
-                </li>
-              </ul>
-              <button @click='' type="button" class="block w-full bg-yellow-300 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Next </button>
+            <h1 class="text-gray-800 font-bold font-sans text-2xl mb-7 text-center"> We've sent a verification code to your email </h1>
+            <div class="flex items-center border-2 py-2 px-3 mb-5 rounded-2xl border-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                </svg>
+                <input @keyup.enter='login()' v-model.lazy="input.password" class="pl-2 outline-none border-none bg-yellow-50" type="password" name="" placeholder="Enter OTP" />
+            </div>
+              <button @click='' type="button" class="block w-full bg-yellow-300 mt-4 py-2 rounded-2xl text-black font-semibold mb-2"> Submit </button>
               <br>
-              <span @click='backToRegister()' class="text-sm ml-2 hover:text-yellow-300 cursor-pointer">Back to register</span>
+              <span @click='backToRegister()' class="text-sm ml-2 hover:text-yellow-300 cursor-pointer">Back </span>
           </form>
       </div>
       </div>
@@ -94,7 +70,7 @@
           // },
 
           backToRegister(){
-          this.$router.push('/register')
+          this.$router.push('/registerAs')
       }
   
       }

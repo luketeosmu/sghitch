@@ -72,7 +72,7 @@
         },
         methods: {
             next() {
-                this.$router.push('/registerOTP')
+                this.$router.push('/registerotp')
             },
             // login(){
             //     try{
