@@ -57,7 +57,7 @@ const routes = [
         component: NewFav
     },
     {
-        path: '/home',
+        path: '/',
         name: 'Home',
         component: Home
     },

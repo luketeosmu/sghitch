@@ -61,7 +61,7 @@ export default {
             this.$router.push('/newReq')
         },
         home() {
-            this.$router.push('/home')
+            this.$router.push('/')
         },
         profile() {
             this.$router.push('/profile')
