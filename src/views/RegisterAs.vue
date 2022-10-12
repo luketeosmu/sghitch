@@ -3,7 +3,7 @@
         <div class="absolute z-30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  ">
             <div class="card w-96 p-12 bg-yellow-50">
             <form>
-              <ul class="grid grid-rows-2 grid-flow-col gap-4">
+              <ul class="grid grid-rows-3 grid-flow-col gap-4">
                   <li class="relative">
                     <input class="sr-only peer" type="radio" value="driver" name="answer" id="driver">
                     <label class="block text-center w-full bg-yellow-300 mt-2 py-2 px-2 text-black font-semibold mb-2 bg-white border border-gray-300 rounded-lg cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:ring-2 peer-checked:border-transparent" for="driver"> Sign up as Driver </label>
@@ -17,6 +17,16 @@
                   <li class="relative">
                     <input class="sr-only peer" type="radio" value="driver" name="answer" id="hitcher">
                     <label class="block text-center w-full bg-yellow-300 mt-2 py-2 px-2 rounded-2xl text-black font-semibold mb-2 bg-white border border-gray-300 rounded-lg cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:ring-2 peer-checked:border-transparent" for="hitcher"> Sign up as Hitcher </label>
+  
+                    <div class="absolute hidden w-5 h-5 peer-checked:block top-5 right-3">
+                      
+                    </div>
+                  
+                  </li>
+
+                  <li class="relative">
+                    <input class="sr-only peer" type="radio" value="both" name="answer" id="both">
+                    <label class="block text-center w-full bg-yellow-300 mt-2 py-2 px-2 rounded-2xl text-black font-semibold mb-2 bg-white border border-gray-300 rounded-lg cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:ring-2 peer-checked:border-transparent" for="both"> Sign up as Both </label>
   
                     <div class="absolute hidden w-5 h-5 peer-checked:block top-5 right-3">
                       

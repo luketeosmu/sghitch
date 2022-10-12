@@ -65,19 +65,24 @@ const routes = [
         component: Home
     },
     {
-        path: '/forgotPassword',
+        path: '/forgotpassword',
         name: 'ForgotPassword',
         component: ForgotPassword
     },
     {
-        path: '/loginAs',
+        path: '/loginas',
         name: 'LoginAs',
         component: LoginAs
     },
     {
-        path: '/RegisterAs',
+        path: '/registeras',
         name: 'RegisterAs',
         component: RegisterAs
+    },
+    {
+        path: '/registerotp',
+        name: 'RegisterOTP',
+        component: RegisterOTP
     },
 
 ]
