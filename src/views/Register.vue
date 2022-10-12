@@ -67,7 +67,9 @@
             localStorage.clear();
         },
         methods: {
-            register() {},
+            register() {
+                this.$router.push('/registerAs')
+            },
             // login(){
             //     try{
             //         if(this.input.username != "" && this.input.password != "") {

@@ -10,6 +10,7 @@ import MapsService from './services/MapsService'
 import Home from './views/Home.vue'
 import ForgotPassword from './views/ForgotPassword.vue'
 import LoginAs from './views/LoginAs.vue'
+import RegisterAs from './views/RegisterAs.vue'
 import './style.css'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -72,6 +73,11 @@ const routes = [
         path: '/loginAs',
         name: 'LoginAs',
         component: LoginAs
+    },
+    {
+        path: '/RegisterAs',
+        name: 'RegisterAs',
+        component: RegisterAs
     },
 
 ]
