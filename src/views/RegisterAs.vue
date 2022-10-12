@@ -34,7 +34,7 @@
                   
                   </li>
                 </ul>
-                <button @click='' type="button" class="block w-full bg-yellow-300 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Next </button>
+                <button @click='next()' type="button" class="block w-full bg-yellow-300 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Next </button>
                 <br>
                 <span @click='backToRegister()' class="text-sm ml-2 hover:text-yellow-300 cursor-pointer">Back to register</span>
             </form>
@@ -71,7 +71,9 @@
             localStorage.clear();
         },
         methods: {
-            register() {},
+            next() {
+                this.$router.push('/registerOTP')
+            },
             // login(){
             //     try{
             //         if(this.input.username != "" && this.input.password != "") {
