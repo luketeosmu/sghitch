@@ -8,6 +8,8 @@ import NewReq from './views/NewReq.vue'
 import NewFav from './views/NewFav.vue'
 import MapsService from './services/MapsService'
 import Home from './views/Home.vue'
+import ForgotPassword from './views/ForgotPassword.vue'
+import LoginAs from './views/LoginAs.vue'
 import './style.css'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -42,7 +44,7 @@ const routes = [
         component: Register
     },
     {
-        path: '/Profile',
+        path: '/profile',
         name: 'Profile',
         component: Profile
     },
@@ -60,6 +62,16 @@ const routes = [
         path: '/home',
         name: 'Home',
         component: Home
+    },
+    {
+        path: '/forgotPassword',
+        name: 'ForgotPassword',
+        component: ForgotPassword
+    },
+    {
+        path: '/loginAs',
+        name: 'LoginAs',
+        component: LoginAs
     },
 
 ]

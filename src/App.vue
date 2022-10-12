@@ -11,6 +11,8 @@ import Register from './views/Register.vue';
 import NewReq from './views/NewReq.vue'
 import MapsService from './services/MapsService';
 import Home from './views/Home.vue'
+import Profile from './views/Profile.vue'
+import ForgotPassword from './views/ForgotPassword.vue'
 
 export default {
   name: 'App',
@@ -19,7 +21,9 @@ export default {
     Register,
     NewReq,
     MapsService,
-    Home
+    Home,
+    Profile,
+    ForgotPassword
   },
 }
 </script>
