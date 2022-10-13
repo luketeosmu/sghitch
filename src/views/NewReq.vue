@@ -29,6 +29,7 @@
 <script>
 import MapsService from '../services/MapsService'
 import Nav from '../components/Nav.vue'
+// import './maps.css'
 
 export default {
     name: "NewReq",
@@ -58,6 +59,7 @@ export default {
                         } else {
                             // this.$router.push('/')
                             console.log(res)
+                            this.initMap()
                         }
                     })
                 } else {
@@ -85,7 +87,7 @@ export default {
             } catch (error){
 
             }
-        },
+        }
     }
 }
 </script>

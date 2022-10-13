@@ -71,7 +71,9 @@ export default {
         localStorage.clear();
     },
     methods: {
-        login() {},
+        login() {
+            this.$router.push('/loginAs')
+        },
         // login(){
             // try{
             //     if(this.input.username != "" && this.input.password != "") {
