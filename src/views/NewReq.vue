@@ -9,6 +9,7 @@
                 pointing to the specified location. (When displaying the request, it should be shown as a 'province' but should 
                 also have the whole address tied to the request). Otherwise a warning appears.
             </div>
+            <!-- query autocomplete api, maps sdk api -->
             <form>
                 <div className="flex form-control text-center mb-10">
                     <div className="justify-center">
