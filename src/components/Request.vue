@@ -2,14 +2,16 @@
     <div>
         <div v-if="requests.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
             <div  v-for="request in requests">
-                <a class="card relative p-4 mx-5 mb-5 w-72 h-44 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-red-200">
+                <a @click='chat()' class="card relative p-2 mx-5 my-5 w-72 h-30 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-red-200 justify-center text-center items-center cursor-pointer">
                     <ul class="text-lg font-bold mb-2">
                         <li>Time: {{ request.time}}</li>
-                        <li>Pax: {{ request.pax }} persons</li>
+                        <li v-if="this.user.type != 'hitcher'">Pax: {{ request.pax }} persons</li>
+                        <li v-else>Available seats: {{ request.available }} persons</li>
+                        <li v-if="showDest"> Destination: {{ request.to }} </li>
                         <li class="font-normal text-sm">Hitcher: {{ request.hitcher }}</li>
                         <li class="font-normal text-sm">Rating: {{ request.rating }}/5</li>
                     </ul>
-                    <div class="inline-flex items-center mb-2">
+                    <!-- <div class="inline-flex items-center mb-2">
                         <button href="#" class= " py-2 px-3 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
                                     From: {{ request.from }}
                         </button>
@@ -17,7 +19,7 @@
                         <button href="#" class= " py-2 px-3 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
                                 To: {{ request.to }}
                         </button>
-                    </div>
+                    </div> -->
                 </a>
             </div>
         </div>
@@ -30,80 +32,22 @@
 export default {
     name: "Request",
     props: {
-        requests: Array
+        requests: Array,
+        showDest: Boolean
     },
     components: {
     },
     data() {
         return {
-            //use Favourite to GET all request from "Woodlands to Tampines"
-            // requests: [],
-            // requests: [
-            //         {
-            //             hitcher: "Luke Teo",
-            //             rating: 5,
-            //             time: "08:00",
-            //             pax: 2,
-            //             from: "730308",
-            //             to: "529498"
-            //         },
-            //         {
-            //             hitcher: "Shaun Ting",
-            //             rating: 5,
-            //             time: "10:00",
-            //             pax: 3,
-            //             from: "730308",
-            //             to: "529498"
-            //         },
-            //         {
-            //             hitcher: "Ali baba",
-            //             rating: 5,
-            //             time: "12:00",
-            //             pax: 4,
-            //             from: "730308",
-            //             to: "529498"
-            //         },
-            //         {
-            //             hitcher: "John Wick",
-            //             rating: 5,
-            //             time: "12:00",
-            //             pax: 4,
-            //             from: "730308",
-            //             to: "529498"
-            //         },
-            //         {
-            //             hitcher: "Jennie Kim",
-            //             rating: 5,
-            //             time: "12:00",
-            //             pax: 4,
-            //             from: "730308",
-            //             to: "529498"
-            //         },
-            //         {
-            //             hitcher: "KIm Jong Kook",
-            //             rating: 5,
-            //             time: "12:00",
-            //             pax: 4,
-            //             from: "730308",
-            //             to: "529498"
-            //         },
-            //         {
-            //             hitcher: "Kimchi Jigae",
-            //             rating: 5,
-            //             time: "12:00",
-            //             pax: 4,
-            //             from: "730308",
-            //             to: "529498"
-            //         },
-            //         {
-            //             hitcher: "Buddae Jigae",
-            //             rating: 5,
-            //             time: "12:00",
-            //             pax: 4,
-            //             from: "730308",
-            //             to: "529498"
-            //         },
-            // ]
+            user: {
+                type: "driver",
+                from: "Woodlands"
+            }
+        }
+    },
+    methods: {
+        chat() {
+            this.$router.push('./chat')
         }
     }
 }

@@ -17,7 +17,7 @@
                     
                 </label>
                 <div :id="favourite">
-                    <Request :requests="requests"/>
+                    <Request :requests="requests" :showDest="false"/>
                 </div>
             </a>
         </div>
@@ -45,64 +45,72 @@ export default {
                         rating: 5,
                         time: "08:00",
                         pax: 2,
-                        from: "730308",
-                        to: "529498"
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
                     {
                         hitcher: "Shaun Ting",
                         rating: 5,
                         time: "10:00",
                         pax: 3,
-                        from: "730308",
-                        to: "529498"
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
                     {
                         hitcher: "Ali baba",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
-                        from: "730308",
-                        to: "529498"
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
                     {
                         hitcher: "John Wick",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
-                        from: "730308",
-                        to: "529498"
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
                     {
                         hitcher: "Jennie Kim",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
-                        from: "730308",
-                        to: "529498"
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
                     {
                         hitcher: "KIm Jong Kook",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
-                        from: "730308",
-                        to: "529498"
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
                     {
                         hitcher: "Kimchi Jigae",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
-                        from: "730308",
-                        to: "529498"
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
                     {
                         hitcher: "Buddae Jigae",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
-                        from: "730308",
-                        to: "529498"
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
             ]
             // favourites: []

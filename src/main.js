@@ -12,6 +12,8 @@ import ForgotPassword from './views/ForgotPassword.vue'
 import LoginAs from './views/LoginAs.vue'
 import RegisterAs from './views/RegisterAs.vue'
 import RegisterOTP from './views/RegisterOTP.vue'
+import ShowAllNearby from './views/ShowAllNearby.vue'
+import Chat from './views/Chat.vue'
 import './style.css'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -84,6 +86,16 @@ const routes = [
         path: '/registerotp',
         name: 'RegisterOTP',
         component: RegisterOTP
+    },
+    {
+        path: '/showallnearby',
+        name: 'ShowAllNearby',
+        component: ShowAllNearby
+    },
+    {
+        path: '/chat',
+        name: 'Chat',
+        component: Chat
     },
 
 ]
