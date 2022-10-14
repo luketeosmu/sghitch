@@ -20,6 +20,8 @@ import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
+import VueGoogleMaps from '@fawmi/vue-google-maps'
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyAddncb3t3ZaveYLdocYKtWQg1vHX6FsAU",
@@ -103,6 +105,11 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes
-})  
+})
 
-createApp(App).use(router).mount('#app')
+createApp(App).use(VueGoogleMaps, {
+    load: {
+        key: 'AIzaSyCnf0_2dW7jhXlpL46JqRvrKOFgFQ7tv2k'
+    },
+}).use(router).mount('#app')
+
