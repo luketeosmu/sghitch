@@ -8,26 +8,42 @@
             <form>
                 <div className="flex form-control text-center mb-10">
                     <div className="justify-center">
-                        <input v-model.lazy="input.s_address" type="text" placeholder="Starting Point e.g. Tampines" className="input input-bordered input-warning w-full max-w-md mt-5" />
+                        <input v-model.lazy="input.s_address" type="text" placeholder="Starting Point Address" className="input input-bordered input-warning w-full max-w-md mt-5" />
                         <button type="button" @click='queryMapsStart()' class="btn btn-warning bg-yellow-300 text-black ml-4">Search</button>
                     </div>
-                    <div v-if="seenStart" className="mx-auto">
+                    <div v-if="seenStart" className="mx-auto mt-3">
+                      <p>{{ startNeighborhood }}</p>
                         <GMapMap
-                            :center="center"
-                            :zoom="20"
+                            :center="centerStart"
+                            :zoom="18"
                             map-type-id="terrain"
-                            style="width: 50vw; height: 20rem"
+                            style="width: 30vw; height: 20rem"
                         >
                             <GMapMarker
                                 :key="index"
-                                v-for="(m, index) in markers"
+                                v-for="(m, index) in markersStart"
                                 :position="m.position"
                             />
                         </GMapMap>
                     </div>
                     <div class="justify-center">
-                        <input v-model.lazy="input.d_address" type="text" placeholder="Destination e.g. Woodlands" className="input input-bordered input-warning w-full max-w-md mt-5" />
+                        <input v-model.lazy="input.d_address" type="text" placeholder="Destination Point Address" className="input input-bordered input-warning w-full max-w-md mt-5" />
                         <button type="button" @click='queryMapsDest()' class="btn btn-warning bg-yellow-300 text-black ml-4">Search</button>
+                    </div>
+                    <div v-if="seenDest" className="mx-auto mt-3">
+                      <p>{{ destNeighborhood }}</p>
+                        <GMapMap
+                            :center="centerDest"
+                            :zoom="18"
+                            map-type-id="terrain"
+                            style="width: 30vw; height: 20rem"
+                        >
+                            <GMapMarker
+                                :key="index"
+                                v-for="(m, index) in markersDest"
+                                :position="m.position"
+                            />
+                        </GMapMap>
                     </div>
                 </div>
                 <div class="text-center">
@@ -55,17 +71,30 @@ export default {
         s_address: "",
         d_address: "",
       },
-      center: { 
+      centerStart: { 
         lat: 0.0, lng: 0.0 
       },
-      markers: [
+      centerDest: { 
+        lat: 0.0, lng: 0.0 
+      },
+      markersStart: [
         {
             position: {
                 lat: 0.0, lng: 0.0
             }
         }
       ],
-      seenStart: false
+      markersDest: [
+        {
+            position: {
+                lat: 0.0, lng: 0.0
+            }
+        }
+      ],
+      seenStart: false,
+      seenDest: false,
+      startNeighborhood: "",
+      destNeighborhood: "",
     };
   },
   mounted() {},
@@ -74,8 +103,8 @@ export default {
       try {
         if (this.input.s_address != "") {
           MapsService.queryMaps(this.input.s_address).then((res) => {
-            if (res == "failed") {
-              alert("Invalid");
+            if (res.data.status == "ZERO_RESULTS") {
+              alert("Unable to locate, please try again.");
             } else {
               // this.$router.push('/')
               console.log(res.data.results[0].geometry.location);
@@ -89,15 +118,16 @@ export default {
               }
               if (neighborhood != "") {
                 //display map
-                this.center.lat = res.data.results[0].geometry.location.lat
-                this.center.lng = res.data.results[0].geometry.location.lng
-                this.markers[0].position.lat = res.data.results[0].geometry.location.lat
-                this.markers[0].position.lng = res.data.results[0].geometry.location.lng
-                
+                this.input.s_address = res.data.results[0].formatted_address
+                this.centerStart.lat = res.data.results[0].geometry.location.lat
+                this.centerStart.lng = res.data.results[0].geometry.location.lng
+                this.markersStart[0].position.lat = res.data.results[0].geometry.location.lat
+                this.markersStart[0].position.lng = res.data.results[0].geometry.location.lng
+                this.startNeighborhood = neighborhood
                 this.seenStart = true
               } else {
                 this.input.s_address = "";
-                alert("Invalid address, please try again");
+                alert("Invalid address (no neighborhood), please try again.");
               }
               // this.initMap()
             }
@@ -111,25 +141,38 @@ export default {
       try {
         if (this.input.d_address != "") {
           MapsService.queryMaps(this.input.d_address).then((res) => {
-            if (res == "failed") {
-              alert("Invalid");
+            if (res.data.status == "ZERO_RESULTS") {
+              alert("Unable to locate, please try again.");
             } else {
               // this.$router.push('/')
-              console.log(res);
+              console.log(res.data.results[0].geometry.location);
+              let address = res.data.results[0].address_components;
+              let neighborhood = "";
+              for (let component of address) {
+                if (component.types.includes("neighborhood")) {
+                  neighborhood = component.long_name;
+                  break;
+                }
+              }
+              if (neighborhood != "") {
+                this.input.d_address = res.data.results[0].formatted_address
+                this.centerDest.lat = res.data.results[0].geometry.location.lat
+                this.centerDest.lng = res.data.results[0].geometry.location.lng
+                this.markersDest[0].position.lat = res.data.results[0].geometry.location.lat
+                this.markersDest[0].position.lng = res.data.results[0].geometry.location.lng
+                this.destNeighborhood = neighborhood
+                this.seenDest = true
+              } else {
+                this.input.d_address = "";
+                alert("Invalid address (no neighborhood), please try again.");
+              }
+              // this.initMap()
             }
           });
         } else {
           alert("Please enter a valid location.");
         }
       } catch (error) {}
-    },
-    initMap() {},
-
-    //todo: Load the map using Google Maps API
-
-    getLoc(action) {
-      //todo: Read the user input; make an Async request to load the address/postcode; and re-center the map
-      //Hint: you can use function encodeURI to generate an encoded address string from the user input.
     },
   },
 };
