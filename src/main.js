@@ -17,6 +17,7 @@ import Chat from './views/Chat.vue'
 import './style.css'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getDatabase } from "firebase/database";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -29,12 +30,13 @@ const firebaseConfig = {
     projectId: "hitcher-9ae90",
     storageBucket: "hitcher-9ae90.appspot.com",
     messagingSenderId: "688326591641",
-    appId: "1:688326591641:web:03a0ecc41e5045c0d86408"
+    appId: "1:688326591641:web:03a0ecc41e5045c0d86408",
+    databaseURL: "https://hitcher-9ae90-default-rtdb.asia-southeast1.firebasedatabase.app/"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
+const database = getDatabase(app);
 // import './index.css'
 
 

@@ -56,6 +56,7 @@
 <script>
 import MapsService from "../services/MapsService";
 import Nav from "../components/Nav.vue";
+import { getDatabase, ref, set } from 'firebase/database'
 // import './maps.css'
 
 export default {
@@ -119,6 +120,7 @@ export default {
               if (neighborhood != "") {
                 //display map
                 this.input.s_address = res.data.results[0].formatted_address
+                this.writeReqData(this.input.s_address)
                 this.centerStart.lat = res.data.results[0].geometry.location.lat
                 this.centerStart.lng = res.data.results[0].geometry.location.lng
                 this.markersStart[0].position.lat = res.data.results[0].geometry.location.lat
@@ -156,6 +158,7 @@ export default {
               }
               if (neighborhood != "") {
                 this.input.d_address = res.data.results[0].formatted_address
+                this.writeReqData(this.input.d_address)
                 this.centerDest.lat = res.data.results[0].geometry.location.lat
                 this.centerDest.lng = res.data.results[0].geometry.location.lng
                 this.markersDest[0].position.lat = res.data.results[0].geometry.location.lat
@@ -174,6 +177,13 @@ export default {
         }
       } catch (error) {}
     },
+    writeReqData (addr) {
+      // const db = getDatabase()
+      // set(ref(db, 'test/' + 0), {
+      //   test_str: "test_str",
+      //   addr: addr
+      // });
+    }
   },
 };
 </script>
