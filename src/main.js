@@ -148,7 +148,6 @@ router.beforeEach(async (to, from, next) => {
         if(await getCurrentUser()) {
             next()
         } else {
-            alert("You are unauthorized to access this page!")
             next("/login")
         }
     } else {
