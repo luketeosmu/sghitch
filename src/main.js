@@ -18,6 +18,7 @@ import './style.css'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
+import { getAuth, onAuthStateChanged } from'firebase/auth';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -54,22 +55,34 @@ const routes = [
     {
         path: '/profile',
         name: 'Profile',
-        component: Profile
+        component: Profile,
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: '/newreq',
         name: 'NewReq',
-        component: NewReq
+        component: NewReq,
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: '/newfav',
         name: 'NewFav',
-        component: NewFav
+        component: NewFav,
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: '/',
         name: 'Home',
-        component: Home
+        component: Home,
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: '/forgotpassword',
@@ -94,12 +107,18 @@ const routes = [
     {
         path: '/chat',
         name: 'Chat',
-        component: Chat
+        component: Chat,
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: '/showall/:id',
-        name: 'ShowAll',
-        component: ShowAll
+        name: 'ShowAll',image.png
+        component: ShowAll,
+        meta: {
+            requiresAuth: true
+        }
     },
 ]
 
@@ -108,6 +127,32 @@ const router = createRouter({
     routes,
     scrollBehavior() {
         document.getElementById('app').scrollIntoView({ behavior: 'smooth' });
+    }
+})
+
+const getCurrentUser = () => {
+    return new Promise ((resolve, reject) => {
+        const removeListener = onAuthStateChanged (
+            getAuth(),
+            (user) => {
+                removeListener();
+                resolve(user)
+            },
+            reject
+        )
+    })
+}
+
+router.beforeEach(async (to, from, next) => {
+    if (to.matched.some((record) => record.meta.requiresAuth)) {
+        if(await getCurrentUser()) {
+            next()
+        } else {
+            alert("You are unauthorized to access this page!")
+            next("/login")
+        }
+    } else {
+        next()
     }
 })
 

@@ -24,13 +24,16 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                     </svg>
-                    <input @keyup.enter='login()' v-model.lazy="input.username" class="pl-2 outline-none border-none bg-yellow-50" type="email" name="" placeholder="Email Address" />
+                    <input @keyup.enter='login()' v-model.lazy="input.email" class="pl-2 outline-none border-none bg-yellow-50" type="email" name="" placeholder="Email Address" />
                 </div>
                 <div class="flex items-center border-2 py-2 px-3 rounded-2xl border-gray-500">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
                     </svg>
                     <input @keyup.enter='login()' v-model.lazy="input.password" class="pl-2 outline-none border-none bg-yellow-50" type="password" name="" placeholder="Password" />
+                </div>
+                <div>
+                    <p v-if="errMsg" className="mt-2 text-red-500">{{ errMsg }}</p>
                 </div>
                 <button @click='login()' type="button" class="block w-full bg-yellow-300 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Sign in</button>
                 <span @click='forgotPassword()' class="text-sm ml-2 hover:text-yellow-300 cursor-pointer">Forgot Password?</span> <br><br>
@@ -48,7 +51,7 @@
 </template>
 <script>
 // import UserService from '../services/UserService'
-
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 export default {
     name: "Login",
     components: {
@@ -61,9 +64,10 @@ export default {
         return {
             readMore: false,
             input: {
-                username: "",
+                email: "",
                 password: "",
-            }
+            },
+            errMsg: ""
         }
     },
     mounted(){
@@ -72,29 +76,33 @@ export default {
     },
     methods: {
         login() {
-            this.$router.push('/loginAs')
+            // check minimum password characters
+            // check valid email format
+            // check matching passwords
+            signInWithEmailAndPassword(getAuth(), this.input.email, this.input.password)
+            .then((data) => {
+                console.log("Successfully signed in!")
+                // console.log(auth.currentUser)
+                this.$router.push('/loginAs')
+            })
+            .catch((error) => {
+                console.log(error.code)
+                switch (error.code) {
+                    case "auth/invalid-email":
+                        this.errMsg = "Invalid email, try again.";
+                        break;
+                    case "auth/user-not-found":
+                        this.errMsg = "Account does not exist, please register an account.";
+                        break;
+                    case "auth/wrong-password":
+                        this.errMsg = "Incorrect password, try again.";
+                        break;
+                    default:
+                        this.errMsg = "Email or password was incorrect";
+                        break;
+                }
+            })
         },
-        // login(){
-            // try{
-            //     if(this.input.username != "" && this.input.password != "") {
-            //         // localStorage.setItem("user", this.input);
-            //         // this.$router.push('/');
-            //         UserService.authenticate(this.input)
-            //         .then((res) => {
-            //             if(res == "failed"){
-            //                 alert("Incorrect username/password. Please try again.")
-            //             } else {
-            //                 this.$router.push('/')
-            //             }
-            //         })
-            //     } else {
-            //         alert("A username and password must be present. Please try again.");
-            //     }
-            // } catch (error){
-
-            // }
-        // },
-
 
         register(){
             this.$router.push('/register')
