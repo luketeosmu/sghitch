@@ -31,7 +31,7 @@
                 <label class="modal-box relative w-11/12 max-w-full" for="">
                     <h3 class="text-3xl font-bold mb-5">List of Interested Hitchers</h3>
                     <div class="flex item-center justify-center">
-                        <Request :requests="requests"/>
+                        <Request :requests="requests" :showDest='true' :showFrom='true' />
                     </div>
                 </label>
             </label>

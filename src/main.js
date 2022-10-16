@@ -12,7 +12,7 @@ import ForgotPassword from './views/ForgotPassword.vue'
 import LoginAs from './views/LoginAs.vue'
 import RegisterAs from './views/RegisterAs.vue'
 import RegisterOTP from './views/RegisterOTP.vue'
-import ShowAllNearby from './views/ShowAllNearby.vue'
+import ShowAll from './views/ShowAll.vue'
 import Chat from './views/Chat.vue'
 import './style.css'
 // Import the functions you need from the SDKs you need
@@ -92,21 +92,23 @@ const routes = [
         component: RegisterOTP
     },
     {
-        path: '/showallnearby',
-        name: 'ShowAllNearby',
-        component: ShowAllNearby
-    },
-    {
         path: '/chat',
         name: 'Chat',
         component: Chat
     },
-
+    {
+        path: '/showall/:id',
+        name: 'ShowAll',
+        component: ShowAll
+    },
 ]
 
 const router = createRouter({
     history: createWebHistory(),
-    routes
+    routes,
+    scrollBehavior() {
+        document.getElementById('app').scrollIntoView({ behavior: 'smooth' });
+    }
 })
 
 createApp(App).use(VueGoogleMaps, {

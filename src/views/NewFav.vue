@@ -2,7 +2,7 @@
     <div>
         <!-- starting point should be taken from google maps - should return a longitude/latitude -->
         <!-- when searching for requests, sort by distance away from starting point -->
-        <Nav/>
+        <Nav />
         <CurrFav :favourites="favourites" />
         <AddFav :favourites="favourites"/>
     </div>

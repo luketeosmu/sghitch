@@ -18,6 +18,11 @@
                 </label>
                 <div :id="favourite">
                     <Request :requests="requests" :showDest="false"/>
+                    <button @click='showAll(favourite)' type="button" class="btn-sm btn-ghost block bg-yellow-300 rounded-xl text-black font-semibold absolute bottom-1/2 right-5 md:bottom-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
                 </div>
             </a>
         </div>
@@ -35,6 +40,19 @@ export default {
     props: {},
     components: {
         Request,
+    },
+    methods: {
+        minimize(favourite) {
+            var div = document.getElementById(favourite)
+            if (div.style.display === "none") {
+                div.style.display = "block";
+            } else {
+                div.style.display = "none";
+            }
+        },
+        showAll(favourite) {
+            this.$router.push('./showall/' + favourite)
+        }
     },
     data() {
         return {
@@ -117,16 +135,7 @@ export default {
             
         }
     },
-    methods: {
-        minimize(favourite) {
-            var div = document.getElementById(favourite)
-            if (div.style.display === "none") {
-                div.style.display = "block";
-            } else {
-                div.style.display = "none";
-            }
-        }
-    }
+    
 }
 </script>
 <style lang="">

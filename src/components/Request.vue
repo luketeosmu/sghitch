@@ -7,6 +7,7 @@
                         <li>Time: {{ request.time}}</li>
                         <li v-if="this.user.type != 'hitcher'">Pax: {{ request.pax }} persons</li>
                         <li v-else>Available seats: {{ request.available }} persons</li>
+                        <li v-if="showFrom">From: {{ request.from }}</li>
                         <li v-if="showDest"> Destination: {{ request.to }} </li>
                         <li class="font-normal text-sm">Hitcher: {{ request.hitcher }}</li>
                         <li class="font-normal text-sm">Rating: {{ request.rating }}/5</li>
@@ -33,15 +34,15 @@ export default {
     name: "Request",
     props: {
         requests: Array,
-        showDest: Boolean
+        showDest: Boolean,
+        showFrom: Boolean
     },
     components: {
     },
     data() {
         return {
             user: {
-                type: "driver",
-                from: "Woodlands"
+                type: "driver"
             }
         }
     },

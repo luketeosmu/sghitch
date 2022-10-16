@@ -51,7 +51,7 @@ export default {
             }
         },
         showAll() {
-            this.$router.push('/showallnearby')
+            this.$router.push('/showall/nearby')
         }
     },
     data() {
