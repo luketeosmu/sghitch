@@ -114,7 +114,7 @@ const routes = [
     },
     {
         path: '/showall/:id',
-        name: 'ShowAll',image.png
+        name: 'ShowAll',
         component: ShowAll,
         meta: {
             requiresAuth: true
