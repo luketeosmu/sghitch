@@ -1,8 +1,10 @@
 <template lang="">
         <Nav />
         <div class="p-3">
-            <h3 class="font-bold text-3xl font-sans pb-5 text-red"> Hitchers Near You </h3>
-            <Nearby />
+            <div v-if="this.user.type != 'hitcher'">
+                <h3 class="font-bold text-3xl font-sans pb-5 text-red"> Hitchers Near You </h3>
+                <Nearby />
+            </div>
             <h3 class="font-bold text-3xl font-sans pb-5 text-red"> Favourites </h3>
             <Favourite />
         </div>
@@ -22,6 +24,13 @@ export default {
         Nearby,
         Request
     },
+    data() {
+        return {
+            user: {
+                type: "driver"
+            }
+        }
+    }
     
 }
 </script>

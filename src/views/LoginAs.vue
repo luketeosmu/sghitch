@@ -24,9 +24,9 @@
                 
                 </li>
               </ul>
-              <button @click='' type="button" class="block w-full bg-yellow-300 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Next </button>
+              <button @click='login()' type="button" class="block w-full bg-yellow-300 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Next </button>
               <br>
-              <span @click='backToLogin()' class="text-sm ml-2 hover:text-yellow-300 cursor-pointer">Back to login</span>
+              <span @click='backToLogin()' class="text-sm ml-2 hover:text-yellow-300 cursor-pointer">Back to Login</span>
           </form>
       </div>
       </div>
@@ -36,60 +36,49 @@
       </div>
 </template>
 <script>
-  // import UserService from '../services/UserService'
-  
-  export default {
-      name: "LoginAs",
-      components: {
-          // UserService
-      },
-      props: {
-          
-      },
-      data () {
-          return {
-              input: {
-                  username: "",
-                  password: "",
-                  confirmPassword: "",
-                  mobileNumber: "",
-              }
-          }
-      },
-      mounted(){
-          sessionStorage.removeItem("user");
-          localStorage.clear();
-      },
-      methods: {
-          register() {},
-          // login(){
-          //     try{
-          //         if(this.input.username != "" && this.input.password != "") {
-          //             // localStorage.setItem("user", this.input);
-          //             // this.$router.push('/');
-          //             UserService.authenticate(this.input)
-          //             .then((res) => {
-          //                 if(res == "failed"){
-          //                     alert("Incorrect username/password. Please try again.")
-          //                 } else {
-          //                     this.$router.push('/')
-          //                 }
-          //             })
-          //         } else {
-          //             alert("A username and password must be present. Please try again.");
-          //         }
-          //     } catch (error){
-  
-          //     }
-          // },
+// import UserService from '../services/UserService'
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"
 
-          backToLogin(){
-            this.$router.push('/login')
+export default {
+    name: "LoginAs",
+    components: {
+        // UserService
+    },
+    props: {
+        
+    },
+    data () {
+        return {
+            isLoggedIn: false,
+            auth: null,
         }
-  
+    },
+    mounted(){
+        // sessionStorage.removeItem("user");
+        // localStorage.clear();
+        this.auth = getAuth();
+        onAuthStateChanged(this.auth, (user) => {
+          if (user) {
+            this.isLoggedIn = true
+          } else {
+            this.isLoggedIn = false
+          }
+        })
+    },
+    methods: {
+        login (){
+          this.$router.push('/')
+        },
+        backToLogin(){
+          //logout
+          signOut(this.auth).then(() => {
+            this.$router.push('/login')
+          })
       }
-  }
-  </script>
+
+    }
+}
+</script>
 <style>
 
 </style>

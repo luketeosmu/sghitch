@@ -23,20 +23,10 @@
                     </div>
                   
                   </li>
-
-                  <li class="relative">
-                    <input class="sr-only peer" type="radio" value="both" name="answer" id="both">
-                    <label class="block text-center w-full bg-yellow-300 mt-2 py-2 px-2 rounded-2xl text-black font-semibold mb-2 bg-white border border-gray-300 rounded-lg cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:ring-2 peer-checked:border-transparent" for="both"> Sign up as Both </label>
-  
-                    <div class="absolute hidden w-5 h-5 peer-checked:block top-5 right-3">
-                      
-                    </div>
-                  
-                  </li>
                 </ul>
                 <button @click='next()' type="button" class="block w-full bg-yellow-300 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Next </button>
                 <br>
-                <span @click='backToRegister()' class="text-sm ml-2 hover:text-yellow-300 cursor-pointer">Back to register</span>
+                <span @click='backToLogin()' class="text-sm ml-2 hover:text-yellow-300 cursor-pointer">Back to Login</span>
             </form>
         </div>
         </div>
@@ -95,8 +85,8 @@
             //     }
             // },
 
-            backToRegister(){
-            this.$router.push('/register')
+            backToLogin(){
+            this.$router.push('/login')
         }
     
         }
