@@ -3,7 +3,7 @@
 
    <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css" />
 
-   <h3 class="text-center font-bold text-3xl font-sans pb-5 text-red"> Account Settings </h3>
+   <h3 class="text-center font-bold text-3xl font-sans pb-5 text-red"> Account Settings  </h3>
 
    <div class="flex flex-col h-screen my-auto items-center bgimg bg-cover">
    <div class="card bg-yellow-50 flex items-center border-2 py-10 px-10 rounded-2xl mt-2 mb-4 border-gray-500">
