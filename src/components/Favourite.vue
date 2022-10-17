@@ -17,7 +17,12 @@
                     
                 </label>
                 <div :id="favourite">
-                    <Request :requests="requests"/>
+                    <Request :requests="requests" :showDest="false"/>
+                    <button @click='showAll(favourite)' type="button" class="btn-sm btn-ghost block bg-yellow-300 rounded-xl text-black font-semibold absolute bottom-1/2 right-5 md:bottom-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
+                    </button>
                 </div>
             </a>
         </div>
@@ -36,6 +41,19 @@ export default {
     components: {
         Request,
     },
+    methods: {
+        minimize(favourite) {
+            var div = document.getElementById(favourite)
+            if (div.style.display === "none") {
+                div.style.display = "block";
+            } else {
+                div.style.display = "none";
+            }
+        },
+        showAll(favourite) {
+            this.$router.push('./showall/' + favourite)
+        }
+    },
     data() {
         return {
             favourites: ["Woodlands to Tampines", "SMU to Woodlands"],
@@ -45,80 +63,79 @@ export default {
                         rating: 5,
                         time: "08:00",
                         pax: 2,
-                        from: "730308",
-                        to: "529498"
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
                     {
                         hitcher: "Shaun Ting",
                         rating: 5,
                         time: "10:00",
                         pax: 3,
-                        from: "730308",
-                        to: "529498"
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
                     {
                         hitcher: "Ali baba",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
-                        from: "730308",
-                        to: "529498"
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
                     {
                         hitcher: "John Wick",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
-                        from: "730308",
-                        to: "529498"
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
                     {
                         hitcher: "Jennie Kim",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
-                        from: "730308",
-                        to: "529498"
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
                     {
                         hitcher: "KIm Jong Kook",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
-                        from: "730308",
-                        to: "529498"
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
                     {
                         hitcher: "Kimchi Jigae",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
-                        from: "730308",
-                        to: "529498"
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
                     {
                         hitcher: "Buddae Jigae",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
-                        from: "730308",
-                        to: "529498"
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
             ]
             // favourites: []
             
         }
     },
-    methods: {
-        minimize(favourite) {
-            var div = document.getElementById(favourite)
-            if (div.style.display === "none") {
-                div.style.display = "block";
-            } else {
-                div.style.display = "none";
-            }
-        }
-    }
+    
 }
 </script>
 <style lang="">

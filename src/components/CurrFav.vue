@@ -2,7 +2,7 @@
     <div>
         <h3 class="font-bold text-3xl font-sans pb-5 px-3 py-3 text-center"> Current Favourites </h3>
             <div class="flex overflow-x-auto mx-auto justify-center items-center ">
-                <table class="table w-full max-w-md">
+                <table class="table w-full max-w-md z-0">
                     <!-- head -->
                     <thead>
                     <tr>

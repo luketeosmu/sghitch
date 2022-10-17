@@ -5,14 +5,17 @@ const API_KEY = "AIzaSyCnf0_2dW7jhXlpL46JqRvrKOFgFQ7tv2k"
 
 class MapsService {
     queryMaps = async (input) => {
-        console.log(input)
         try {
-            await axios
+            return axios
             // .get(MAPS_API_URL, { params: {"address": input, "key": API_KEY} })
             .get(`https://maps.googleapis.com/maps/api/geocode/json?address=${input}&key=${API_KEY}`)
             .then((response) => {
-                console.log(response.data.results[0].plus_code.global_code)
+                // console.log(response.data.results[0].plus_code.global_code)
                 // localStorage.setItem(response.data.results[0])
+                if(response == null){
+                    return "failed"
+                }
+                return response
             })
             .catch(err => {
                 console.log(err)
