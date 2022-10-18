@@ -12,7 +12,7 @@
             <form>
                 <div className="flex form-control text-center mb-10">
                     <div className="justify-center">
-                        <input v-model.lazy="input.s_address" type="text" placeholder="Starting Point Address" className="input input-bordered input-warning w-full max-w-md mt-5" />
+                        <input v-model.lazy="input.s_address" type="text" placeholder="Starting Point Address" className="input input-bordered input-warning w-full max-w-xs sm:max-w-md mt-5" />
                         <button type="button" @click='queryMapsStart()' class="btn btn-warning bg-yellow-300 text-black ml-4">Search</button>
                     </div>
                     <div v-if="seenStart" className="mx-auto mt-3">
@@ -31,7 +31,7 @@
                         </GMapMap>
                     </div>
                     <div class="justify-center">
-                        <input v-model.lazy="input.d_address" type="text" placeholder="Destination Point Address" className="input input-bordered input-warning w-full max-w-md mt-5" />
+                        <input v-model.lazy="input.d_address" type="text" placeholder="Destination Point Address" className="input input-bordered input-warning w-full max-w-xs sm:max-w-md mt-5" />
                         <button type="button" @click='queryMapsDest()' class="btn btn-warning bg-yellow-300 text-black ml-4">Search</button>
                     </div>
                     <div v-if="seenDest" className="mx-auto mt-3">
