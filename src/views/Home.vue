@@ -5,12 +5,12 @@
             <!-- Navbar -->
             <Nav />
             <!-- Page content here -->
-            <div class="p-3">
+            <div class="px-3">
                 <div v-if="this.user.type != 'hitcher'">
-                    <h3 class="font-bold text-3xl font-sans pb-5 text-red mx-3"> Hitchers Near You </h3>
+                    <h3 class="font-bold text-3xl font-sans pb-2 text-black mx-3"> Hitchers Near You </h3>
                     <Nearby />
                 </div>
-                <h3 class="font-bold text-3xl font-sans pb-5 text-red mx-3"> Favourites </h3>
+                <h3 class="font-bold text-3xl font-sans pb-2 text-black mx-3"> Favourites </h3>
                 <Favourite />
             </div>
             <!-- Page content ends here -->
