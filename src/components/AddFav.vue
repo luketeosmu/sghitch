@@ -1,6 +1,6 @@
 <template lang="">
     <div>
-        <h3 class="font-bold text-3xl font-sans px-3 text-red text-center mt-5"> Add new Favourite </h3>
+        <h3 class="font-bold text-2xl sm:text-3xl font-sans px-3 text-red text-center mt-5"> Add new Favourite </h3>
             <form>
                 <div className="flex form-control text-center mb-10">
                     <div className="justify-center">

@@ -1,10 +1,10 @@
 <template lang="">
     <div>
         <div v-if='favourites.length != 0' v-for="favourite in favourites">
-            <div class="relative mb-5 mx-3 p-3 pt-12 bg-yellow-100 rounded-2xl flex justify-center hover:bg-yellow-200" >
-                <h3 class="absolute top-0 font-bold text-2xl font-sans mt-3 text-center" id="favourite">{{ favourite }}</h3>
+            <div class="relative mb-5 mx-3 p-3 py-12 bg-yellow-100 rounded-2xl flex justify-center hover:bg-yellow-200" >
+                <h3 class="absolute top-0 font-bold text-xl sm:text-2xl font-sans mt-3 text-center" id="favourite">{{ favourite }}</h3>
                 <!-- <button class="btn btn-square btn-xs btn-warning absolute top-2 right-5 font-black" @click="minimize(favourite)"> X </button> -->
-                <label class="btn btn-circle btn-xs swap swap-rotate absolute top-2 right-5">
+                <label class="btn btn-circle btn-xs swap swap-rotate absolute top-3 right-5">
   
                     <!-- this hidden checkbox controls the state -->
                     <input type="checkbox"  @click="minimize(favourite)"/>
@@ -18,8 +18,8 @@
                 </label>
                 <div :id="favourite">
                     <Request :requests="requests" :showDest="false" :id="favourite"/>
-                    <button @click='showAll(favourite)' type="button" class="btn-sm btn-ghost block bg-slate-600 hover:bg-slate-500 rounded-xl text-white font-semibold absolute bottom-1/2 right-5 md:bottom-5">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <button @click='showAll(favourite)' type="button" class="btn-xs sm:btn-sm btn-ghost block bg-slate-600 hover:bg-slate-500 rounded-xl text-white font-semibold absolute right-5 bottom-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                         </svg>
                     </button>

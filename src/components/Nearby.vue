@@ -1,7 +1,7 @@
 <template lang="">
     <div>
         <div v-if='requests.length > 0'>
-            <div class="relative mb-5 mx-3 p-3 py-12 bg-yellow-100 rounded-2xl flex justify-center hover:bg-yellow-200" >
+            <div class="relative mx-3 p-3 py-12 bg-yellow-100 rounded-2xl flex justify-center hover:bg-yellow-200" >
                 <label class="btn btn-circle btn-xs swap swap-rotate absolute top-2 right-5">
                 <!-- this hidden checkbox controls the state -->
                     <input type="checkbox"  @click="minimize()"/>
@@ -12,18 +12,17 @@
                 </label>
                 <div id="nearby">
                     <Request :requests="requests" :showDest="true" :id="'nearby'"/>
-                    <button @click='showAll()' type="button" class="btn-sm btn-ghost block bg-slate-600 hover:bg-slate-500 rounded-xl text-white font-semibold absolute bottom-1/2 right-5 md:bottom-5">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <button @click='showAll()' type="button" class="btn-xs sm:btn-sm btn-ghost block bg-slate-600 hover:bg-slate-500 rounded-xl text-white font-semibold absolute right-5 bottom-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                         </svg>
                     </button>
-
                 </div>
             </div>
         </div>
         <div v-else class="flex justify-center items-center"> 
-            <h3 class="text-center text-2xl">No Hitchers near you at the moment</h3>
-            <button @click='newReq()' type="button" class="block bg-yellow-300 p-3 ml-5 rounded-2xl text-black font-semibold" to="newReq">Add Ride Request</button>
+            <h3 class="text-lg sm:text-2xl ml-5">No Hitchers near you at the moment</h3>
+            <button @click='newReq()' type="button" class="block bg-yellow-300 p-2 sm:p-3 ml-1 sm:ml-5 rounded-2xl text-black text-sm font-semibold" to="newReq">Add Request</button>
         </div>
     </div>
 </template>
