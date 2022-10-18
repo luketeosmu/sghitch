@@ -55,7 +55,7 @@
             </div>
 
             <div class="mt-8 flex flex-col justify-center">
-                <p class="text-black-600 text-center font-light text-3xl font-extrabold mb-8"> Review </p>
+                <p class="text-black-600 text-center font-light text-3xl font-extrabold mb-8"> REVIEW </p>
                 <div class="grid grid-cols-2">
                     <div class="row-span-2 col-span-1"> 
                         <p class="text-black-600 text-end font-light mr-10 text-4xl font-bold mb-4"> 4.5 </p>
