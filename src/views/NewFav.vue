@@ -1,10 +1,28 @@
 <template lang="">
-    <div>
-        <!-- starting point should be taken from google maps - should return a longitude/latitude -->
-        <!-- when searching for requests, sort by distance away from starting point -->
-        <Nav />
-        <CurrFav :favourites="favourites" />
-        <AddFav :favourites="favourites"/>
+    <div class="drawer">
+        <input id="my-drawer-3" type="checkbox" class="drawer-toggle" /> 
+        <div class="drawer-content flex flex-col">
+            <!-- Navbar -->
+            <Nav />
+            <!-- Page content here -->
+            <CurrFav :favourites="favourites" />
+            <AddFav :favourites="favourites"/>
+            <!-- Page content ends here -->
+        </div>
+        <div class="drawer-side">
+            <label for="my-drawer-3" class="drawer-overlay"></label> 
+            <ul class="menu p-4 overflow-y-auto w-80 bg-base-100">
+            <!-- Sidebar content here -->
+            <li><a @click="home()">Home</a></li>
+            <li><a @click="profile()">Profile</a></li>
+            <li><a @click="favourite()">Favourite</a></li>
+            <li><a @click="change()">Switch to Hitcher</a></li>
+            <li><a @click="chat()">Chat</a></li>
+            <li><a @click="settings()">Account Settings</a></li>
+            <hr/>
+            <li><a @click="logout()">Logout</a></li>
+            </ul>
+        </div>
     </div>
 </template>
 <script>
@@ -22,6 +40,26 @@ export default {
         CurrFav
     },
     props: {},
+    methods: {
+        home() {
+            this.$router.push('../')
+        },
+        profile() {
+            this.$router.push('/profile')
+        },
+        favourite() {
+            window.location.reload()
+        },
+        chat() {
+            this.$router.push('/chat')
+        },
+        settings() {
+            this.$router.push('/profile')
+        },
+        logout(){
+            this.$router.push('/login')
+        }
+    },
     data () {
         return {
             favourites: [

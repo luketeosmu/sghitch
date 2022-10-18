@@ -105,7 +105,7 @@ const routes = [
         component: RegisterOTP
     },
     {
-        path: '/chat',
+        path: '/chat/',
         name: 'Chat',
         component: Chat,
         meta: {

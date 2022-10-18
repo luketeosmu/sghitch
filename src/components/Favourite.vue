@@ -1,8 +1,8 @@
 <template lang="">
     <div>
         <div v-if='favourites.length != 0' v-for="favourite in favourites">
-            <a class="relative mb-5 mx-3 p-3 pt-12 bg-yellow-100 rounded-2xl flex justify-center hover:bg-yellow-200 cursor-pointer" >
-                <h3 class="absolute top-0 font-bold text-2xl font-sans mb-3 ml-5 text-center" id="favourite">{{ favourite }}</h3>
+            <div class="relative mb-5 mx-3 p-3 pt-12 bg-yellow-100 rounded-2xl flex justify-center hover:bg-yellow-200 hover:mx-0" >
+                <h3 class="absolute top-0 font-bold text-2xl font-sans mb-3 mt-3 text-center" id="favourite">{{ favourite }}</h3>
                 <!-- <button class="btn btn-square btn-xs btn-warning absolute top-2 right-5 font-black" @click="minimize(favourite)"> X </button> -->
                 <label class="btn btn-circle btn-xs swap swap-rotate absolute top-2 right-5">
   
@@ -17,14 +17,14 @@
                     
                 </label>
                 <div :id="favourite">
-                    <Request :requests="requests" :showDest="false"/>
+                    <Request :requests="requests" :showDest="false" :id="favourite"/>
                     <button @click='showAll(favourite)' type="button" class="btn-sm btn-ghost block bg-yellow-300 rounded-xl text-black font-semibold absolute bottom-1/2 right-5 md:bottom-5">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                         </svg>
                     </button>
                 </div>
-            </a>
+            </div>
         </div>
         <div v-else class="flex justify-center items-center"> 
             <h3 class="text-center text-2xl">No favourites to display</h3>
@@ -59,7 +59,7 @@ export default {
             favourites: ["Woodlands to Tampines", "SMU to Woodlands"],
             requests: [
                     {
-                        hitcher: "Luke Teo",
+                        user: "Luke Teo",
                         rating: 5,
                         time: "08:00",
                         pax: 2,
@@ -68,7 +68,7 @@ export default {
                         to: "Tampines"
                     },
                     {
-                        hitcher: "Shaun Ting",
+                        user: "Shaun Ting",
                         rating: 5,
                         time: "10:00",
                         pax: 3,
@@ -77,7 +77,7 @@ export default {
                         to: "Tampines"
                     },
                     {
-                        hitcher: "Ali baba",
+                        user: "Ali baba",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
@@ -86,7 +86,7 @@ export default {
                         to: "Tampines"
                     },
                     {
-                        hitcher: "John Wick",
+                        user: "John Wick",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
@@ -95,7 +95,7 @@ export default {
                         to: "Tampines"
                     },
                     {
-                        hitcher: "Jennie Kim",
+                        user: "Jennie Kim",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
@@ -104,7 +104,7 @@ export default {
                         to: "Tampines"
                     },
                     {
-                        hitcher: "KIm Jong Kook",
+                        user: "KIm Jong Kook",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
@@ -113,7 +113,7 @@ export default {
                         to: "Tampines"
                     },
                     {
-                        hitcher: "Kimchi Jigae",
+                        user: "Kimchi Jigae",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
@@ -122,7 +122,7 @@ export default {
                         to: "Tampines"
                     },
                     {
-                        hitcher: "Buddae Jigae",
+                        user: "Buddae Jigae",
                         rating: 5,
                         time: "12:00",
                         pax: 4,
@@ -130,9 +130,7 @@ export default {
                         from: "Woodlands",
                         to: "Tampines"
                     },
-            ]
-            // favourites: []
-            
+            ],
         }
     },
     
