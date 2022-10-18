@@ -14,6 +14,7 @@ import RegisterAs from './views/RegisterAs.vue'
 import RegisterOTP from './views/RegisterOTP.vue'
 import ShowAll from './views/ShowAll.vue'
 import Chat from './views/Chat.vue'
+import AccountSettings from './views/AccountSettings.vue'
 import './style.css'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -103,6 +104,11 @@ const routes = [
         path: '/registerotp',
         name: 'RegisterOTP',
         component: RegisterOTP
+    },
+    {
+        path: '/accountsettings',
+        name: 'AccountSettings',
+        component: AccountSettings
     },
     {
         path: '/chat/',

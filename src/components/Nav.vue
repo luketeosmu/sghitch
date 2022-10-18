@@ -53,7 +53,7 @@
                     <li v-if="this.user.type == 'driver'"><a @click="change()">Switch to Hitcher</a></li> 
                     <li v-else><a @click="change()">Switch to Driver</a></li> 
                     <li><a>View Chats</a></li>
-                    <li><a>Account Settings</a></li>
+                    <li><a @click="accountSettings()">Account Settings</a></li>
                     <hr/>
                     <li><a @click="logout()">Logout</a></li>
                 </ul>
@@ -174,6 +174,9 @@ export default {
                 this.user.type = "driver"
             ]
             console.log(this.user.type)
+        },
+        accountSettings(){
+            this.$router.push('/accountsettings')
         }
     },
 }

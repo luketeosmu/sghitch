@@ -16,6 +16,7 @@ import MapsService from './services/MapsService';
 import Home from './views/Home.vue'
 import Profile from './views/Profile.vue'
 import ForgotPassword from './views/ForgotPassword.vue'
+import AccountSettings from './views/AccountSettings.vue'
 
 export default {
   name: 'App',
@@ -30,6 +31,7 @@ export default {
     LoginAs,
     RegisterAs,
     RegisterOTP,
+    AccountSettings,
   },
 }
 </script>
