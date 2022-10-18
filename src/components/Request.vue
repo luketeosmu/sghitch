@@ -2,15 +2,17 @@
     <div>
         <div v-if="requests.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
             <div  v-for="request in requests">
-                <a @click='chat()' class="card relative p-2 mx-5 my-5 w-72 h-30 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-red-200 justify-center text-center items-center cursor-pointer">
+                <!-- <a @click='chat(request.user)' class="card relative p-2 mx-5 my-5 w-72 h-30 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-red-200 justify-center text-center items-center cursor-pointer"> -->
+                <label :for="id + this.count" class="card relative p-2 mx-5 my-5 w-64 h-30 bg-white rounded-lg border border-gray-200 shadow-md hover:bg-red-200 justify-center text-center items-center cursor-pointer">
                     <ul class="text-lg font-bold mb-2">
                         <li>Time: {{ request.time}}</li>
                         <li v-if="this.user.type != 'hitcher'">Pax: {{ request.pax }} persons</li>
                         <li v-else>Available seats: {{ request.available }} persons</li>
                         <li v-if="showFrom">From: {{ request.from }}</li>
                         <li v-if="showDest"> Destination: {{ request.to }} </li>
-                        <li class="font-normal text-sm">Hitcher: {{ request.hitcher }}</li>
-                        <li class="font-normal text-sm">Rating: {{ request.rating }}/5</li>
+                        <!-- <li v-if="this.user.type == 'driver'" class="font-normal text-sm">Hitcher: {{ request.user }}</li>
+                        <li v-else class="font-normal text-sm">Driver: {{ request.user }}</li>
+                        <li class="font-normal text-sm">Rating: {{ request.rating }}/5</li> -->
                     </ul>
                     <!-- <div class="inline-flex items-center mb-2">
                         <button href="#" class= " py-2 px-3 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
@@ -21,7 +23,23 @@
                                 To: {{ request.to }}
                         </button>
                     </div> -->
-                </a>
+                </label>
+                <input type="checkbox" :id="id + this.count" class="modal-toggle" />
+                <label :for="id + this.count++" class="modal cursor-pointer">
+                <label class="modal-box relative w-1/2 text-center" for="">
+                    <ul class="text-2xl font-bold mb-2">
+                        <li>Time: {{ request.time}}</li>
+                        <li v-if="this.user.type != 'hitcher'">Pax: {{ request.pax }} persons</li>
+                        <li v-else>Available seats: {{ request.available }} persons</li>
+                        <li v-if="showFrom">From: {{ request.from }}</li>
+                        <li v-if="showDest"> Destination: {{ request.to }} </li>
+                        <li v-if="this.user.type == 'driver'" class="font-normal text-lg">Hitcher: {{ request.user }}</li>
+                        <li v-else class="font-normal text-lg">Driver: {{ request.user }}</li>
+                        <li class="font-normal text-lg">Rating: {{ request.rating }}/5</li>
+                    </ul>
+                    <button @click='chat()' type="button" class="btn btn-ghost block bg-yellow-100 p-1 md:p-3 rounded-2xl text-black font-semibold absolute right-5 bottom-5 ">Chat</button>
+                </label>
+                </label>
             </div>
         </div>
         <div v-else class="text-center justify-center items-center">
@@ -30,12 +48,15 @@
     </div>
 </template>
 <script>
+// import { request } from 'http';
+
 export default {
     name: "Request",
     props: {
         requests: Array,
         showDest: Boolean,
-        showFrom: Boolean
+        showFrom: Boolean,
+        id: String
     },
     components: {
     },
@@ -43,13 +64,21 @@ export default {
         return {
             user: {
                 type: "driver"
-            }
+            },
+            count: 0
         }
     },
     methods: {
         chat() {
-            this.$router.push('./chat')
+            this.$router.push('/chat')
         }
+        // chat(id) {
+        //     if(window.location.pathname == "/showall/nearby") {
+        //         this.$router.push('../chat/' + id)
+        //     } else {
+        //         this.$router.push('./chat/' + id)
+        //     }
+        // }
     }
 }
 </script>

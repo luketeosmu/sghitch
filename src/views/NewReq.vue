@@ -1,8 +1,12 @@
 <template lang="">
-    <div>
-        <!-- starting point should be taken from google maps - should return a longitude/latitude -->
-        <!-- when searching for requests, sort by distance away from starting point -->
-        <Nav/>
+    <!-- starting point should be taken from google maps - should return a longitude/latitude -->
+    <!-- when searching for requests, sort by distance away from starting point -->
+    <div class="drawer">
+    <input id="my-drawer-3" type="checkbox" class="drawer-toggle" /> 
+    <div class="drawer-content flex flex-col">
+        <!-- Navbar -->
+        <Nav />
+        <!-- Page content here -->
         <div class="container mx-auto">
             <!-- query autocomplete api, maps sdk api -->
             <form>
@@ -47,9 +51,24 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <button type="button" class="btn btn-warning bg-yellow-300 text-black">Submit Request</button>
+                    <button type="button" class="btn btn-warning bg-yellow-300 text-black mb-5">Submit Request</button>
                 </div>
             </form>
+        </div>
+        <!-- Page content ends here -->
+        </div> 
+        <div class="drawer-side">
+            <label for="my-drawer-3" class="drawer-overlay"></label> 
+            <ul class="menu p-4 overflow-y-auto w-80 bg-base-100">
+              <li><a @click="home()">Home</a></li>
+              <li><a @click="profile()">Profile</a></li>
+              <li><a @click="favourite()">Favourite</a></li>
+              <li><a @click="change()">Switch to Hitcher</a></li>
+              <li><a @click="chat()">Chat</a></li>
+              <li><a @click="settings()">Account Settings</a></li>
+              <hr/>
+              <li><a @click="logout()">Logout</a></li>
+            </ul>
         </div>
     </div>
 </template>
@@ -183,6 +202,24 @@ export default {
       //   test_str: "test_str",
       //   addr: addr
       // });
+    },
+    home() {
+            this.$router.push('../')
+    },
+    profile() {
+        this.$router.push('/profile')
+    },
+    favourite() {
+        this.$router.push('/newFav')
+    },
+    chat() {
+        this.$router.push('/chat')
+    },
+    settings() {
+        this.$router.push('/profile')
+    },
+    logout(){
+        this.$router.push('/login')
     }
   },
 };
