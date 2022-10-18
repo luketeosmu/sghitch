@@ -22,7 +22,7 @@
         </div>
         </div>
         <div class="video-docker absolute top-0 left-0 w-full h-full overflow-hidden">
-            <video class="min-w-full min-h-full absolute object-cover" src="../vid.mp4" type="video/mp4" autoplay muted loop></video>
+            <video class="min-w-full min-h-full absolute object-cover" src="../vid2.mp4" type="video/mp4" autoplay muted loop></video>
         </div>
 </template>
 <script>
