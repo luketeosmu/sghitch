@@ -5,7 +5,6 @@
             <!-- Navbar -->
             <Nav />
             <!-- Page content here -->
-            <h3 class="text-center font-bold text-3xl font-sans pb-5 text-red"> Account Settings  </h3>
             <ProfileForm />
             <!-- Page content ends here -->
         </div> 
