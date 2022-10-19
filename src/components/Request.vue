@@ -1,8 +1,8 @@
 <template lang="">
     <div>
-        <div v-if="requests.length > 0" class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+        <div v-if="requests.length != 0" class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
             <div  v-for="request in requests">
-                <label :for="from + to + this.count" class="card relative p-2 mx-1 my-3 w-44 text-xs sm:w-64 h-30 bg-slate-700 text-white rounded-lg border border-slate-700 shadow-md hover:bg-slate-500 justify-center text-center items-center cursor-pointer">
+                <label :for="from + to + request.user" class="card relative p-2 mx-1 my-3 w-44 text-xs sm:w-64 h-30 bg-slate-700 text-white rounded-lg border border-slate-700 shadow-md hover:bg-slate-500 justify-center text-center items-center cursor-pointer">
                     <ul class="text-xs sm:text-lg font-bold mb-2">
                         <li>Time: {{ request.time}}</li>
                         <li v-if="this.user.type != 'hitcher'">Pax: {{ request.pax }} persons</li>
@@ -20,8 +20,8 @@
                         </button>
                     </div> -->
                 </label>
-                <input type="checkbox" :id="from + to + this.count" class="modal-toggle" />
-                <label :for="from + to + this.count++" class="modal cursor-pointer">
+                <input type="checkbox" :id="from + to + request.user" class="modal-toggle" />
+                <label :for="from + to + request.user" class="modal cursor-pointer">
                 <label class="modal-box relative lg:w-1/3 2xl:w-1/4" for="">
                     <ul class="text-xl mb-2">
                         <li v-if="this.user.type == 'driver'" class="font-bold text-2xl">Hitcher: {{ request.user }}</li>
@@ -62,13 +62,12 @@ export default {
             user: {
                 type: "driver"
             },
-            count: 0
         }
     },
     methods: {
         chat() {
             this.$router.push('/chat')
-        }
+        },
         // chat(id) {
         //     if(window.location.pathname == "/showall/nearby") {
         //         this.$router.push('../chat/' + id)
