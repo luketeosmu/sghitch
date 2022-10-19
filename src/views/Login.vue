@@ -12,7 +12,7 @@
             </div>
             <div v-else class="animate__bounceIn">
                 <h1 class=" text-white font-bold text-4xl mt-1 sm:text-6xl font-sans mb-4">Who are we?</h1>
-                <p class="text-black mt-1 bg-yellow-50 py-2 rounded-2xl mb-4 border-gray-500 font-sans sm:bg-inherit sm:text-white">We serve as a platform to connect hitchers and drivers.<br> We aim to provide you a cheap ride to your destinations <br> and also to help drivers to save cost on their fuel</p>
+                <p class="text-black mt-1 bg-yellow-50 p-2 rounded-2xl mb-4 border-gray-500 font-sans sm:bg-inherit sm:text-white">We serve as a platform to connect hitchers and drivers.<br> We aim to provide you a cheap ride to your destinations <br> and also to help drivers to save cost on their fuel</p>
                 <button @click="toggleReadMore()" type="submit" class="block w-28 bg-yellow-300 text-black mt-4 py-2 rounded-2xl font-bold mb-2">Back</button>
             </div>
         </div>

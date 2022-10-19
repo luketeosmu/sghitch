@@ -6,7 +6,7 @@
             <Nav />
             <!-- Page content here -->
             <div class="p-3">
-                <h3 v-if="this.id != 'nearby'" class="font-bold text-2xl sm:text-3xl font-sans mx-3 pb-5 text-red"> All Hitchers from {{ this.$route.params.id }} </h3>
+                <h3 v-if="this.from != 'nearby'" class="font-bold text-2xl sm:text-3xl font-sans mx-3 pb-5 text-red"> All Hitchers from {{ this.from }} to {{ this.to }}</h3>
                 <h3 v-else class="font-bold text-2xl sm:text-3xl font-sans mx-3 pb-5 text-red"> All Hitchers Near You </h3>
                 <a  class="relative mb-5 mx-3 p-3 py-12 bg-yellow-100 rounded-2xl flex justify-center" >
                     <button @click='home()' type="button" class="btn-xs sm:btn-sm btn-ghost block bg-slate-600 hover:bg-slate-500 rounded-xl text-white font-semibold absolute left-5 top-5">
@@ -14,11 +14,11 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                         </svg>
                     </button>
-                    <div v-if="this.id == 'nearby'">
-                        <Request :requests="requests" :showDest="true" :id="this.id"/>
+                    <div v-if="this.from == 'nearby'">
+                        <Request :requests="requests" :showDest="true" :from="this.from"/>
                     </div>
                     <div v-else>
-                        <Request :requests="requests" :id="this.id"/>
+                        <Request :requests="requests" :from="this.id" :to="this.to"/>
                     </div>
                 </a>
             </div>
@@ -71,7 +71,8 @@ export default {
     data() {
         return {
             // requests: []
-            id: this.$route.params.id,
+            from: this.$route.params.id.split("-")[0],
+            to: this.$route.params.id.split("-")[1],
             requests: [
                     {
                         user: "Luke Teo",
