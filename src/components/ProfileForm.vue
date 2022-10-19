@@ -36,7 +36,7 @@
             </div>
 
             <div class="mt-20 text-center border-b pb-12">
-                <h1 class="text-4xl font-medium text-gray-700 mb-4">Jessica Jones </h1>
+                <h1 class="text-4xl font-medium text-gray-700 mb-4">Jessica Jones</h1>
                 <div class="rating rating-md rating-half">
                     <input type="radio" name="rating-10" class="rating-hidden" />
                     <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-1" checked />
