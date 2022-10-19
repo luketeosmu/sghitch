@@ -8,7 +8,7 @@
                         <div class='flex flex-wrap -mx-3 mb-6'>
                             <div class="w-full">
                             <div class='w-full md:w-full px-3 mb-6'>
-                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-text-1'>email address</label>
+                                <label class='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' for='grid-text-1'>email address </label>
                                 <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' id='grid-text-1' type='text' required>
                             </div>
                             <div class="flex items-center justify-between mt-4">
