@@ -5,7 +5,13 @@
             <!-- Navbar -->
             <Nav />
             <!-- Page content here -->
-
+            <div class="grid grid-cols-2 h-full justify-center items-center">
+                <div class="text-center text-6xl font-bold bg-slate-300 h-full items-center justify-center">
+                    <h1 class="my-auto">View Existing Requests</h1>
+                </div>
+                
+                <div class="text-center text-6xl font-bold">Create new Request</div>
+            </div>
             <!-- Page content ends here -->
         </div> 
         <div class="drawer-side">

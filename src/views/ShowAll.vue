@@ -1,14 +1,14 @@
 <template lang="">
-   <div class="drawer">
+   <div class="drawer bg-slate-200">
         <input id="my-drawer-3" type="checkbox" class="drawer-toggle" /> 
         <div class="drawer-content flex flex-col">
             <!-- Navbar -->
             <Nav />
             <!-- Page content here -->
-            <div class="p-3">
+            <div class="p-3 mt-5 ">
                 <h3 v-if="this.from != 'nearby'" class="font-bold text-2xl sm:text-3xl font-sans mx-3 pb-5 text-red"> All Hitchers from {{ this.from }} to {{ this.to }}</h3>
                 <h3 v-else class="font-bold text-2xl sm:text-3xl font-sans mx-3 pb-5 text-red"> All Hitchers Near You </h3>
-                <a  class="relative mb-5 mx-3 p-3 py-12 bg-yellow-100 rounded-2xl flex justify-center" >
+                <a  class="relative mb-5 mx-3 p-3 py-12 rounded-2xl flex justify-center" >
                     <button @click='home()' type="button" class="btn-xs sm:btn-sm btn-ghost block bg-slate-600 hover:bg-slate-500 rounded-xl text-white font-semibold absolute left-5 top-5">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />

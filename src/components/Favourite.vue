@@ -1,13 +1,26 @@
 <template lang="">
-    <div>
+    <div class="shadow-xl rounded-2xl p-3 mx-3 mt-5 border border-solid border-2 border-slate-600">
+        <div class="inline-flex mx-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+            </svg>
+            <h3 class="font-bold text-2xl sm:text-3xl font-sans text-black mx-3 "> Favourites </h3>
+        </div>
+
         <div v-if='favourites.length != 0' v-for="favourite in favourites">
-            <div class="relative mb-5 mx-3 p-3 py-12 bg-yellow-100 rounded-2xl flex justify-center hover:bg-yellow-200" >
-                <div class="absolute top-0 inline-flex">
-                    <h3 class="font-bold text-xl sm:text-2xl font-sans mt-3" id="favourite">{{ favourite.from }}</h3>
-                    <svg @click="swap(favourite)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5 mt-5 mx-2 text-center cursor-pointer">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
-                    </svg>
-                    <h3 class="font-bold text-xl sm:text-2xl font-sans mt-3" id="favourite">{{ favourite.to }}</h3>
+            <div class="relative mb-5 p-3 pt-12 rounded-2xl flex justify-center shadow-xl " >
+                <div class="absolute top-0 flex">
+                    <div>
+                        <h3 class="font-bold text-xl sm:text-2xl font-sans mt-3 text-black" id="favourite">{{ favourite.from }}</h3>
+                    </div>
+                    <div>
+                        <svg @click="swap(favourite)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5 mt-5 mx-2 text-center cursor-pointer">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xl sm:text-2xl font-sans mt-3 text-black" id="favourite">{{ favourite.to }}</h3>
+                    </div>
                 </div>
                 <label class="btn btn-circle btn-xs swap swap-rotate absolute top-3 right-5">
   
@@ -81,15 +94,6 @@ export default {
                 }
             ],
             requests: [
-                    {
-                        user: "Luke Teo",
-                        rating: 5,
-                        time: "08:00",
-                        pax: 2,
-                        available: 2,
-                        from: "Woodlands",
-                        to: "Tampines"
-                    },
                     {
                         user: "Shaun Ting",
                         rating: 5,
