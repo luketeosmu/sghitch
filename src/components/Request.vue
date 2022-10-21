@@ -4,6 +4,14 @@
             <div  v-for="request in requests">
                 <label :for="from + to + request.user" class="card relative p-2 mx-1 my-3 w-32 text-xs sm:w-48 h-30 bg-slate-700 text-white rounded-lg border border-slate-700 shadow-md hover:bg-slate-500 justify-center items-center cursor-pointer">
                     <ul class="text-xs sm:text-lg font-semibold mb-2">
+                        <li v-if="showFrom">From: {{ request.from }}</li>
+                        <li v-if="showDest">
+                            <div class="inline-flex">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 sm:w-4 sm:h-4 mt-1 sm:mt-2 mx-2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5" />
+                                </svg>
+                                {{ request.to }} 
+                            </div></li>
                         <li class="inline-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5 sm:mt-1 mx-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -17,14 +25,6 @@
                             {{ request.pax }} 
                         </li>
                         <li v-else>Available seats: {{ request.available }} persons</li>
-                        <li v-if="showFrom">From: {{ request.from }}</li>
-                        <li v-if="showDest">
-                            <div class="inline-flex">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 sm:w-4 sm:h-4 mt-1 sm:mt-2 mx-1">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5" />
-                                </svg>
-                                {{ request.to }} 
-                            </div></li>
                     </ul>
                     <!-- <div class="inline-flex items-center mb-2">
                         <button href="#" class= " py-2 px-3 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
