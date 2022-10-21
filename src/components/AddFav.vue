@@ -1,17 +1,17 @@
 <template lang="">
     <div>
-        <h3 class="font-bold text-2xl sm:text-3xl font-sans px-3 text-red text-center mt-5"> Add new Favourite </h3>
+        <h3 class="font-bold text-2xl sm:text-3xl font-sans px-3 text-white text-center mt-5"> Add new Favourite </h3>
             <form>
                 <div className="flex form-control text-center mb-10">
-                    <div className="justify-center">
+                    <div >
                         <input v-model.lazy="input.s_address" type="text" placeholder="Starting Point e.g. Tampines" className="input input-bordered input-warning w-full max-w-md mt-5" id="from"/>
                     </div>
-                    <div class="justify-center">
+                    <div>
                         <input v-model.lazy="input.d_address" type="text" placeholder="Destination e.g. Woodlands" className="input input-bordered input-warning w-full max-w-md mt-5" id="to"/>
                     </div>
                 </div>
                 <div class="text-center">
-                    <button type="button" @click='addFav()' class="btn btn-warning bg-yellow-300 text-black">Submit</button>
+                    <button type="button" @click='addFav()' class="btn bg-slate-600 text-white">Add</button>
                 </div>
             </form>
     </div>
@@ -24,10 +24,11 @@ export default {
     },
     methods: {
         addFav() {
-            var fromVal = document.getElementById("from").value.replace(/\s/g,'')
-            var toVal = document.getElementById("to").value.replace(/\s/g,'')
+            //.value.replace(/\s/g,'')
+            let fromVal = document.getElementById("from").value
+            let toVal = document.getElementById("to").value
             console.log(from + "-" + to)
-            var favourite = {
+            let favourite = {
                 from: fromVal,
                 to: toVal
             }

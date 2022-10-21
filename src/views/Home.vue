@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="drawer bg-no-repeat bg-cover bg-bottom" style="background-image: url('../background.jpg')" >
+    <div class="drawer bg-no-repeat bg-cover bg-center" style="background-image: url('../background3.jpg')" >
         <input id="my-drawer-3" type="checkbox" class="drawer-toggle" /> 
         <div class="drawer-content flex flex-col ">
             <!-- Navbar -->
@@ -9,7 +9,7 @@
             <div class="px-3 mt-5">
                 <div class="text-center">
                     <span class="text-center text-4xl text-black font-semibold bg-white bg-opacity-70 rounded-2xl py-1 px-2">
-                        Requests for {{ timeStr }}, {{ dateStr }} 
+                        Requests @ {{ timeStr }}, {{ dateStr }} 
                     </span>
                 </div>
                 <div class="text-center flex justify-center mt-5 bg-cover bg-center" >

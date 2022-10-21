@@ -90,7 +90,7 @@ export default {
                 },
                 {
                     from: "Choa Chu Kang",
-                    to: "Bras Basar"
+                    to: "Bras Basah"
                 }
             ],
             requests: [

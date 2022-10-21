@@ -2,7 +2,7 @@
     <div>
         <div v-if="requests.length != 0" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7">
             <div  v-for="request in requests">
-                <label :for="from + to + request.user" class="card relative p-2 mx-1 my-3 w-32 text-xs sm:w-48 h-30 bg-slate-700 text-white rounded-lg border border-slate-700 shadow-md hover:bg-slate-500 justify-center items-center cursor-pointer">
+                <label :for="from + to + request.user" class="card relative p-2 mx-1 my-3 w-32 text-xs sm:w-48 h-30 bg-slate-700 text-white rounded-md border border-slate-700 shadow-md hover:bg-slate-500 justify-center items-center cursor-pointer">
                     <ul class="text-xs sm:text-lg font-semibold mb-2">
                         <li v-if="showFrom">From: {{ request.from }}</li>
                         <li v-if="showDest">
