@@ -1,13 +1,4 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-hr {
-    border: 0;
-    clear:both;
-    display:block;
-    width: 100%;               
-    background-color:black;
-    height: 1px;
-    margin-top:2px;
-    margin-bottom:2px;
-  }
+

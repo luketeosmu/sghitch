@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="drawer bg-no-repeat bg-cover bg-center bg-home-background">
+    <div class="drawer bg-no-repeat bg-cover bg-bottom bg-home-background">
         <input id="my-drawer-3" type="checkbox" class="drawer-toggle" /> 
         <div class="drawer-content flex flex-col ">
             <!-- Navbar -->
@@ -24,10 +24,10 @@
                 </div>
                 <!-- <hr> -->
                 <div v-if="this.user.type != 'hitcher'">
-                    <Nearby />
+                    <Nearby :requests="validReq"/>
                 </div>
                 
-                <Favourite />
+                <Favourite :requests="validReq"/>
             </div>
             <!-- Page content ends here -->
         </div> 
@@ -110,6 +110,7 @@ export default {
                 let date = new Date()
                 hours = date.getHours();
                 minutes = date.getMinutes();
+                minutes = minutes < 10 && minutes != 0 ? '0' + minutes : minutes;
             } else {
                 let str = String(this.time)
                 hours = str.split(":")[0]
@@ -118,10 +119,33 @@ export default {
             let ampm = hours >= 12 ? 'PM' : 'AM';
             hours = hours % 12;
             hours = hours ? hours : 12; // the hour '0' should be '12'
-            minutes = minutes < 10 ? '0'+minutes : minutes;
             this.timeStr = hours + ':' + minutes + ' ' + ampm;
             console.log(this.time)
+            this.setValidReq()
+        },
+        checkTime(reqTime) {
+            let selectedHour = this.time.split(":")[0]
+            let selectedMins = this.time.split(":")[1]
+            let hour = reqTime.split(":")[0]
+            let mins = reqTime.split(":")[1]
+            if(hour == selectedHour && selectedMins - mins <= 30) {
+                return true
+            }
+            return false
+        },
+        setValidReq() {
+            this.validReq = []
+            for(let request of this.requests) {
+                // console.log(request)
+                if(this.checkTime(request.time)) {
+                    this.validReq.push(request)
+                }
+            }
+            this.validReq.sort(function(a,b) {
+                return a.time.localeCompare(b.time)
+            });
         }
+
     },
     data() {
         return {
@@ -132,11 +156,83 @@ export default {
             dateStr: "",
             time: "",
             date: "",
+            validReq: [],
+            requests: [
+                    {
+                        user: "Shaun Ting",
+                        rating: 5,
+                        time: "10:00",
+                        pax: 3,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
+                    },
+                    {
+                        user: "Ali baba",
+                        rating: 5,
+                        time: "12:00",
+                        pax: 4,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Choa Chu Kang"
+                    },
+                    {
+                        user: "John Wick",
+                        rating: 5,
+                        time: "12:30",
+                        pax: 4,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Bras Basah"
+                    },
+                    {
+                        user: "Jennie Kim",
+                        rating: 5,
+                        time: "13:00",
+                        pax: 4,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Ang Mo Kio"
+                    },
+                    {
+                        user: "KIm Jong Kook",
+                        rating: 5,
+                        time: "12:00",
+                        pax: 4,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Raffles Place"
+                    },
+                    {
+                        user: "Kimchi Jigae",
+                        rating: 5,
+                        time: "12:00",
+                        pax: 4,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Somerset"
+                    },
+                    {
+                        user: "Buddae Jigae",
+                        rating: 5,
+                        time: "12:00",
+                        pax: 4,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Orchard"
+                    },
+            ],
         }
     },
     mounted() {
         this.setDateStr()
         this.setTimeStr()
+        for(let request of this.requests) {
+            console.log(request)
+            if(this.checkTime(request.time)) {
+                this.validReq.push(request)
+            }
+        }
     }
 }
 </script>
