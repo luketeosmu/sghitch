@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="font-mono backdrop-blur-[4px]">
+        <div class="backdrop-blur-[4px]">
             <div class="container mx-auto ">
                 <div class="inputs w-full max-w-2xl p-6 mx-auto  bg-white bg-opacity-5 rounded-lg">
                     <h1 style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class="text-3xl text-slate-200">Personal Info: </h1>
