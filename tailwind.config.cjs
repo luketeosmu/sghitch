@@ -4,7 +4,11 @@ module.exports = {
     "./index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'home-background': "url('/src/images/backgroundHome.jpg')",
+      }
+    },
   },
   plugins: [require("daisyui")],
 }

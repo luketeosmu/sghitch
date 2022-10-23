@@ -1,24 +1,35 @@
 <template lang="">
-   <div class="drawer">
+   <div class="drawer bg-no-repeat bg-cover bg-center" style="background-image: url()">
         <input id="my-drawer-3" type="checkbox" class="drawer-toggle" /> 
         <div class="drawer-content flex flex-col">
             <!-- Navbar -->
             <Nav />
             <!-- Page content here -->
-            <div class="p-3">
-                <h3 v-if="this.id != 'nearby'" class="font-bold text-2xl sm:text-3xl font-sans mx-3 pb-5 text-red"> All Hitchers from {{ this.$route.params.id }} </h3>
-                <h3 v-else class="font-bold text-2xl sm:text-3xl font-sans mx-3 pb-5 text-red"> All Hitchers Near You </h3>
-                <a  class="relative mb-5 mx-3 p-3 py-12 bg-yellow-100 rounded-2xl flex justify-center" >
+            <div class="p-3 mt-5 mx-5 rounded-2xl border border-solid border-2 border-slate-600 bg-white bg-opacity-70">
+                <span v-if="this.from != 'nearby'" class="inline-flex mx-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+                    </svg>
+                    <h3  class="font-bold text-2xl sm:text-3xl font-sans mx-3 pb-5 text-red"> All Hitchers from {{ this.from }} to {{ this.to }}</h3>
+                </span>
+                <span v-else class="inline-flex mx-3 ">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                    </svg>
+                    <h3 class="font-bold text-2xl sm:text-3xl font-sans mx-3 pb-5 text-black"> All Hitchers Near You </h3>
+                </span>
+                <a  class="relative mb-5 mx-3 p-3 py-12 rounded-2xl flex justify-center" >
                     <button @click='home()' type="button" class="btn-xs sm:btn-sm btn-ghost block bg-slate-600 hover:bg-slate-500 rounded-xl text-white font-semibold absolute left-5 top-5">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                         </svg>
                     </button>
-                    <div v-if="this.id == 'nearby'">
-                        <Request :requests="requests" :showDest="true" :id="this.id"/>
+                    <div v-if="this.from == 'nearby'">
+                        <Request :requests="requests" :showDest="true" :from="this.from"/>
                     </div>
                     <div v-else>
-                        <Request :requests="requests" :id="this.id"/>
+                        <Request :requests="requests" :from="this.id" :to="this.to"/>
                     </div>
                 </a>
             </div>
@@ -71,7 +82,8 @@ export default {
     data() {
         return {
             // requests: []
-            id: this.$route.params.id,
+            from: this.$route.params.id.split("-")[0],
+            to: this.$route.params.id.split("-")[1],
             requests: [
                     {
                         user: "Luke Teo",

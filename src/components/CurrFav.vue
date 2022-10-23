@@ -1,10 +1,10 @@
 <template lang="">
     <div>
-        <h3 class="font-bold text-2xl sm:text-3xl font-sans pb-5 px-3 pb-3 text-center"> Current Favourites </h3>
+        <h3 class="font-bold text-3xl font-sans mt-5 pb-5 px-3 pb-3 text-center text-white"> Current Favourites </h3>
             <div class="flex overflow-x-auto mx-auto justify-center items-center ">
-                <table class="table w-full max-w-md z-0">
-                    <!-- head -->
-                    <thead>
+                
+                <table class="table w-full max-w-md z-0 ">
+                    <thead  class="bg-slate-700">
                     <tr>
                         <th>From</th>
                         <th>To</th>
@@ -12,11 +12,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- row 1 -->
                     <tr v-for="favourite in favourites" :id="favourite.from + '-' + favourite.to">
                         <td>{{ favourite.from }}</td>
                         <td>{{ favourite.to }}</td>
-                        <td @click="removeFav(favourite.from + '-' + favourite.to)"><a href="#">Delete</a></td>
+                        <td>
+                            <button class="btn btn-ghost btn-xs" @click="removeFav(favourite.from + '-' + favourite.to)"> Delete</button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -38,7 +39,7 @@ export default {
                 if(favourite.from == locations[0] && favourite.to == locations[1]) {
                     console.log(value)
                     console.log(i)
-                    this.favourites.splice(this.favourites.indexOf(i), 1)
+                    this.favourites.splice(i, 1)
                 }
             }
         },

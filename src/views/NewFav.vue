@@ -1,12 +1,12 @@
 <template lang="">
-    <div class="drawer">
+    <div class="drawer bg-no-repeat bg-cover bg-bottom " style="background-image: url('../src/images/backgroundFav.jpg')">
         <input id="my-drawer-3" type="checkbox" class="drawer-toggle" /> 
         <div class="drawer-content flex flex-col">
             <!-- Navbar -->
             <Nav />
             <!-- Page content here -->
-            <CurrFav :favourites="favourites" />
             <AddFav :favourites="favourites"/>
+            <CurrFav :favourites="favourites" />
             <!-- Page content ends here -->
         </div>
         <div class="drawer-side">
@@ -64,12 +64,12 @@ export default {
         return {
             favourites: [
                 {
-                    from: "ChoaChuKang",
+                    from: "Woodlands",
                     to: "Tampines"
                 },
                 {
-                    from: "SMU",
-                    to: "Woodlands"
+                    from: "ChoaChuKang",
+                    to: "BrasBasah"
                 }
             ],
         }
