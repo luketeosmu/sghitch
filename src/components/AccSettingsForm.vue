@@ -8,16 +8,16 @@
                         <div class='flex flex-wrap -mx-3 mb-6'>
                             <div class="w-full">
                             <div class='w-full md:w-full px-3 mb-6'>
-                                <label style="text-shadow: 0.07em 0 black, 0 0.07em black, -0.05em 0 black, 0 -0.05em black;" class='text-slate-200 text-xl mb-2' for='grid-text-1'>Email address </label>
+                                <label style="text-shadow: 0.07em 0 black, 0 0.07em black, -0.05em 0 black, 0 -0.05em black;" class='text-slate-200 text-xl mb-2' for='grid-text-1'>Email Address </label>
                                 <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' id='grid-text-1' type='text' required>
                             </div>
                             <div class="flex items-center justify-between mt-4">
                                 <div class='w-full md:w-1/2 px-3 mb-6'>
-                                    <label style="text-shadow: 0.07em 0 black, 0 0.07em black, -0.05em 0 black, 0 -0.05em black;" class='text-slate-200 text-xl mb-2' >First name</label>
+                                    <label style="text-shadow: 0.07em 0 black, 0 0.07em black, -0.05em 0 black, 0 -0.05em black;" class='text-slate-200 text-xl mb-2' >First Name</label>
                                     <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required>
                                 </div>
                                 <div class='w-full md:w-1/2 px-3 mb-6'>
-                                    <label style="text-shadow: 0.07em 0 black, 0 0.07em black, -0.05em 0 black, 0 -0.05em black;" class='text-slate-200 text-xl mb-2' >Last name</label>
+                                    <label style="text-shadow: 0.07em 0 black, 0 0.07em black, -0.05em 0 black, 0 -0.05em black;" class='text-slate-200 text-xl mb-2' >Last Name</label>
                                     <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required>
                                 </div>
                             </div>

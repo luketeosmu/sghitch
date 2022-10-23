@@ -1,5 +1,5 @@
 <template lang="">
-   <div class="drawer">
+   <div class="drawer bg-no-repeat bg-cover bg-bottom" style="background-image: url('../src/images/profileBG.jpg')">
         <input id="my-drawer-3" type="checkbox" class="drawer-toggle" /> 
         <div class="drawer-content flex flex-col">
             <!-- Navbar -->
