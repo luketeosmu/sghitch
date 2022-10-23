@@ -42,7 +42,7 @@ export default {
         this.$router.push('../')
       },
       profile() {
-        window.location.reload()
+        this.$router.push('/profile')
       },
       favourite() {
         this.$router.push('/newFav')
@@ -51,7 +51,7 @@ export default {
         this.$router.push('/chat')
       },
       settings() {
-        window.location.reload()
+        this.$router.push('/accountsettings')
       },
       logout(){
         this.$router.push('/login')
