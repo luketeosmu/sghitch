@@ -1,29 +1,29 @@
 <template>
     <div>
-        <div class="font-mono">
-            <div class="container mx-auto">
-                <div class="inputs w-full max-w-2xl p-6 mx-auto">
-                    <h1 class="text-3xl text-slate-50">Personal Info: </h1>
+        <div class="font-mono ">
+            <div class="container mx-auto ">
+                <div class="inputs w-full max-w-2xl p-6 mx-auto ">
+                    <h1 style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class="text-3xl text-slate-50">Personal Info: </h1>
                     <form class="mt-6 border-t border-gray-400 pt-4">
                         <div class='flex flex-wrap -mx-3 mb-6'>
                             <div class="w-full">
                             <div class='w-full md:w-full px-3 mb-6'>
-                                <label style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class='text-white text-lg mb-2' for='grid-text-1'>Email address </label>
+                                <label style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class='text-white text-xl mb-2' for='grid-text-1'>Email address </label>
                                 <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' id='grid-text-1' type='text' required>
                             </div>
                             <div class="flex items-center justify-between mt-4">
                                 <div class='w-full md:w-1/2 px-3 mb-6'>
-                                    <label style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class='text-white text-lg mb-2' >First name</label>
+                                    <label style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class='text-white text-xl mb-2' >First name</label>
                                     <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required>
                                 </div>
                                 <div class='w-full md:w-1/2 px-3 mb-6'>
-                                    <label style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class='text-white text-lg mb-2' >Last name</label>
+                                    <label style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class='text-white text-xl mb-2' >Last name</label>
                                     <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required>
                                 </div>
                             </div>
                         
                             <div class='w-full md:w-full px-3 mb-6'>
-                                <label style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class='text-white text-lg mb-2' for='grid-text-1'>Current Password</label>
+                                <label style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class='text-white text-xl mb-2' for='grid-text-1'>Current Password</label>
                                 <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' id='grid-text-1' type='password' placeholder="Enter password to make changes" required>
                             </div>
 
@@ -33,18 +33,18 @@
                             </div>
                             
                             <div class="personal w-full border-t border-gray-400 pt-4">
-                                <h1 class="text-3xl text-slate-50">Change Password: </h1>
+                                <h1 style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class="text-3xl text-slate-50">Change Password: </h1>
                                 <div class='w-full md:w-full px-3 mt-6'>
-                                    <label style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class='text-white text-lg mb-2'>Current Password</label>
+                                    <label style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class='text-white text-xl mb-2'>Current Password</label>
                                     <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='password'  required>
                                     <span @click='' class="flex justify-end text-sm mt-2 hover:text-yellow-500 cursor-pointer">Forgot your password? </span>
                                 </div>
                                 <div class='w-full md:w-full px-3 mb-6'>
-                                    <label style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class='text-white text-lg mb-2'>New Password</label>
+                                    <label style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class='text-white text-xl mb-2'>New Password</label>
                                     <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='password'  required>
                                 </div>
                                 <div class='w-full md:w-full px-3 mb-6'>
-                                    <label style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class='text-white text-lg mb-2'>Confirm Password</label>
+                                    <label style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class='text-white text-xl mb-2'>Confirm Password</label>
                                     <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='password'  required>
                                 </div>
                             
