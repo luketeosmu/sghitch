@@ -8,7 +8,7 @@
             <!-- Page content here -->
             <div class="px-3 mt-5">
                 <div class="text-center">
-                    <span class="text-center text-4xl text-black font-semibold bg-white bg-opacity-70 rounded-lg py-1 px-2">
+                    <span class="text-center text-2xl sm:text-4xl text-black font-semibold bg-white bg-opacity-70 rounded-lg py-1 px-2">
                         Requests @ {{ timeStr }}, {{ dateStr }} 
                     </span>
                 </div>
