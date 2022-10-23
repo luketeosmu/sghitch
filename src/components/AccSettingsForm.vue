@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="font-mono backdrop-blur-[3px]">
+        <div class="font-mono backdrop-blur-[4px]">
             <div class="container mx-auto ">
                 <div class="inputs w-full max-w-2xl p-6 mx-auto  bg-white bg-opacity-5 rounded-lg">
                     <h1 style="text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black;" class="text-3xl text-slate-200">Personal Info: </h1>
@@ -37,7 +37,7 @@
                                 <div class='w-full md:w-full px-3 mt-6'>
                                     <label style="text-shadow: 0.07em 0 black, 0 0.07em black, -0.05em 0 black, 0 -0.05em black;" class='text-slate-200 text-xl mb-2'>Current Password</label>
                                     <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='password'  required>
-                                    <span @click='' class="flex justify-end text-sm mt-2 hover:text-yellow-500 cursor-pointer">Forgot your password? </span>
+                                    <span @click='' class="flex justify-end text-sm mt-2 text-slate-200 hover:text-slate-200 cursor-pointer">Forgot your password? </span>
                                 </div>
                                 <div class='w-full md:w-full px-3 mb-6'>
                                     <label style="text-shadow: 0.07em 0 black, 0 0.07em black, -0.05em 0 black, 0 -0.05em black;" class='text-slate-200 text-xl mb-2'>New Password</label>
