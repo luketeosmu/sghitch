@@ -5,7 +5,7 @@
           <form>
             <ul class="grid grid-rows-2 grid-flow-col gap-4">
                 <li class="relative">
-                  <input class="sr-only peer" type="radio" value="driver" name="answer" id="driver">
+                  <input class="sr-only peer" type="radio" value="driver" v-model="type" name="answer" id="driver">
                   <label class="block text-center w-full bg-yellow-300 mt-2 py-2 px-2 text-black font-semibold mb-2 bg-white border border-gray-300 rounded-lg cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:ring-2 peer-checked:border-transparent" for="driver"> Sign in as Driver </label>
 
                   <div class="absolute hidden w-5 h-5 peer-checked:block top-5 right-3">
@@ -15,7 +15,7 @@
                 </li>
 
                 <li class="relative">
-                  <input class="sr-only peer" type="radio" value="driver" name="answer" id="hitcher">
+                  <input class="sr-only peer" type="radio" value="hitcher" v-model="type" name="answer" id="hitcher">
                   <label class="block text-center w-full bg-yellow-300 mt-2 py-2 px-2 rounded-2xl text-black font-semibold mb-2 bg-white border border-gray-300 rounded-lg cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:ring-2 peer-checked:border-transparent" for="hitcher"> Sign in as Hitcher </label>
 
                   <div class="absolute hidden w-5 h-5 peer-checked:block top-5 right-3">
@@ -38,6 +38,7 @@
 <script>
 // import UserService from '../services/UserService'
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"
+import { getDatabase, ref, set, update } from 'firebase/database'
 
 export default {
     name: "LoginAs",
@@ -51,6 +52,7 @@ export default {
         return {
             isLoggedIn: false,
             auth: null,
+            type: ""
         }
     },
     mounted(){
@@ -67,6 +69,10 @@ export default {
     },
     methods: {
         login (){
+          const db = getDatabase()
+          update(ref(db, 'userTypes/' + this.auth.currentUser.uid), {
+            type: this.type
+          })
           this.$router.push('/')
         },
         backToLogin(){

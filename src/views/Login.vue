@@ -52,6 +52,8 @@
 <script>
 // import UserService from '../services/UserService'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { getDatabase, ref, set } from 'firebase/database'
+
 export default {
     name: "Login",
     components: {
@@ -77,6 +79,7 @@ export default {
             // check minimum password characters
             // check valid email format
             // check matching passwords
+            const db = getDatabase()
             signInWithEmailAndPassword(getAuth(), this.input.email, this.input.password)
             .then((data) => {
                 console.log("Successfully signed in!")

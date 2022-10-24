@@ -56,6 +56,7 @@
 <script>
 // import UserService from '../services/UserService'
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { getDatabase, ref, set } from 'firebase/database'
 export default {
     name: "Register",
     components: {
@@ -92,6 +93,10 @@ export default {
                 updateProfile(auth.currentUser, {
                     displayName: displayName
                 }).then((res) => {
+                    const db = getDatabase()
+                    set(ref(db, 'userTypes/' + auth.currentUser.uid), {
+                        type: "hitcher"
+                    })
                     this.$router.push('/login')
                 })
             })
