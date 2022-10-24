@@ -80,6 +80,7 @@ export default {
             signInWithEmailAndPassword(getAuth(), this.input.email, this.input.password)
             .then((data) => {
                 console.log("Successfully signed in!")
+                console.log(getAuth().currentUser.displayName)
                 // console.log(auth.currentUser)
                 this.$router.push('/loginAs')
             })
