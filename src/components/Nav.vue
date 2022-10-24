@@ -204,6 +204,7 @@ export default {
                     type: this.user.type
                 })
             }
+            location.reload()
             // if(this.user.type == "driver") {
             //     this.user.type = "hitcher"
             // } else {

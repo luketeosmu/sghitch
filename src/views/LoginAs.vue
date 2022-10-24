@@ -1,7 +1,7 @@
 <template>
-  <div class="h-screen flex grid grid-cols-1 sm:grid-cols-2">
+  <!-- <div class="h-screen flex grid grid-cols-1 sm:grid-cols-2">
       <div class="absolute z-30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  ">
-          <div class="card w-96 p-12 bg-yellow-50">
+          <div class="card w-96 p-10 bg-white bg-opacity-30">
           <form>
             <ul class="grid grid-rows-2 grid-flow-col gap-4">
                 <li class="relative">
@@ -30,9 +30,16 @@
           </form>
       </div>
       </div>
-      </div>
-      <div class="video-docker absolute top-0 left-0 w-full h-full overflow-hidden">
-          <video class="min-w-full min-h-full absolute object-cover" src="../vid1.mp4" type="video/mp4" autoplay muted loop></video>
+      </div> -->
+      <div class="">
+        <div class="relative flex flex-col w-full lg:flex-row z-30 items-center justify-center text-center my-96">
+            <div @click="setUserType('driver')" class="grid block w-72 h-24 card text-3xl text-white font-semibold bg-white bg-opacity-30 hover:bg-opacity-70 hover:cursor-pointer rounded-box place-items-center">Sign in as Driver</div> 
+            <div class="divider lg:divider-horizontal text-white">OR</div> 
+            <div @click="setUserType('hitcher')" class="grid block w-72 h-24 card text-3xl text-white font-semibold bg-white bg-opacity-30 hover:bg-opacity-70 hover:cursor-pointer rounded-box place-items-center">Sign in as Hitcher</div>
+        </div>
+        <div class="video-docker absolute top-0 left-0 w-full h-full overflow-hidden">
+            <video class="min-w-full min-h-full absolute object-cover" src="../vid1.mp4" type="video/mp4" autoplay muted loop></video>
+        </div>
       </div>
 </template>
 <script>
@@ -80,7 +87,11 @@ export default {
           signOut(this.auth).then(() => {
             this.$router.push('/login')
           })
-      }
+        },
+        setUserType(type) {
+          this.type = type
+          this.login()
+        }
 
     }
 }

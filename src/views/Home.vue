@@ -52,6 +52,9 @@ import Nav from "../components/Nav.vue"
 import Favourite from "../components/Favourite.vue"
 import Nearby from "../components/Nearby.vue"
 import Request from "../components/Request.vue"
+
+import { getAuth, signOut } from 'firebase/auth'
+import { getDatabase, ref, child, get, update } from 'firebase/database';
 export default {
     name: "Home",
     props: {},
@@ -150,7 +153,7 @@ export default {
     data() {
         return {
             user: {
-                type: "driver"
+                type: ""
             },
             timeStr: "",
             dateStr: "",
@@ -225,6 +228,26 @@ export default {
         }
     },
     mounted() {
+        this.auth = getAuth();
+        this.dbRef = ref(getDatabase())
+        console.log(this.user.type)
+        get(child(this.dbRef, `userTypes/${this.auth.currentUser.uid}`)).then((snapshot) => {
+            if (snapshot.exists()){
+                console.log(snapshot.val())
+                if(snapshot.val().type == "hitcher"){
+                    this.user.type = "hitcher"
+                } else {
+                    this.user.type = "driver"
+                }
+            } else {
+                alert("Application encountered a severe issue. Please login again.")
+                this.logout()
+            }
+        }).catch((error) => {
+            console.error(error)
+            this.logout()
+        })
+        console.log(this.user.type)
         this.setDateStr()
         this.setTimeStr()
         for(let request of this.requests) {
