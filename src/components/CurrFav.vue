@@ -25,6 +25,8 @@
     </div>
 </template>
 <script>
+import { remove, getDatabase, ref } from 'firebase/database'
+import { getAuth } from 'firebase/auth'
 export default {
     name: "CurrFav",
     props: {
@@ -40,6 +42,10 @@ export default {
                     console.log(value)
                     console.log(i)
                     this.favourites.splice(i, 1)
+                    const auth = getAuth()
+                    const db = getDatabase()
+                    remove(ref(db, 'userFavs/' + auth.currentUser.uid + '/' + favourite.key))
+                    // remove()
                 }
             }
         },

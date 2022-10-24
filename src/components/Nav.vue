@@ -151,10 +151,8 @@ export default {
     mounted(){
         this.auth = getAuth();
         this.dbRef = ref(getDatabase())
-        console.log(this.user.type)
         get(child(this.dbRef, `userTypes/${this.auth.currentUser.uid}`)).then((snapshot) => {
             if (snapshot.exists()){
-                console.log(snapshot.val())
                 if(snapshot.val().type == "hitcher"){
                     this.user.type = "hitcher"
                 } else {
@@ -168,7 +166,6 @@ export default {
             console.error(error)
             this.logout()
         })
-        console.log(this.user.type)
     },
     methods: {
         newReq() {

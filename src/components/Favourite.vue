@@ -58,6 +58,8 @@
 </template>
 <script>
 import Request from "../components/Request.vue"
+import { getDatabase, ref, query, get, child } from 'firebase/database'
+import { getAuth } from 'firebase/auth'
 
 export default {
     name: "Favourite",
@@ -103,20 +105,26 @@ export default {
     data() {
         return {
             favourites: [
-                {
-                    from: "Woodlands",
-                    to: "Tampines"
-                },
-                {
-                    from: "Choa Chu Kang",
-                    to: "Bras Basah"
-                }
             ],
             validReq: []
         }
     },
     mounted() {
-        // this.setValidReq()
+        const dbRef = ref(getDatabase())
+        const auth = getAuth()
+        get(child(dbRef, `userFavs/${auth.currentUser.uid}`)).then((snapshot) => {
+            if(snapshot.exists()) {
+                snapshot.forEach((childSnapshot) => {
+                    let childData = childSnapshot.val();
+                    childData.key = childSnapshot.key
+                    this.favourites.push(childData)
+                });
+            } else {
+                console.log("No data available")
+            }
+        }).catch((error) => {
+            console.error(error)
+        })
     }
     
 }

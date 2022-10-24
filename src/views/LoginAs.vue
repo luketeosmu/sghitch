@@ -59,7 +59,7 @@ export default {
         return {
             isLoggedIn: false,
             auth: null,
-            type: ""
+            type: "hitcher"
         }
     },
     mounted(){
