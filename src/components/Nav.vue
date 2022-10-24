@@ -73,28 +73,10 @@ export default {
     props: {
         
     },
-    mounted(){
-        this.auth = getAuth();
-        const dbRef = ref(getDatabase())
-        get(child(dbRef, `userTypes/${this.auth.currentUser.uid}`)).then((snapshot) => {
-            if (snapshot.exists()){
-                if(snapshot.val() == "hitcher"){
-                    this.user.type = "hitcher"
-                } else {
-                    this.user.type = "driver"
-                }
-            } else {
-                alert("Application encountered a severe issue. Please login again.")
-                this.logout()
-            }
-        }).catch((error) => {
-            console.error(error)
-            this.logout()
-        })
-    },
     data() {
         return {
             auth: null,
+            dbRef: null,
             user: {
                 type: ""
             },
@@ -165,6 +147,28 @@ export default {
                     },
             ]
         }
+    },
+    mounted(){
+        this.auth = getAuth();
+        this.dbRef = ref(getDatabase())
+        console.log(this.user.type)
+        get(child(this.dbRef, `userTypes/${this.auth.currentUser.uid}`)).then((snapshot) => {
+            if (snapshot.exists()){
+                console.log(snapshot.val())
+                if(snapshot.val().type == "hitcher"){
+                    this.user.type = "hitcher"
+                } else {
+                    this.user.type = "driver"
+                }
+            } else {
+                alert("Application encountered a severe issue. Please login again.")
+                this.logout()
+            }
+        }).catch((error) => {
+            console.error(error)
+            this.logout()
+        })
+        console.log(this.user.type)
     },
     methods: {
         newReq() {
