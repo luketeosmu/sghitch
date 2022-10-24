@@ -215,6 +215,7 @@ export default {
       //should check if all fields have been entered before setting and redirecting
       const db = getDatabase()
       set(ref(db, 'userReqs/' + this.auth.currentUser.uid), this.input);
+      // set(push(ref(db, 'userReqs/')), this.input);
     },
     home() {
             this.$router.push('../')

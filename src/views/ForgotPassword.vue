@@ -46,8 +46,7 @@ export default {
         }
     },
     mounted(){
-        sessionStorage.removeItem("user");
-        localStorage.clear();
+        
     },
     methods: {
         register(){

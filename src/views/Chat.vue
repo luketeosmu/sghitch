@@ -16,14 +16,17 @@
             </div> -->
             <div class="flex">
                 <div class="w-1/4">
-                    <div v-for="chat in chats" class="p-4 border-2 drop-shadow-sm">
-                        <div>{{ chat.displayName }}</div>
+					<div class="bg-slate-200 p-5 text-xl font-semibold">
+						Welcome, {{ state.displayName }}
+					</div>
+                    <div v-for="chat in chats" class="p-5 border-2 drop-shadow-sm">
+                        <div class="font-semibold">{{ chat.displayName }}</div>
                         <div>{{ chat.latestMsg }}</div>
                     </div>
                 </div>
                 <div class="w-3/4 view chat">
                     <header>
-                        <h1>Welcome, {{ state.displayName }}</h1>
+                        <!-- <h1>Welcome, {{ state.displayName }}</h1> -->
                     </header>
                     <section class="chat-box">
                         <div v-for="message in state.messages" :key="message.key" :class="(message.displayName == state.displayName ? 'message current-user' : 'message')">
