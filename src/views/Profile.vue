@@ -1,5 +1,5 @@
 <template lang="">
-   <div class="drawer">
+   <div class="drawer bg-no-repeat bg-cover bg-bottom" style="background-image: url('../src/images/profileBG.jpg')">
         <input id="my-drawer-3" type="checkbox" class="drawer-toggle" /> 
         <div class="drawer-content flex flex-col">
             <!-- Navbar -->
@@ -42,7 +42,7 @@ export default {
         this.$router.push('../')
       },
       profile() {
-        window.location.reload()
+        this.$router.push('/profile')
       },
       favourite() {
         this.$router.push('/newFav')
@@ -51,7 +51,7 @@ export default {
         this.$router.push('/chat')
       },
       settings() {
-        window.location.reload()
+        this.$router.push('/accountsettings')
       },
       logout(){
         this.$router.push('/login')

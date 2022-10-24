@@ -1,6 +1,6 @@
 <template lang="">
     <div>
-        <h3 class="font-bold text-2xl sm:text-3xl font-sans mt-5 pb-5 px-3 pb-3 text-center text-white"> Current Favourites </h3>
+        <h3 class="font-bold text-3xl font-sans mt-5 pb-5 px-3 pb-3 text-center text-white"> Current Favourites </h3>
             <div class="flex overflow-x-auto mx-auto justify-center items-center ">
                 
                 <table class="table w-full max-w-md z-0 ">

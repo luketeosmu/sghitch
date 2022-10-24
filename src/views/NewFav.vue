@@ -54,7 +54,7 @@ export default {
             this.$router.push('/chat')
         },
         settings() {
-            this.$router.push('/profile')
+            this.$router.push('/accountsettings')
         },
         logout(){
             this.$router.push('/login')
