@@ -30,6 +30,8 @@ import MapsService from '../services/MapsService'
 import Nav from '../components/Nav.vue'
 import AddFav from '../components/AddFav.vue'
 import CurrFav from '../components/CurrFav.vue'
+import { getDatabase, ref, push, set, query, onValue, child, get } from 'firebase/database'
+import { getAuth } from 'firebase/auth'
 
 export default {
     name: "NewFav",
@@ -63,18 +65,25 @@ export default {
     data () {
         return {
             favourites: [
-                {
-                    from: "Woodlands",
-                    to: "Tampines"
-                },
-                {
-                    from: "ChoaChuKang",
-                    to: "BrasBasah"
-                }
             ],
         }
     },
     mounted(){
+        const dbRef = ref(getDatabase())
+        const auth = getAuth()
+        get(child(dbRef, `userFavs/${auth.currentUser.uid}`)).then((snapshot) => {
+            if(snapshot.exists()) {
+                snapshot.forEach((childSnapshot) => {
+                    const childData = childSnapshot.val();
+                    childData.key = childSnapshot.key
+                    this.favourites.push(childData)
+                });
+            } else {
+                console.log("No data available")
+            }
+        }).catch((error) => {
+            console.error(error)
+        })
     },
 }
 </script>
