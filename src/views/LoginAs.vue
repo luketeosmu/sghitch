@@ -24,7 +24,7 @@
                 
                 </li>
               </ul>
-              <button @click='login()' type="button" class="block w-full bg-yellow-300 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Next </button>
+              <button @click='login()' type="button" class="block w-32 text-center bg-yellow-300 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Next </button>
               <br>
               <span @click='backToLogin()' class="text-sm ml-2 hover:text-yellow-300 cursor-pointer">Back to Login</span>
           </form>
