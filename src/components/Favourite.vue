@@ -49,9 +49,9 @@
                     </div>
                 </div>
             </div>
-            <div v-else class="flex justify-center items-center"> 
-                <h3 class="text-center text-2xl">No favourites to display</h3>
-                <button @click='addFavourite()' type="button" class="block bg-yellow-300 p-3 ml-5 rounded-2xl text-black font-semibold" to="newReq">Add Favourite</button>
+            <div v-else class="flex justify-center items-center px-16"> 
+                <h3 class="text-center text-2xl ">No favourites to display</h3>
+                <button @click='addFavourite()' type="button" class="block bg-black bg-opacity-30 p-2 sm:p-3 ml-2 rounded-2xl text-white text-sm font-semibold" to="newReq">Add Favourite</button>
             </div>
         </div>
     </div>
