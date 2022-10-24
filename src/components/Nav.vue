@@ -64,6 +64,7 @@
 <script>
 import Request from "../components/Request.vue"
 import { getAuth, signOut } from 'firebase/auth'
+import { getDatabase, ref, child, get, update } from 'firebase/database';
 export default {
     name: "Nav", 
     components: {
@@ -72,14 +73,12 @@ export default {
     props: {
         
     },
-    mounted(){
-        this.auth = getAuth();
-    },
     data() {
         return {
             auth: null,
+            dbRef: null,
             user: {
-                type: "driver"
+                type: ""
             },
             requests: [
                     {
@@ -149,6 +148,28 @@ export default {
             ]
         }
     },
+    mounted(){
+        this.auth = getAuth();
+        this.dbRef = ref(getDatabase())
+        console.log(this.user.type)
+        get(child(this.dbRef, `userTypes/${this.auth.currentUser.uid}`)).then((snapshot) => {
+            if (snapshot.exists()){
+                console.log(snapshot.val())
+                if(snapshot.val().type == "hitcher"){
+                    this.user.type = "hitcher"
+                } else {
+                    this.user.type = "driver"
+                }
+            } else {
+                alert("Application encountered a severe issue. Please login again.")
+                this.logout()
+            }
+        }).catch((error) => {
+            console.error(error)
+            this.logout()
+        })
+        console.log(this.user.type)
+    },
     methods: {
         newReq() {
             this.$router.push('/newReq')
@@ -171,12 +192,24 @@ export default {
             this.$router.push('/chat')
         },
         change() {
-            if(this.user.type == "driver") {
+            const db = getDatabase()
+            if(this.user.type == "driver"){
                 this.user.type = "hitcher"
-            } else [
+                update(ref(db, 'userTypes/' + this.auth.currentUser.uid), {
+                    type: this.user.type
+                })
+            } else {
                 this.user.type = "driver"
-            ]
-            console.log(this.user.type)
+                update(ref(db, 'userTypes/' + this.auth.currentUser.uid), {
+                    type: this.user.type
+                })
+            }
+            // if(this.user.type == "driver") {
+            //     this.user.type = "hitcher"
+            // } else {
+            //     this.user.type = "driver"
+            // }
+            // console.log(this.user.type)
         },
         accountSettings(){
             this.$router.push('/accountsettings')
