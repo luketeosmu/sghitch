@@ -222,8 +222,8 @@
 </div>
 </template>
 <script>
-// import { getDatabase, ref, uploadString} from "firebase/database";
-// import { getAuth } from 'firebase/auth'
+import { getStorage, ref, uploadString } from "firebase/storage";
+import { getAuth } from 'firebase/auth'
 export default {
     name: "ProfileForm",
 
@@ -252,10 +252,9 @@ export default {
         onUpload(){
 
             const auth = getAuth()
-            const db = getDatabase()
+            const storage = getStorage()
             const userId = auth.currentUser.uid
-
-            const imageRef = storageRef(db, 'userImg/' + userId)
+            const imageRef = ref(storage, 'userImg/' + userId)
 
             //read file and write to URL Data string
             const file = document.querySelector('input[type=file]').files[0]
@@ -269,7 +268,7 @@ export default {
             reader.readAsDataURL(file);
             console.log(file)
 
-            uploadString(imageRef, file, 'data_url').then((snapshot) => {
+            uploadString(imageRef, rawImg, 'data_url').then((snapshot) => {
                 console.log('Uploaded a data_url string!');
             });
                         
