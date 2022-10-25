@@ -108,7 +108,10 @@ const routes = [
     {
         path: '/accountsettings',
         name: 'AccountSettings',
-        component: AccountSettings
+        component: AccountSettings,
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: '/chat/',
