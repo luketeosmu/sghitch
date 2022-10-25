@@ -222,8 +222,8 @@
 </div>
 </template>
 <script>
-import { getDatabase, ref, uploadString} from "firebase/database";
-import { getAuth } from 'firebase/auth'
+// import { getDatabase, ref, uploadString} from "firebase/database";
+// import { getAuth } from 'firebase/auth'
 export default {
     name: "ProfileForm",
 
