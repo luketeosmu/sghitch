@@ -1,7 +1,7 @@
 <template>
     <div class="h-screen flex grid grid-cols-1 sm:grid-cols-2">
         <div class="relative z-30 flex justify-center items-end sm:items-center bg-white-100/20">
-            <div v-if="!readMore" class="animate__bouluke.teo.2020@scis.smu.edu.sgnceIn">
+            <div v-if="!readMore" class="animate__bounceIn">
                 <h1 class=" text-white font-bold text-4xl mt-6 sm:text-6xl font-sans mb-4 ml-4">Welcome to Hitch</h1>
                 <div class="grid grid-cols-2 sm:grid-cols-1">
                     <div class="text-white mt-1 ml-4">Book your ride now!</div>
@@ -52,6 +52,8 @@
 <script>
 // import UserService from '../services/UserService'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { getDatabase, ref, set } from 'firebase/database'
+
 export default {
     name: "Login",
     components: {
@@ -77,9 +79,11 @@ export default {
             // check minimum password characters
             // check valid email format
             // check matching passwords
+            const db = getDatabase()
             signInWithEmailAndPassword(getAuth(), this.input.email, this.input.password)
             .then((data) => {
                 console.log("Successfully signed in!")
+                console.log(getAuth().currentUser.displayName)
                 // console.log(auth.currentUser)
                 this.$router.push('/loginAs')
             })

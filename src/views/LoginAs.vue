@@ -1,11 +1,11 @@
 <template>
-  <div class="h-screen flex grid grid-cols-1 sm:grid-cols-2">
+  <!-- <div class="h-screen flex grid grid-cols-1 sm:grid-cols-2">
       <div class="absolute z-30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  ">
-          <div class="card w-96 p-12 bg-yellow-50">
+          <div class="card w-96 p-10 bg-white bg-opacity-30">
           <form>
             <ul class="grid grid-rows-2 grid-flow-col gap-4">
                 <li class="relative">
-                  <input class="sr-only peer" type="radio" value="driver" name="answer" id="driver">
+                  <input class="sr-only peer" type="radio" value="driver" v-model="type" name="answer" id="driver">
                   <label class="block text-center w-full bg-yellow-300 mt-2 py-2 px-2 text-black font-semibold mb-2 bg-white border border-gray-300 rounded-lg cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:ring-2 peer-checked:border-transparent" for="driver"> Sign in as Driver </label>
 
                   <div class="absolute hidden w-5 h-5 peer-checked:block top-5 right-3">
@@ -15,7 +15,7 @@
                 </li>
 
                 <li class="relative">
-                  <input class="sr-only peer" type="radio" value="driver" name="answer" id="hitcher">
+                  <input class="sr-only peer" type="radio" value="hitcher" v-model="type" name="answer" id="hitcher">
                   <label class="block text-center w-full bg-yellow-300 mt-2 py-2 px-2 rounded-2xl text-black font-semibold mb-2 bg-white border border-gray-300 rounded-lg cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:ring-yellow-500 peer-checked:ring-2 peer-checked:border-transparent" for="hitcher"> Sign in as Hitcher </label>
 
                   <div class="absolute hidden w-5 h-5 peer-checked:block top-5 right-3">
@@ -24,20 +24,28 @@
                 
                 </li>
               </ul>
-              <button @click='login()' type="button" class="block w-full bg-yellow-300 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Next </button>
+              <button @click='login()' type="button" class="block w-32 text-center bg-yellow-300 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Next </button>
               <br>
               <span @click='backToLogin()' class="text-sm ml-2 hover:text-yellow-300 cursor-pointer">Back to Login</span>
           </form>
       </div>
       </div>
-      </div>
-      <div class="video-docker absolute top-0 left-0 w-full h-full overflow-hidden">
-          <video class="min-w-full min-h-full absolute object-cover" src="../vid1.mp4" type="video/mp4" autoplay muted loop></video>
+      </div> -->
+      <div class="">
+        <div class="relative flex flex-col w-full lg:flex-row z-30 items-center justify-center text-center my-96">
+            <div @click="setUserType('driver')" class="grid block w-72 h-24 card text-3xl text-white font-semibold bg-white bg-opacity-30 hover:bg-opacity-70 hover:cursor-pointer rounded-box place-items-center">Sign in as Driver</div> 
+            <div class="divider lg:divider-horizontal text-white">OR</div> 
+            <div @click="setUserType('hitcher')" class="grid block w-72 h-24 card text-3xl text-white font-semibold bg-white bg-opacity-30 hover:bg-opacity-70 hover:cursor-pointer rounded-box place-items-center">Sign in as Hitcher</div>
+        </div>
+        <div class="video-docker absolute top-0 left-0 w-full h-full overflow-hidden">
+            <video class="min-w-full min-h-full absolute object-cover" src="../vid1.mp4" type="video/mp4" autoplay muted loop></video>
+        </div>
       </div>
 </template>
 <script>
 // import UserService from '../services/UserService'
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"
+import { getDatabase, ref, set, update } from 'firebase/database'
 
 export default {
     name: "LoginAs",
@@ -51,6 +59,7 @@ export default {
         return {
             isLoggedIn: false,
             auth: null,
+            type: "hitcher"
         }
     },
     mounted(){
@@ -67,6 +76,10 @@ export default {
     },
     methods: {
         login (){
+          const db = getDatabase()
+          update(ref(db, 'userTypes/' + this.auth.currentUser.uid), {
+            type: this.type
+          })
           this.$router.push('/')
         },
         backToLogin(){
@@ -74,7 +87,11 @@ export default {
           signOut(this.auth).then(() => {
             this.$router.push('/login')
           })
-      }
+        },
+        setUserType(type) {
+          this.type = type
+          this.login()
+        }
 
     }
 }

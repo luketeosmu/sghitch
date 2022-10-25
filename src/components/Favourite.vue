@@ -23,19 +23,19 @@
                             <h3 class="font-bold text-xl sm:text-2xl font-sans mt-3 text-black" id="favourite">{{ favourite.to }}</h3>
                         </div>
                     </div>
-                    <label class="btn btn-circle btn-xs swap swap-rotate absolute top-3 right-5">
-    
-                        <!-- this hidden checkbox controls the state -->
-                        <input type="checkbox"  @click="minimize(favourite.from + favourite.to)"/>
-
-                        <!-- close icon -->
-                        <svg class="w-4 h-4 swap-off fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49"/></svg>
-                        
-                        <!-- hamburger icon -->
-                        <svg class="w-4 h-4 swap-on fill-current " xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"/></svg>
-                        
-                    </label>
                     <div v-if="getValidReq(favourite).length != 0" :id="favourite.from + favourite.to" >
+                        <label class="btn btn-circle btn-xs swap swap-rotate absolute top-3 right-5">
+        
+                            <!-- this hidden checkbox controls the state -->
+                            <input type="checkbox"  @click="minimize(favourite.from + favourite.to)"/>
+    
+                            <!-- close icon -->
+                            <svg class="w-4 h-4 swap-off fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49"/></svg>
+                            
+                            <!-- hamburger icon -->
+                            <svg class="w-4 h-4 swap-on fill-current " xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"/></svg>
+                            
+                        </label>
                         <Request :requests="getValidReq(favourite)" :showDest="false" :from="favourite.from" :to="favourite.to"/>
                         <button @click='showAll(favourite.from, favourite.to)' type="button" class="btn-xs sm:btn-sm btn-ghost block bg-slate-600 hover:bg-slate-500 rounded-xl text-white font-semibold absolute right-5 bottom-5">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5">
@@ -45,18 +45,21 @@
                     </div>
                     <div v-else class="flex justify-center items-center">
                         <h3 class="text-center text-2xl">No rides to display</h3>
+                        <button @click='newReq()' type="button" class="block bg-black bg-opacity-30 p-2 sm:p-3 ml-2 rounded-2xl text-white text-sm font-semibold" to="newReq">Add Request</button>
                     </div>
                 </div>
             </div>
-            <div v-else class="flex justify-center items-center"> 
-                <h3 class="text-center text-2xl">No favourites to display</h3>
-                <button @click='addFavourite()' type="button" class="block bg-yellow-300 p-3 ml-5 rounded-2xl text-black font-semibold" to="newReq">Add Favourite</button>
+            <div v-else class="flex justify-center items-center px-16"> 
+                <h3 class="text-center text-2xl ">No favourites to display</h3>
+                <button @click='addFavourite()' type="button" class="block bg-black bg-opacity-30 p-2 sm:p-3 ml-2 rounded-2xl text-white text-sm font-semibold" to="newReq">Add Favourite</button>
             </div>
         </div>
     </div>
 </template>
 <script>
 import Request from "../components/Request.vue"
+import { getDatabase, ref, query, get, child } from 'firebase/database'
+import { getAuth } from 'firebase/auth'
 
 export default {
     name: "Favourite",
@@ -102,20 +105,26 @@ export default {
     data() {
         return {
             favourites: [
-                {
-                    from: "Woodlands",
-                    to: "Tampines"
-                },
-                {
-                    from: "Choa Chu Kang",
-                    to: "Bras Basah"
-                }
             ],
             validReq: []
         }
     },
     mounted() {
-        // this.setValidReq()
+        const dbRef = ref(getDatabase())
+        const auth = getAuth()
+        get(child(dbRef, `userFavs/${auth.currentUser.uid}`)).then((snapshot) => {
+            if(snapshot.exists()) {
+                snapshot.forEach((childSnapshot) => {
+                    let childData = childSnapshot.val();
+                    childData.key = childSnapshot.key
+                    this.favourites.push(childData)
+                });
+            } else {
+                console.log("No data available")
+            }
+        }).catch((error) => {
+            console.error(error)
+        })
     }
     
 }

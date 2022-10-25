@@ -11,6 +11,18 @@
                     <input @keyup.enter='register()' v-model.lazy="input.email" class="pl-2 outline-none border-none bg-inherit text-black font-medium" type="email" name="" placeholder="Email Address" />
                 </div>
                 <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 border-black">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                    <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+                    </svg>
+                    <input @keyup.enter='register()' v-model.lazy="input.firstName" class="pl-2 outline-none border-none bg-inherit font-medium" type="text" name="" placeholder="First Name" />
+                </div>
+                <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 border-black">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
+                    <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+                    </svg>
+                    <input @keyup.enter='register()' v-model.lazy="input.lastName" class="pl-2 outline-none border-none bg-inherit font-medium" type="text" name="" placeholder="Last Name" />
+                </div>
+                <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 border-black">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="black">
                     <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
                     </svg>
@@ -43,7 +55,8 @@
 </template>
 <script>
 // import UserService from '../services/UserService'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { getDatabase, ref, set } from 'firebase/database'
 export default {
     name: "Register",
     components: {
@@ -56,6 +69,8 @@ export default {
         return {
             input: {
                 email: "",
+                firstName: "",
+                lastName: "",
                 password: "",
                 confirmPassword: "",
                 mobileNumber: "",
@@ -71,10 +86,19 @@ export default {
             // check minimum password characters
             // check valid email format
             // check matching passwords
+            const auth = getAuth()
             createUserWithEmailAndPassword(getAuth(), this.input.email, this.input.password)
-            .then((data) => {
-                console.log("Successfully registered!")
-                this.$router.push('/login')
+            .then((res) => {
+                const displayName = this.input.firstName + " " + this.input.lastName
+                updateProfile(auth.currentUser, {
+                    displayName: displayName
+                }).then((res) => {
+                    const db = getDatabase()
+                    set(ref(db, 'userTypes/' + auth.currentUser.uid), {
+                        type: "hitcher"
+                    })
+                    this.$router.push('/login')
+                })
             })
             .catch((error) => {
                 console.log(error.code)

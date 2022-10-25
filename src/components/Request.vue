@@ -65,6 +65,10 @@
     </div>
 </template>
 <script>
+// import { request } from 'http';
+import { getAuth } from 'firebase/auth'
+import { reactive, onMounted, ref } from 'vue';
+import { getDatabase, set, push, ref as storageRef, onValue} from "firebase/database";
 
 export default {
     name: "Request",
@@ -90,6 +94,43 @@ export default {
     },
     methods: {
         chat() {
+            const auth = getAuth();
+            const userId = auth.currentUser.uid
+            const theirId = 'XrddKQnIdZf6ey6H2nf27LvYAkD2'
+
+            // XrddKQnIdZf6ey6H2nf27LvYAkD2
+            // ricktan@gmail.com
+            const db = getDatabase()
+            const input = {
+                members: {
+                    myUser: userId,
+                    theirUser: theirId
+                }
+            }
+            const chatRef = storageRef(db, 'chats')
+            const newChatID = push(chatRef)
+            set(newChatID, input)
+
+            const temp = {
+                valid: true
+            }
+
+            // add chatUID retrieved to each userUID under userChats
+            const userChatRef = storageRef(db, 'userChats/' + userId + '/' + newChatID.key)
+            set(userChatRef, temp)
+
+            const theirChatRef = storageRef(db, 'userChats/' + theirId + '/' + newChatID.key)
+            set(theirChatRef, temp)
+            
+            // once pushed, send an 'im interested!' with new messageUID to the chatUID retrieved from the above input, under chatMessages
+            const messageRef = storageRef(db, 'chatMessages/' + newChatID.key)
+            const newMessageID = push(messageRef)
+            const messageInput = {
+                message: "I'm interested!",
+                sentBy: userId
+            }
+            set(newMessageID, messageInput);
+
             this.$router.push('/chat')
         },
         setTimeStr(time) {

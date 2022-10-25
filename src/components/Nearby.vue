@@ -30,9 +30,9 @@
                     </button>
                 </div>
             </div>
-            <div v-else class="flex justify-center items-center mt-10 "> 
+            <div v-else class="flex justify-center items-center mt-10 p-2"> 
                 <h3 class="text-lg sm:text-2xl">No rides to display</h3>
-                <button @click='newReq()' type="button" class="block bg-black bg-opacity-30 p-2 sm:p-3 ml-1 sm:ml-5 rounded-2xl text-white text-sm font-semibold" to="newReq">Add Request</button>
+                <button @click='newReq()' type="button" class="block bg-black bg-opacity-30 p-2 sm:p-3 ml-2 sm:ml-3 rounded-2xl text-white text-sm font-semibold" to="newReq">Add Request</button>
             </div>
         </div>
     </div>

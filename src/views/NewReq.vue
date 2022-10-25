@@ -11,12 +11,18 @@
             <!-- query autocomplete api, maps sdk api -->
             <form>
                 <div className="flex form-control text-center mb-10">
+                    <div class="justify-center">
+                        <input v-model.lazy="input.datetime" type="datetime-local" placeholder="Date and Time" className="input input-bordered input-warning w-full max-w-xs sm:max-w-md mt-5" />
+                    </div>
+                    <div class="justify-center">
+                        <input v-model.lazy="input.pax" type="number" placeholder="No. of Pax" className="input input-bordered input-warning w-full max-w-xs sm:max-w-md mt-5" />
+                    </div>
                     <div className="justify-center">
                         <input v-model.lazy="input.s_address" type="text" placeholder="Starting Point Address" className="input input-bordered input-warning w-full max-w-xs sm:max-w-md mt-5" />
                         <button type="button" @click='queryMapsStart()' class="btn btn-warning bg-yellow-300 text-black ml-4">Search</button>
                     </div>
                     <div v-if="seenStart" className="mx-auto mt-3">
-                      <p>{{ startNeighborhood }}</p>
+                      <p>{{ input.startNeighborhood }}</p>
                         <GMapMap
                             :center="centerStart"
                             :zoom="18"
@@ -35,7 +41,7 @@
                         <button type="button" @click='queryMapsDest()' class="btn btn-warning bg-yellow-300 text-black ml-4">Search</button>
                     </div>
                     <div v-if="seenDest" className="mx-auto mt-3">
-                      <p>{{ destNeighborhood }}</p>
+                      <p>{{ input.destNeighborhood }}</p>
                         <GMapMap
                             :center="centerDest"
                             :zoom="18"
@@ -51,7 +57,7 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <button type="button" class="btn btn-warning bg-yellow-300 text-black mb-5">Submit Request</button>
+                    <button type="button" @click="writeReqData" class="btn btn-warning bg-yellow-300 text-black mb-5">Submit Request</button>
                 </div>
             </form>
         </div>
@@ -75,6 +81,7 @@
 <script>
 import MapsService from "../services/MapsService";
 import Nav from "../components/Nav.vue";
+import { getAuth } from 'firebase/auth'
 import { getDatabase, ref, set } from 'firebase/database'
 // import './maps.css'
 
@@ -87,9 +94,15 @@ export default {
   props: {},
   data() {
     return {
+      auth: null,
       input: {
         s_address: "",
         d_address: "",
+        startNeighborhood: "",
+        destNeighborhood: "",
+        pax: null,
+        datetime: "",
+        user: "",
       },
       centerStart: { 
         lat: 0.0, lng: 0.0 
@@ -113,11 +126,12 @@ export default {
       ],
       seenStart: false,
       seenDest: false,
-      startNeighborhood: "",
-      destNeighborhood: "",
     };
   },
-  mounted() {},
+  mounted() {
+    this.auth = getAuth()
+    this.input.user = this.auth.currentUser.displayName
+  },
   methods: {
     queryMapsStart() {
       try {
@@ -129,22 +143,21 @@ export default {
               // this.$router.push('/')
               console.log(res.data.results[0].geometry.location);
               let address = res.data.results[0].address_components;
-              let neighborhood = "";
+              let sNeighborhood = "";
               for (let component of address) {
                 if (component.types.includes("neighborhood")) {
-                  neighborhood = component.long_name;
+                  sNeighborhood = component.long_name;
                   break;
                 }
               }
-              if (neighborhood != "") {
+              if (sNeighborhood != "") {
                 //display map
                 this.input.s_address = res.data.results[0].formatted_address
-                this.writeReqData(this.input.s_address)
                 this.centerStart.lat = res.data.results[0].geometry.location.lat
                 this.centerStart.lng = res.data.results[0].geometry.location.lng
                 this.markersStart[0].position.lat = res.data.results[0].geometry.location.lat
                 this.markersStart[0].position.lng = res.data.results[0].geometry.location.lng
-                this.startNeighborhood = neighborhood
+                this.input.startNeighborhood = sNeighborhood
                 this.seenStart = true
               } else {
                 this.input.s_address = "";
@@ -168,22 +181,24 @@ export default {
               // this.$router.push('/')
               console.log(res.data.results[0].geometry.location);
               let address = res.data.results[0].address_components;
-              let neighborhood = "";
+              let dNeighborhood = "";
               for (let component of address) {
                 if (component.types.includes("neighborhood")) {
-                  neighborhood = component.long_name;
+                  dNeighborhood = component.long_name;
                   break;
                 }
               }
-              if (neighborhood != "") {
+              if (dNeighborhood != "") {
                 this.input.d_address = res.data.results[0].formatted_address
-                this.writeReqData(this.input.d_address)
                 this.centerDest.lat = res.data.results[0].geometry.location.lat
                 this.centerDest.lng = res.data.results[0].geometry.location.lng
                 this.markersDest[0].position.lat = res.data.results[0].geometry.location.lat
                 this.markersDest[0].position.lng = res.data.results[0].geometry.location.lng
-                this.destNeighborhood = neighborhood
+                this.input.destNeighborhood = dNeighborhood
                 this.seenDest = true
+
+                console.log(this.input.destNeighborhood)
+                console.log(this.input.datetime)
               } else {
                 this.input.d_address = "";
                 alert("Invalid address (no neighborhood), please try again.");
@@ -196,12 +211,11 @@ export default {
         }
       } catch (error) {}
     },
-    writeReqData (addr) {
-      // const db = getDatabase()
-      // set(ref(db, 'test/' + 0), {
-      //   test_str: "test_str",
-      //   addr: addr
-      // });
+    writeReqData () {
+      //should check if all fields have been entered before setting and redirecting
+      const db = getDatabase()
+      set(ref(db, 'userReqs/' + this.auth.currentUser.uid), this.input);
+      // set(push(ref(db, 'userReqs/')), this.input);
     },
     home() {
             this.$router.push('../')
