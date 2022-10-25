@@ -1,7 +1,7 @@
 <template lang="">
     <div>
         <div class="p-16">
-            <div class="p-8 bg-white shadow mt-24">
+            <div class="p-8 bg-white rounded-lg shadow mt-24">
             <div class="grid grid-cols-1 md:grid-cols-1">
                 <!-- <div class="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
                     <div>
@@ -18,24 +18,27 @@
                     </div>
                 </div> -->
                 <div class="relative">
-                    <div class="w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-32 flex items-center justify-center text-indigo-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24" viewBox="0 0 20 20" fill="currentColor">
+                    <div style="overflow:hidden" class="w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-32 flex items-center justify-center text-indigo-500"> 
+                        <img v-if="item.imageUrl" :src="item.imageUrl" contain style="width:100%;height:100%;object-fit:cover"/>
+                        <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-24 w-24" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                         </svg>
                     </div>
                 </div>
 
-                <!-- <div class="space-x-8 flex justify-between mt-32 md:mt-0 md:justify-center">
-                    <button class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
-                        Connect
+                <div class="space-x-8 flex justify-between md:mt-20 sm:mt-200 md:justify-center">
+                    <button @click="browse()" class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
+                    Browse
                     </button>
-                    <button class="text-white py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
-                        Message
+                    <input style="display:none" ref="input" type="file" accept="image/*" @change="onChange" />
+
+                    <button @click="onUpload()" class="text-white py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
+                    Upload
                     </button>
-                </div> -->
+                </div>
             </div>
 
-            <div class="mt-20 text-center border-b pb-12">
+            <div class="mt-10 text-center border-b pb-12">
                 <h1 class="text-4xl font-medium text-gray-700 mb-4">Jessica Jones</h1>
                 <div class="rating rating-md rating-half">
                     <input type="radio" name="rating-10" class="rating-hidden" />
@@ -219,10 +222,62 @@
 </div>
 </template>
 <script>
+import { getDatabase, ref, uploadString} from "firebase/database";
+import { getAuth } from 'firebase/auth'
 export default {
-    name: "ProfileForm"
+    name: "ProfileForm",
+
+    data() {
+        return {
+            item:{
+                //...
+                image : null,
+                imageUrl: null
+            }
+        }
+    },
+
+    methods: {
+
+        browse() {
+            this.$refs.input.click()   
+        },
+
+        onChange(e) {
+            const file = e.target.files[0]
+            this.image = file
+            this.item.imageUrl = URL.createObjectURL(file)
+        },
+
+        onUpload(){
+
+            const auth = getAuth()
+            const db = getDatabase()
+            const userId = auth.currentUser.uid
+
+            const imageRef = storageRef(db, 'userImg/' + userId)
+
+            //read file and write to URL Data string
+            const file = document.querySelector('input[type=file]').files[0]
+            const reader = new FileReader()
+
+            let rawImg;
+            reader.onloadend = () => {
+            rawImg = reader.result;
+            console.log(rawImg);
+            }
+            reader.readAsDataURL(file);
+            console.log(file)
+
+            uploadString(imageRef, file, 'data_url').then((snapshot) => {
+                console.log('Uploaded a data_url string!');
+            });
+                        
+        }
+
+    }
 }
 </script>
 <style lang="">
-    
+
 </style>
