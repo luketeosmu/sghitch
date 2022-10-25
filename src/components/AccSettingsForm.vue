@@ -17,7 +17,7 @@
                             </div>
                             <div class='w-full md:w-full px-3 mb-6'>
                                 <label class='text-black text-xl mb-2' for='grid-text-2'>Current Password</label>
-                                <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' id='grid-text-2' type='password' placeholder="Enter password to make changes" required>
+                                <input v-model="input.password" class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' id='grid-text-2' type='password' placeholder="Enter password to make changes" required>
                             </div>
 
                             <div class="flex justify-end">
