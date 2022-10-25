@@ -268,7 +268,7 @@ export default {
             reader.readAsDataURL(file);
             console.log(file)
 
-            uploadString(imageRef, rawImg, 'data_url').then((snapshot) => {
+            uploadString(imageRef, file, 'data_url').then((snapshot) => {
                 console.log('Uploaded a data_url string!');
             });
                         
