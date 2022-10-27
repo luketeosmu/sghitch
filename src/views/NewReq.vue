@@ -1,7 +1,7 @@
 <template lang="">
     <!-- starting point should be taken from google maps - should return a longitude/latitude -->
     <!-- when searching for requests, sort by distance away from starting point -->
-    <div class="drawer">
+    <div class="drawer bg-no-repeat bg-cover bg-center bg-merlion-background">
     <input id="my-drawer-3" type="checkbox" class="drawer-toggle" /> 
     <div class="drawer-content flex flex-col">
         <!-- Navbar -->
