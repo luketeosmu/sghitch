@@ -41,7 +41,7 @@
                     <input @keyup.enter='register()' v-model.lazy="input.mobileNumber" class="pl-2 outline-none border-none bg-inherit" pattern="[0-9]{8}" type="tel" name="" placeholder="Mobile Number" />
                 </div> -->
                 <button @click='register()' type="button" class="block w-full bg-white bg-opacity-80 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Sign up</button>
-                <span @click='login()' class="text-sm ml-2 hover:text-white cursor-pointer text-white">Already have an account? Login here </span> <br><br>
+                <span @click='login()' class="text-sm ml-2 hover:text-blue-300 cursor-pointer text-white">Already have an account? Login here </span> <br><br>
             </form>
             <p class="text-center mt-4 text-sm text-white">By clicking on "Sign up" you agree to <br>
                 <a class="underline text-white visited:text-indigo-300" href="#">Terms of Service</a> | <a class="underline text-white visited:text-indigo-300" href="#"> Privacy Policy </a>

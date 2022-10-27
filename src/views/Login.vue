@@ -36,8 +36,8 @@
                     <p v-if="errMsg" className="mt-2 text-red-500">{{ errMsg }}</p>
                 </div>
                 <button @click='login()' type="button" class="block w-full bg-white bg-opacity-80 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Sign in</button>
-                <span @click='forgotPassword()' class="text-sm ml-2 hover:text-black cursor-pointer text-white">Forgot Password?</span><br><br>
-                <span @click='register()' class="text-sm ml-2  hover:text-black cursor-pointer text-white">Create an Account</span>
+                <span @click='forgotPassword()' class="text-sm ml-2 hover:text-blue-300 cursor-pointer text-white">Forgot Password?</span><br><br>
+                <span @click='register()' class="text-sm ml-2  hover:text-blue-300 cursor-pointer text-white">Create an Account</span>
             </form>
             <p class="text-center mt-4 text-sm text-white">By clicking on "Sign in" you agree to <br>
                 <a class="underline text-white visited:text-indigo-400" href="#">Terms of Service</a> | <a class="underline text-white visited:text-indigo-400" href="#"> Privacy Policy </a>
