@@ -1,6 +1,11 @@
 <template lang="">
     <div>
-        <h3 class="font-bold text-3xl font-sans mt-5 pb-5 px-3 pb-3 text-center text-white"> Current Favourites </h3>
+        <div class="text-center my-5">
+                    <span class="text-center text-2xl sm:text-3xl text-black font-semibold bg-white bg-opacity-80 rounded-lg py-1 px-2 ">
+                        Current Favourites
+                    </span>
+                </div>
+        <!-- <span class="justify-center items-center font-bold text-3xl font-sans mt-5 pb-5 px-3 pb-3 bg-white text-center text-black"> Current Favourites </span> -->
             <div class="flex overflow-x-auto mx-auto justify-center items-center ">
                 
                 <table class="table w-full max-w-md z-0 ">

@@ -119,8 +119,7 @@ export default {
                 let date = new Date()
                 hours = date.getHours();
                 minutes = date.getMinutes();
-                minutes = minutes < 10 && minutes != 0 ? '0' + minutes : minutes;
-                console.log(minutes)
+                minutes = minutes < 10 ? '0' + minutes : minutes;
             } else {
                 let str = String(this.time)
                 hours = str.split(":")[0]
@@ -130,7 +129,6 @@ export default {
             hours = hours % 12;
             hours = hours ? hours : 12; // the hour '0' should be '12'
             this.timeStr = hours + ':' + minutes + ' ' + ampm;
-            // console.log(this.time)
             this.setValidReq()
         },
         checkTime(reqTime) {
@@ -146,7 +144,6 @@ export default {
         setValidReq() {
             this.validReq = []
             for(let request of this.requests) {
-                // console.log(request)
                 if(this.checkTime(request.time)) {
                     this.validReq.push(request)
                 }
