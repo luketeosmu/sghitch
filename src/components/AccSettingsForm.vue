@@ -71,7 +71,7 @@ export default {
                 auth.currentUser.email,
                 this.input.password
             )
-            const result = await reauthenticateWithCredential(auth.currentUser, credential).then(() => {
+            reauthenticateWithCredential(auth.currentUser, credential).then(() => {
                 updateProfile(auth.currentUser, {
                     displayName: this.input.displayName
                 }).then(() => {
