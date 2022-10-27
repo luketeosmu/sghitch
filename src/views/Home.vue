@@ -8,7 +8,7 @@
             <!-- Page content here -->
             <div class="px-3 mt-5">
                 <div class="text-center">
-                    <span class="text-center text-2xl sm:text-4xl text-black font-semibold bg-white bg-opacity-70 rounded-lg py-1 px-2">
+                    <span class="text-center text-2xl sm:text-4xl text-black font-semibold bg-white bg-opacity-80 rounded-lg py-1 px-2">
                         Requests @ {{ timeStr }}, {{ dateStr }} 
                     </span>
                 </div>
@@ -95,15 +95,21 @@ export default {
             let dateArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
             let today = new Date()
             if(this.date == "") {
+                // console.log(today.getMonth())
                 this.dateStr = today.getDate() + " " + dateArr[(today.getMonth())]
             } else {
-                console.log(this.date)
+                // console.log(this.date)
                 let str = String(this.date)
                 let year = str.split("-")[0]
                 let month = str.split("-")[1]
                 let day = str.split("-")[2]
                 today = new Date(year, month, day)
-                this.dateStr = today.getDate() + " " + dateArr[(today.getMonth()) -1]
+                // console.log(month)
+                this.dateStr = day + " " + dateArr[(month - 1)]
+
+                // if(today.getMonth() == 0) {
+                //     this.dateStr = day + " " + dateArr[11]
+                // }
             }
         },
         setTimeStr() {
@@ -113,7 +119,7 @@ export default {
                 let date = new Date()
                 hours = date.getHours();
                 minutes = date.getMinutes();
-                minutes = minutes < 10 && minutes != 0 ? '0' + minutes : minutes;
+                minutes = minutes < 10 ? '0' + minutes : minutes;
             } else {
                 let str = String(this.time)
                 hours = str.split(":")[0]
@@ -123,7 +129,6 @@ export default {
             hours = hours % 12;
             hours = hours ? hours : 12; // the hour '0' should be '12'
             this.timeStr = hours + ':' + minutes + ' ' + ampm;
-            console.log(this.time)
             this.setValidReq()
         },
         checkTime(reqTime) {
@@ -139,7 +144,6 @@ export default {
         setValidReq() {
             this.validReq = []
             for(let request of this.requests) {
-                // console.log(request)
                 if(this.checkTime(request.time)) {
                     this.validReq.push(request)
                 }

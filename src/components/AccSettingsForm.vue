@@ -2,7 +2,7 @@
     <div>
         <div class="backdrop-blur-[px]">
             <div class="container mx-auto ">
-                <div class="inputs w-full max-w-2xl p-6 mx-auto mt-4 mb-4 bg-slate-200 bg-opacity-80 rounded-lg">
+                <div class="inputs w-full max-w-2xl p-6 mx-auto mt-4 mb-4 bg-white bg-opacity-90 rounded-lg">
                     <h1 class="text-3xl text-black">Personal Info: </h1>
                     <form class="mt-6 border-t border-gray-400 pt-4">
                         <div class='flex flex-wrap -mx-3 mb-6'>
@@ -71,7 +71,7 @@ export default {
                 auth.currentUser.email,
                 this.input.password
             )
-            const result = await reauthenticateWithCredential(auth.currentUser, credential).then(() => {
+            reauthenticateWithCredential(auth.currentUser, credential).then(() => {
                 updateProfile(auth.currentUser, {
                     displayName: this.input.displayName
                 }).then(() => {
