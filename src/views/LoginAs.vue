@@ -31,8 +31,8 @@
       </div>
       </div>
       </div> -->
-      <div class="">
-        <div class="relative flex flex-col w-full lg:flex-row z-30 items-center justify-center text-center my-96">
+      <div class="h-screen flex">
+        <div class="flex flex-col w-full lg:flex-row z-30 items-center justify-center text-center my-96 ">
             <div @click="setUserType('driver')" class="grid block w-72 h-24 card text-3xl text-white font-semibold bg-white bg-opacity-30 hover:bg-opacity-70 hover:cursor-pointer rounded-box place-items-center">Sign in as Driver</div> 
             <div class="divider lg:divider-horizontal text-white">OR</div> 
             <div @click="setUserType('hitcher')" class="grid block w-72 h-24 card text-3xl text-white font-semibold bg-white bg-opacity-30 hover:bg-opacity-70 hover:cursor-pointer rounded-box place-items-center">Sign in as Hitcher</div>

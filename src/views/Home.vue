@@ -95,15 +95,21 @@ export default {
             let dateArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
             let today = new Date()
             if(this.date == "") {
+                // console.log(today.getMonth())
                 this.dateStr = today.getDate() + " " + dateArr[(today.getMonth())]
             } else {
-                console.log(this.date)
+                // console.log(this.date)
                 let str = String(this.date)
                 let year = str.split("-")[0]
                 let month = str.split("-")[1]
                 let day = str.split("-")[2]
                 today = new Date(year, month, day)
-                this.dateStr = today.getDate() + " " + dateArr[(today.getMonth()) -1]
+                // console.log(month)
+                this.dateStr = day + " " + dateArr[(month - 1)]
+
+                // if(today.getMonth() == 0) {
+                //     this.dateStr = day + " " + dateArr[11]
+                // }
             }
         },
         setTimeStr() {
@@ -114,6 +120,7 @@ export default {
                 hours = date.getHours();
                 minutes = date.getMinutes();
                 minutes = minutes < 10 && minutes != 0 ? '0' + minutes : minutes;
+                console.log(minutes)
             } else {
                 let str = String(this.time)
                 hours = str.split(":")[0]
@@ -123,7 +130,7 @@ export default {
             hours = hours % 12;
             hours = hours ? hours : 12; // the hour '0' should be '12'
             this.timeStr = hours + ':' + minutes + ' ' + ampm;
-            console.log(this.time)
+            // console.log(this.time)
             this.setValidReq()
         },
         checkTime(reqTime) {
