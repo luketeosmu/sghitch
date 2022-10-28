@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="backdrop-blur-[px]">
+        <!-- <div class="backdrop-blur-[px]">
             <div class="container mx-auto ">
                 <div class="inputs w-full max-w-2xl p-6 mx-auto mt-4 mb-4 bg-white bg-opacity-90 rounded-lg">
                     <h1 class="text-3xl text-black">Personal Info: </h1>
@@ -53,6 +53,61 @@
                     </form>
                 </div>
             </div>
+        </div> -->
+        <div class="form-control flex justify-center items-center mb-5 mt-5 ">
+            <span class="text-center text-3xl text-black font-semibold bg-white bg-opacity-90 rounded-lg py-1 px-2 mb-5 max-w-lg w-full">
+                Personal Info
+            </span>
+            <form class="bg-white bg-opacity-90 rounded-lg p-5 max-w-lg w-full">
+                <label class="label">
+                    <span class="label-text">Email Address </span>
+                </label>
+                <input v-model="input.email" type="email" class="input input-bordered w-full" required />
+
+                <label class="label">
+                    <span class="label-text">Display Name </span>
+                </label>
+                <input v-model="input.displayName" type="text" placeholder="Type here" class="input input-bordered w-full" required />
+
+                <label class="label">
+                    <span class="label-text">Current Password  </span>
+                </label>
+                <input  v-model="input.password" type="password" placeholder="Enter password to make changes" class="input input-bordered w-full" required />
+
+                <br>
+                <button type="button" @click="updateInfo" class="btn bg-slate-700 bg-opacity-90 text-white mt-5 md:mt-5"> Save Changes </button>
+
+            </form>
+        </div>
+        
+        <div class="form-control flex justify-center items-center mb-5">
+            <span class="text-center text-3xl text-black font-semibold bg-white bg-opacity-90 rounded-lg py-1 px-2 mb-5 max-w-lg w-full">
+                Change Password
+            </span>
+            <form class="bg-white bg-opacity-90 rounded-lg p-5 max-w-lg w-full">
+                <label class="label">
+                    <span class="label-text">Current Password </span>
+                </label>
+                <input v-model="inputPassword.currentPassword" type="password" class="input input-bordered w-full" />
+                <label class="label">
+                    <span class="label-text-alt"></span>
+                    <span @click='forgotPassword()' class="label-text-alt ">Forgot Password?</span>
+                </label>
+
+                <label class="label">
+                    <span class="label-text">New Password </span>
+                </label>
+                <input v-model="inputPassword.newPassword" type="password" class="input input-bordered w-full" />
+
+                <label class="label">
+                    <span class="label-text">Confirm Password  </span>
+                </label>
+                <input v-model="inputPassword.confirmNewPassword" type="password"  class="input input-bordered w-full" />
+                
+                <br>
+                <button  type="button" @click="updatePassword" class="btn bg-slate-700 bg-opacity-90 text-white mt-5 md:mt-5" > Confirm </button>
+    
+            </form> 
         </div>
     </div>
 </template>
