@@ -59,13 +59,33 @@ export default {
             this.$router.push('/accountsettings')
         },
         logout(){
-            this.$router.push('/login')
-        }
+            signOut(this.auth).then(() => {
+                this.$router.push('/login')
+            })
+        },
+        change() {
+            const db = getDatabase()
+            if(this.user.type == "driver"){
+                this.user.type = "hitcher"
+                update(ref(db, 'userTypes/' + this.auth.currentUser.uid), {
+                    type: this.user.type
+                })
+            } else {
+                this.user.type = "driver"
+                update(ref(db, 'userTypes/' + this.auth.currentUser.uid), {
+                    type: this.user.type
+                })
+            }
+            location.reload()
+        },
     },
     data () {
         return {
             favourites: [
             ],
+            user: {
+                type: ""
+            }
         }
     },
     mounted(){

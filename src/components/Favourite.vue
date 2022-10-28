@@ -1,15 +1,15 @@
 <template lang="">
     <div class="flex justify-center items-center ">
-        <div class="inline-block shadow-xl rounded-lg px-3 py-5 relative mt-3 border border-solid border-2 border-slate-600 bg-white bg-opacity-90">
+        <div class="inline-block shadow-xl rounded-lg mx-4 px-3 pt-5 relative mt-3 border border-solid border-2 border-slate-600 bg-white bg-opacity-90">
             <div class="inline-flex">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 sm:w-10 sm:h-10">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
                 </svg>
-                <h3 class="font-bold text-2xl sm:text-3xl font-sans text-black"> Rides at Favourites </h3>
+                <h3 class="font-bold text-2xl sm:text-3xl font-sans text-black"> Rides from Favourites </h3>
             </div>
 
             <div v-if='favourites.length != 0' v-for="favourite in favourites">
-                <div class="flex relative mb-5 px-24 pt-12 pb-10 rounded-2xl justify-center shadow-xl " >
+                <div class="flex relative mb-5 px-12 sm:px-20 pt-12 pb-10 rounded-2xl justify-center shadow-xl " >
                     <div class="absolute top-0 flex items-center justify-center">
                         <div>
                             <h3 class="font-bold text-xl sm:text-2xl font-sans mt-3 text-black" id="favourite">{{ favourite.from }}</h3>
@@ -23,7 +23,7 @@
                             <h3 class="font-bold text-xl sm:text-2xl font-sans mt-3 text-black" id="favourite">{{ favourite.to }}</h3>
                         </div>
                     </div>
-                    <div v-if="getValidReq(favourite).length != 0" :id="favourite.from + favourite.to" >
+                    <div v-if="getValidReq(favourite).length != 0" class="px-1">
                         <label class="btn btn-circle btn-xs swap swap-rotate absolute top-3 right-5">
         
                             <!-- this hidden checkbox controls the state -->
@@ -36,22 +36,28 @@
                             <svg class="w-4 h-4 swap-on fill-current " xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"/></svg>
                             
                         </label>
-                        <Request :requests="getValidReq(favourite)" :showDest="false" :from="favourite.from" :to="favourite.to"/>
-                        <button @click='showAll(favourite.from, favourite.to)' type="button" class="btn-xs sm:btn-sm btn-ghost block bg-slate-600 hover:bg-slate-500 rounded-xl text-white font-semibold absolute right-5 bottom-5">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                            </svg>
-                        </button>
+                        <div :id="favourite.from + favourite.to">
+                            <Request :requests="getValidReq(favourite)" :showDest="false" :from="favourite.from" :to="favourite.to"/>
+                            <button @click='showAll(favourite.from, favourite.to)' type="button" class="btn-xs sm:btn-sm btn-ghost block bg-slate-600 hover:bg-slate-500 rounded-xl text-white font-semibold absolute right-5 bottom-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div :id="favourite.from + favourite.to + 'hide'" class="px-1 w-80 sm:w-96 hidden">
+                        </div>
                     </div>
-                    <div v-else class="flex justify-center items-center">
-                        <h3 class="text-center text-2xl">No rides to display</h3>
-                        <button @click='newReq()' type="button" class="block bg-black bg-opacity-30 p-2 sm:p-3 ml-2 rounded-2xl text-white text-sm font-semibold" to="newReq">Add Request</button>
+                    <div v-else class="flex justify-center items-center w-80 sm:w-96">
+                        <h3 class="text-center text-base sm:text-2xl">No rides to display</h3>
+                        <button @click='newReq()' type="button" class="block bg-black bg-opacity-30 p-2 sm:p-3 ml-2 rounded-2xl text-white text-sm font-semibold">Add Request</button>
                     </div>
                 </div>
             </div>
-            <div v-else class="flex justify-center items-center px-16"> 
-                <h3 class="text-center text-2xl ">No favourites to display</h3>
-                <button @click='addFavourite()' type="button" class="block bg-black bg-opacity-30 p-2 sm:p-3 ml-2 rounded-2xl text-white text-sm font-semibold" to="newReq">Add Favourite</button>
+            <div v-else > 
+                <div class="flex relative mb-5 px-16 sm:px-20 pt-12 pb-10 rounded-2xl justify-center shadow-xl " >
+                    <h3 class="text-center text-base sm:text-2xl px-2">No favourites to display</h3>
+                    <button @click='addFavourite()' type="button" class="block bg-black bg-opacity-30 p-2 sm:p-3 ml-2 rounded-2xl text-white text-sm font-semibold">Add Favourite</button>
+             </div>
             </div>
         </div>
     </div>
@@ -71,11 +77,14 @@ export default {
     },
     methods: {
         minimize(favourite) {
-            var div = document.getElementById(favourite)
+            let div = document.getElementById(favourite)
+            let hide = document.getElementById(favourite + 'hide')
             if (div.style.display === "none") {
-                div.style.display = "block";
+                div.style.display = "block"
+                hide.style.display = "none"
             } else {
-                div.style.display = "none";
+                div.style.display = "none"
+                hide.style.display = "block"
             }
         },
         showAll(from, to) {
@@ -94,12 +103,15 @@ export default {
             let validReq = []
             for(let request of this.requests) {
                 if(favourite.from == request.from && favourite.to == request.to) {
-                    console.log(request.from)
-                    console.log(request.to)
+                    // console.log(request.from)
+                    // console.log(request.to)
                     validReq.push(request)
                 }
             }
             return validReq
+        },
+        addFavourite() {
+            this.$router.push('./newfav')
         }
     },
     data() {

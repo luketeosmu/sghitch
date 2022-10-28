@@ -202,12 +202,6 @@ export default {
                 })
             }
             location.reload()
-            // if(this.user.type == "driver") {
-            //     this.user.type = "hitcher"
-            // } else {
-            //     this.user.type = "driver"
-            // }
-            // console.log(this.user.type)
         },
         accountSettings(){
             this.$router.push('/accountsettings')

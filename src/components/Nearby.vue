@@ -1,6 +1,6 @@
 <template lang="">
     <div class="flex justify-center items-center">
-        <div  class="relative inline-block shadow-xl rounded-lg px-24 py-5 mt-3 border border-solid border-2 border-slate-600 bg-white bg-opacity-90">
+        <div  class="relative inline-block shadow-xl rounded-lg mx-4 px-16 sm:px-24 py-5 mt-3 border border-solid border-2 border-slate-600 bg-white bg-opacity-90">
             <div class="inline-flex absolute left-0 ml-2" >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 sm:w-10 sm:h-10">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -8,18 +8,17 @@
                 </svg>
                 <h3 class="font-bold text-2xl sm:text-3xl font-sans text-black z-10"> Nearby</h3>
             </div>
-            <div v-if='this.requests.length > 0' class="flex justify-center p-3 mt-10 " >
+            <div v-if='this.requests.length > 0' class="flex justify-center mt-10" >
                 <label class="btn btn-circle btn-xs swap swap-rotate absolute top-3 right-5">
   
                 <!-- this hidden checkbox controls the state -->
-                <input type="checkbox" @click="minimize()"/>
+                    <input type="checkbox" @click="minimize()"/>
 
-                <!-- close icon -->
-                <svg class="w-4 h-4 swap-off fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49"/></svg>
-                
-                <!-- hamburger icon -->
-                <svg class="w-4 h-4 swap-on fill-current " xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"/></svg>
-                
+                    <!-- close icon -->
+                    <svg class="w-4 h-4 swap-off fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49"/></svg>
+                    
+                    <!-- hamburger icon -->
+                    <svg class="w-4 h-4 swap-on fill-current " xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"/></svg>
                 </label>
                 <div id="nearby">
                     <Request :requests="requests" :showDest="true" :from="'nearby'" :to="null"/>
@@ -29,10 +28,12 @@
                         </svg>
                     </button>
                 </div>
+                <div id="hide" class="inline-flex w-80 sm:w-96 hidden">
+                </div>
             </div>
-            <div v-else class="flex justify-center items-center mt-10 p-2"> 
-                <h3 class="text-lg sm:text-2xl">No rides to display</h3>
-                <button @click='newReq()' type="button" class="block bg-black bg-opacity-30 p-2 sm:p-3 ml-2 sm:ml-3 rounded-2xl text-white text-sm font-semibold" to="newReq">Add Request</button>
+            <div v-else class="flex justify-center items-center mt-10 w-80 sm:w-96"> 
+                <h3 class="text-base sm:text-2xl">No rides to display</h3>
+                <button @click='newReq()' type="button" class="block bg-black bg-opacity-30 p-2 sm:p-3 ml-2 sm:ml-3 rounded-2xl text-white text-sm font-semibold">Add Request</button>
             </div>
         </div>
     </div>
@@ -57,10 +58,13 @@ export default {
         },
         minimize() {
             let div = document.getElementById("nearby")
+            let hide = document.getElementById("hide")
             if (div.style.display === "none") {
                 div.style.display = "block"
+                hide.style.display = "none"
             } else {
-                div.style.display = "none";
+                div.style.display = "none"
+                hide.style.display = "block"
             }
             // console.log(this.date)
             // console.log(this.time)
