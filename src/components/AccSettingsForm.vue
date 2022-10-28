@@ -59,6 +59,7 @@
 
 <script>
 import { getAuth, EmailAuthProvider, reauthenticateWithCredential, updateProfile, updateEmail, updatePassword } from 'firebase/auth'
+import { doc, updateDoc, getFirestore } from "firebase/firestore";
 export default {
     name: "AccSettingsForm",
     methods: {
@@ -77,8 +78,15 @@ export default {
                 }).then(() => {
                     updateEmail(auth.currentUser, this.input.email)
                     .then(() => {
-                        alert("Successfully updated details!")
-                        location.reload()
+                        const fs = getFirestore()
+                        const dbRef = doc(fs, "users", auth.currentUser.uid);
+                        updateDoc(dbRef, {
+                            displayName: this.input.displayName,
+                            email: this.input.email,
+                        }).then(() => {
+                            alert("Successfully updated details!")
+                            location.reload()
+                        })
                     })
                 })
             }).catch((error) => {

@@ -152,6 +152,7 @@ export default {
         pax: 1,
         datetime: "",
         user: "",
+        uid: "",
         vehicleType: "Car",
         vehiclePreference: "Car Only"
       },
@@ -182,6 +183,7 @@ export default {
   mounted(){
       this.auth = getAuth();
       this.input.user = this.auth.currentUser.displayName
+      this.input.uid = this.auth.currentUser.uid
       this.dbRef = ref(getDatabase())
       get(child(this.dbRef, `userTypes/${this.auth.currentUser.uid}`)).then((snapshot) => {
           if (snapshot.exists()){
