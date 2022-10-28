@@ -3,26 +3,13 @@
         <div class="p-16">
             <div class="p-8 bg-white rounded-lg shadow mt-24">
             <div class="grid grid-cols-1 md:grid-cols-1">
-                <!-- <div class="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
-                    <div>
-                        <p class="font-bold text-gray-700 text-xl">22</p>
-                        <p class="text-gray-400">Friends</p>
-                    </div>
-                    <div>
-                        <p class="font-bold text-gray-700 text-xl">10</p>
-                        <p class="text-gray-400">Photos</p>
-                    </div>
-                    <div>
-                        <p class="font-bold text-gray-700 text-xl">89</p>
-                        <p class="text-gray-400">Comments</p>
-                    </div>
-                </div> -->
                 <div class="relative">
                     <div style="overflow:hidden" class="w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-32 flex items-center justify-center text-indigo-500"> 
                         <img v-if="item.imageUrl" :src="item.imageUrl" contain style="width:100%;height:100%;object-fit:cover"/>
                         <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-24 w-24" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
                         </svg>
+
                     </div>
                 </div>
 
@@ -87,14 +74,12 @@
             <div class="mt-6 flex flex-col justify-center">
                 <div class="overflow-x-auto w-full">
                     <table class="table w-full">
-                        <!-- head -->
+                    
                         <thead>
-                        <!-- <tr>
-                            <th colspan="5"></th>
-                        </tr> -->
+                        
                         </thead>
                         <tbody>
-                        <!-- row 1 -->
+                        
                         <tr class="hover">
                             <th></th>
                             <th></th>
@@ -102,7 +87,7 @@
                             <div class="flex items-center space-x-3">
                                 <div class="avatar">
                                     <div class="mask mask-squircle w-12 h-12">
-                                        <!-- <img src="/tailwind-css-component-profile-2@56w.png" alt="Avatar Tailwind CSS Component" /> -->
+                                       
                                     </div>
                                 </div>
                                 <div>
@@ -122,7 +107,7 @@
                            
                             </td>
                         </tr>
-                        <!-- row 2 -->
+                       
                         <tr class="hover">
                             <th></th>
                             <th></th>
@@ -130,7 +115,7 @@
                             <div class="flex items-center space-x-3">
                                 <div class="avatar">
                                     <div class="mask mask-squircle w-12 h-12">
-                                        <!-- <img src="/tailwind-css-component-profile-2@56w.png" alt="Avatar Tailwind CSS Component" /> -->
+                                        
                                     </div>
                                 </div>
                                 <div>
@@ -150,7 +135,7 @@
                            
                             </td>
                         </tr>
-                        <!-- row 3 -->
+                    
                         <tr class="hover">
                             <th></th>
                             <th></th>
@@ -158,7 +143,7 @@
                             <div class="flex items-center space-x-3">
                                 <div class="avatar">
                                     <div class="mask mask-squircle w-12 h-12">
-                                        <!-- <img src="/tailwind-css-component-profile-2@56w.png" alt="Avatar Tailwind CSS Component" /> -->
+                                        
                                     </div>
                                 </div>
                                 <div>
@@ -178,7 +163,7 @@
                            
                             </td>
                         </tr>
-                        <!-- row 4 -->
+                      
                         <tr class="hover">
                             <th></th>
                             <th></th>
@@ -186,7 +171,7 @@
                             <div class="flex items-center space-x-3">
                                 <div class="avatar">
                                     <div class="mask mask-squircle w-12 h-12">
-                                        <!-- <img src="/tailwind-css-component-profile-2@56w.png" alt="Avatar Tailwind CSS Component" /> -->
+                                        
                                     </div>
                                 </div>
                                 <div>
@@ -207,11 +192,9 @@
                             </td>
                         </tr>
                         </tbody>
-                        <!-- foot -->
+                   
                         <tfoot>
-                        <!-- <tr>
-                            <th colspan="5"></th>
-                        </tr> -->
+                    
                         </tfoot>
                         
                     </table>
@@ -222,7 +205,7 @@
 </div>
 </template>
 <script>
-import { getAuth } from 'firebase/auth';
+import { getAuth, updateProfile } from 'firebase/auth';
 // import { getStorage, ref, uploadString } from "firebase/storage"
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 export default {
@@ -241,7 +224,8 @@ export default {
     methods: {
 
         browse() {
-            this.$refs.input.click()   
+            this.$refs.input.click()  
+            console.log(this.item.imageUrl) 
         },
 
         onChange(e) {
@@ -255,23 +239,9 @@ export default {
             const auth = getAuth()
             const storage = getStorage()
             const userId = auth.currentUser.uid
-            const imageRef = ref(storage, 'userImg/' + userId)
-
-            //read file and write to URL Data string
+            
+            //read file
             const file = document.querySelector('input[type=file]').files[0]
-            const reader = new FileReader()
-
-            let rawImg;
-            reader.onloadend = () => {
-            rawImg = reader.result;
-            console.log(rawImg);
-            }
-            reader.readAsDataURL(file);
-            console.log(file)
-
-            // uploadString(imageRef, file, 'data_url').then((snapshot) => {
-            //     console.log('Uploaded a data_url string!');
-            // });
 
             // Create the file metadata
             /** @type {any} */
@@ -280,7 +250,7 @@ export default {
             };
 
             // Upload file and metadata to the object 'images/mountains.jpg'
-            const storageRef = ref(storage, 'images/' + file.name);
+            const storageRef = ref(storage, 'userImg/' + userId + "/" + file.name);
             const uploadTask = uploadBytesResumable(storageRef, file, metadata);
 
             // Listen for state changes, errors, and completion of the upload.
@@ -309,8 +279,6 @@ export default {
                     // User canceled the upload
                     break;
 
-                // ...
-
                 case 'storage/unknown':
                     // Unknown error occurred, inspect error.serverResponse
                     break;
@@ -318,16 +286,28 @@ export default {
             }, 
             () => {
                 // Upload completed successfully, now we can get the download URL
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                console.log('File available at', downloadURL);
-                });
-            }
-            );
-
-                        
-        }
-
-    }
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        updateProfile(auth.currentUser, {
+                        photoURL: downloadURL
+                        }).then(() => {
+                            alert("Successfully updated details!")
+                            location.reload()
+                        }).catch((error) => {
+                            console.log(error.code)
+                            console.log(error.message)
+                            console.log(error)
+                            alert("Failed to update details. Please try again.")    
+                        });
+                        console.log('File available at', downloadURL);
+                    });
+                }
+            );      
+        },
+    },
+    mounted() {
+        const auth = getAuth()
+        this.item.imageUrl = auth.currentUser.photoURL
+    },
 }
 </script>
 <style lang="">
