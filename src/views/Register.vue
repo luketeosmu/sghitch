@@ -57,6 +57,7 @@
 // import UserService from '../services/UserService'
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { getDatabase, ref, set } from 'firebase/database'
+import { doc, setDoc, getFirestore } from 'firebase/firestore'
 export default {
     name: "Register",
     components: {
@@ -97,7 +98,16 @@ export default {
                     set(ref(db, 'userTypes/' + auth.currentUser.uid), {
                         type: "hitcher"
                     })
-                    this.$router.push('/login')
+                    const fs = getFirestore()
+                    setDoc(doc(fs, "users", auth.currentUser.uid), {
+                        uid: auth.currentUser.uid,
+                        displayName: displayName,
+                        email: this.input.email,
+                    }).then(() => {
+                        setDoc(doc(fs, "userChats", auth.currentUser.uid), {})
+                        .then(() => {this.$router.push('/login')})
+                    })
+                    
                 })
             })
             .catch((error) => {

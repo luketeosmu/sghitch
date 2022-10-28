@@ -69,6 +69,7 @@
 import { getAuth } from 'firebase/auth'
 import { reactive, onMounted, ref } from 'vue';
 import { getDatabase, set, push, ref as storageRef, onValue} from "firebase/database";
+import { getFirestore, getDoc, setDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore'
 
 export default {
     name: "Request",
@@ -93,43 +94,73 @@ export default {
       
     },
     methods: {
-        chat() {
+        async chat() {
             const auth = getAuth();
             const userId = auth.currentUser.uid
-            const theirId = 'XrddKQnIdZf6ey6H2nf27LvYAkD2'
+            const userDisplayName = auth.currentUser.displayName
+            const theirId = 'L48yp0Q5IwT362xmHDPdgSMV0XQ2'
+            const theirDisplayName = 'Rick Tan'
 
-            // XrddKQnIdZf6ey6H2nf27LvYAkD2
+            // L48yp0Q5IwT362xmHDPdgSMV0XQ2
             // ricktan@gmail.com
-            const db = getDatabase()
-            const input = {
-                members: {
-                    myUser: userId,
-                    theirUser: theirId
-                }
-            }
-            const chatRef = storageRef(db, 'chats')
-            const newChatID = push(chatRef)
-            set(newChatID, input)
+            // const db = getDatabase()
+            // const input = {
+            //     members: {
+            //         myUser: userId,
+            //         theirUser: theirId
+            //     }
+            // }
+            // const chatRef = storageRef(db, 'chats')
+            // const newChatID = push(chatRef)
+            // set(newChatID, input)
 
-            const temp = {
-                valid: true
-            }
+            // const temp = {
+            //     valid: true
+            // }
 
-            // add chatUID retrieved to each userUID under userChats
-            const userChatRef = storageRef(db, 'userChats/' + userId + '/' + newChatID.key)
-            set(userChatRef, temp)
+            // // add chatUID retrieved to each userUID under userChats
+            // const userChatRef = storageRef(db, 'userChats/' + userId + '/' + newChatID.key)
+            // set(userChatRef, temp)
 
-            const theirChatRef = storageRef(db, 'userChats/' + theirId + '/' + newChatID.key)
-            set(theirChatRef, temp)
+            // const theirChatRef = storageRef(db, 'userChats/' + theirId + '/' + newChatID.key)
+            // set(theirChatRef, temp)
             
-            // once pushed, send an 'im interested!' with new messageUID to the chatUID retrieved from the above input, under chatMessages
-            const messageRef = storageRef(db, 'chatMessages/' + newChatID.key)
-            const newMessageID = push(messageRef)
-            const messageInput = {
-                message: "I'm interested!",
-                sentBy: userId
+            // // once pushed, send an 'im interested!' with new messageUID to the chatUID retrieved from the above input, under chatMessages
+            // const messageRef = storageRef(db, 'chatMessages/' + newChatID.key)
+            // const newMessageID = push(messageRef)
+            // const messageInput = {
+            //     message: "I'm interested!",
+            //     sentBy: userId
+            // }
+            // set(newMessageID, messageInput);
+
+            const fs = getFirestore()
+
+            const combinedId = userId > theirId ? userId + theirId : theirId + userId
+            try {
+                const res = await getDoc(doc(fs, "chats", combinedId))
+                if(!res.exists()){
+                    await setDoc(doc(fs,"chats",combinedId),{messages: []})
+
+                    await updateDoc(doc(fs, "userChats", userId), {
+                        [combinedId+".userInfo"]: {
+                            uid:theirId,
+                            displayName:theirDisplayName
+                        },
+                        [combinedId+".date"]: serverTimestamp()
+                    })
+
+                    await updateDoc(doc(fs, "userChats", theirId), {
+                        [combinedId+".userInfo"]: {
+                            uid:userId,
+                            displayName:userDisplayName
+                        },
+                        [combinedId+".date"]: serverTimestamp()
+                    })
+                }
+            } catch (err) {
+
             }
-            set(newMessageID, messageInput);
 
             this.$router.push('/chat')
         },

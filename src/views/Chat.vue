@@ -17,11 +17,11 @@
             <div class="flex">
                 <div class="w-1/4">
 					<div class="bg-slate-200 p-5 text-xl font-semibold">
-						Welcome, {{ state.displayName }}
+						<!-- Welcome, {{ state.displayName }} -->
 					</div>
-                    <div v-for="chat in chats" class="p-5 border-2 drop-shadow-sm">
-                        <div class="font-semibold">{{ chat.displayName }}</div>
-                        <div>{{ chat.latestMsg }}</div>
+                    <div v-for="chat in Object.entries(chats)" class="p-5 border-2 drop-shadow-sm" :key="chat[0]">
+                        <div class="font-semibold">{{ chat[1].userInfo.displayName }}</div>
+                        <div>{{ chat[1].userInfo.lastMessage?.text }}</div>
                     </div>
                 </div>
                 <div class="w-3/4 view chat">
@@ -29,16 +29,17 @@
                         <!-- <h1>Welcome, {{ state.displayName }}</h1> -->
                     </header>
                     <section class="chat-box">
-                        <div v-for="message in state.messages" :key="message.key" :class="(message.displayName == state.displayName ? 'message current-user' : 'message')">
+                        <!-- <div v-for="message in state.messages" :key="message.key" :class="(message.displayName == state.displayName ? 'message current-user' : 'message')">
                             <div class="message-inner">
                                 <div class="displayName">{{ message.displayName }}</div>
                                 <div class="content">{{ message.content }}</div>
                             </div>
-                        </div>
+                        </div> -->
                     </section>
                     <footer>
                         <form @submit.prevent="SendMessage">
-                            <input type="text" v-model="inputMessage" placeholder="Write a message...">
+                            <!-- <input type="text" v-model="inputMessage" placeholder="Write a message..."> -->
+							<input type="text" placeholder="Write a message...">
                             <input type="submit" value="Send">
                         </form>
                     </footer>
@@ -67,6 +68,7 @@ import Nav from "../components/Nav.vue"
 import { getAuth } from 'firebase/auth'
 import { reactive, onMounted, ref } from 'vue';
 import { getDatabase, set, push, ref as storageRef, onValue} from "firebase/database";
+import { getFirestore, doc, onSnapshot } from 'firebase/firestore'
 
 export default {
     name: "Chat",
@@ -75,60 +77,90 @@ export default {
         Nav
     },
     setup () {
-        const auth = getAuth();
-        const user = auth.currentUser
+		const fs = getFirestore()
+		const auth = getAuth();
+        const currentUser = auth.currentUser
 
-        const inputMessage = ref("")
+		const state = reactive({
+			displayName: "",
+			chats: [],
+			messages: []
+		})
 
-        const state = reactive({
-            displayName: "",
-            messages: []
-        })
-        if (user != null){
-            state.displayName = user.displayName
-        }
+		onMounted(() => {
+			const unsub = onSnapshot(doc(fs, "userChats", currentUser.uid), (doc) => {
+				const data = doc.data()
+				let chats = []
 
-        const db = getDatabase()
-
-        const SendMessage = () => {
-            const messagesRef = storageRef(db, 'messages')
-            if(inputMessage.value === "" || inputMessage.value === null){
-                return
-            }
-
-            const message = {
-                displayName: state.displayName,
-                content: inputMessage.value
-            }
-
-            const newMessageRef = push(messagesRef)
-            set(newMessageRef, message)
-            inputMessage.value = ""
-        }
-
-        onMounted(() => {
-            const messagesRef = storageRef(db, 'messages')
-            onValue(messagesRef, (snapshot) => {
-                const data = snapshot.val()
-                let messages = []
-
-                Object.keys(data).forEach(key => {
-                    messages.push({
+				Object.keys(data).forEach(key => {
+                    chats.push({
                         id: key,
                         displayName: data[key].displayName,
                         content: data[key].content
                     })
                 })
+			})
+		})
+		
+		return {
+			state,
+		}
+        // const auth = getAuth();
+        // const user = auth.currentUser
 
-                state.messages = messages;
-            })
-        })
+        // const inputMessage = ref("")
 
-        return {
-            state,
-            inputMessage,
-            SendMessage
-        }
+        // const state = reactive({
+        //     displayName: "",
+        //     messages: []
+        // })
+        // if (user != null){
+        //     state.displayName = user.displayName
+        // }
+
+        // const db = getDatabase()
+
+        // const SendMessage = () => {
+        //     const messagesRef = storageRef(db, 'messages')
+        //     if(inputMessage.value === "" || inputMessage.value === null){
+        //         return
+        //     }
+
+        //     const message = {
+        //         displayName: state.displayName,
+        //         content: inputMessage.value
+        //     }
+
+        //     const newMessageRef = push(messagesRef)
+        //     set(newMessageRef, message)
+        //     inputMessage.value = ""
+        // }
+
+        // onMounted(() => {
+        //     const messagesRef = storageRef(db, 'messages')
+        //     onValue(messagesRef, (snapshot) => {
+        //         const data = snapshot.val()
+        //         let messages = []
+
+                // Object.keys(data).forEach(key => {
+                //     messages.push({
+                //         id: key,
+                //         displayName: data[key].displayName,
+                //         content: data[key].content
+                //     })
+                // })
+
+        //         state.messages = messages;
+        //     })
+        // })
+
+        // return {
+        //     state,
+		// 	inputMessage,
+		// 	SendMessage
+        // }
+
+
     },
     // beforeRouteLeave(to, from, next) {
     //     state.username = ""
@@ -167,21 +199,21 @@ export default {
             user: {
                 type: "driver"
             },
-            chats: [
-                {
-                    displayName: "john",
-                    latestMsg: "amazing experience!"
-                },
-                {
-                    displayName: "anson",
-                    latestMsg: "wow what a shit deal"
-                },
-                {
-                    displayName: "rock",
-                    latestMsg: "zzz"
-                },
-
-            ]
+            // chats: [
+            //     {
+            //         displayName: "john",
+            //         latestMsg: "amazing experience!"
+            //     },
+            //     {
+            //         displayName: "anson",
+            //         latestMsg: "wow what a shit deal"
+            //     },
+            //     {
+            //         displayName: "rock",
+            //         latestMsg: "zzz"
+            //     },
+            // ]
+			chats: []
         }
     }
 }
