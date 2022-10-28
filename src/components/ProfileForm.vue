@@ -250,8 +250,10 @@ export default {
             };
 
             // Upload file and metadata to the object 'images/mountains.jpg'
-            const storageRef = ref(storage, 'userImg/' + userId + "/" + file.name);
-            const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+            
+            const imgRef = ref(storage, 'userImg/' + 'ProfileImg_' + userId);
+            
+            const uploadTask = uploadBytesResumable(imgRef, file, metadata);
 
             // Listen for state changes, errors, and completion of the upload.
             uploadTask.on('state_changed',
@@ -269,16 +271,13 @@ export default {
                 }
             }, 
             (error) => {
-                // A full list of error codes is available at
-                // https://firebase.google.com/docs/storage/web/handle-errors
-                switch (error.code) {
+                switch (error.code) { 
                 case 'storage/unauthorized':
                     // User doesn't have permission to access the object
                     break;
                 case 'storage/canceled':
                     // User canceled the upload
                     break;
-
                 case 'storage/unknown':
                     // Unknown error occurred, inspect error.serverResponse
                     break;
