@@ -7,27 +7,71 @@
         <!-- Navbar -->
         <Nav />
         <!-- Page content here -->
-        <div class="container mx-auto">
+        <div class="mt-10">
             <!-- query autocomplete api, maps sdk api -->
             <form>
-                <div className="flex form-control text-center mb-10">
-                    <div class="justify-center">
-                        <input v-model.lazy="input.datetime" type="datetime-local" placeholder="Date and Time" className="input input-bordered input-warning w-full max-w-xs sm:max-w-md mt-5" />
-                    </div>
-                    <div class="justify-center">
+              <div class="grid grid-row-4 flex form-control px-2 sm:px-0 max-w-lg items-center mx-auto mb-5">
+                <span class="text-center text-3xl text-black font-semibold bg-white bg-opacity-60 rounded-lg py-1 px-2 mb-10 ">
+                        New Request
+                </span>
+                <!-- <span class="text-3xl rounded-lg py-2 text-black font-bold mb-5">Add Request</span> -->
+                <div class="flex form-control">
+                  <label class="label">
+                      <span class="label-text text-black bg-white bg-opacity-80 px-2 rounded-lg">Date & Time of Request</span>
+                    </label>
+                  <input v-model.lazy="input.datetime" type="datetime-local" placeholder="Date and Time" className="input input-bordered w-full bg-opacity-90" />
+                </div>
+                    <!-- <div class="">
                         <input v-model.lazy="input.pax" type="number" placeholder="No. of Pax" className="input input-bordered input-warning w-full max-w-xs sm:max-w-md mt-5" />
-                    </div>
-                    <div className="justify-center">
-                        <input v-model.lazy="input.s_address" type="text" placeholder="Starting Point Address" className="input input-bordered input-warning w-full max-w-xs sm:max-w-md mt-5" />
-                        <button type="button" @click='queryMapsStart()' class="btn btn-warning bg-yellow-300 text-black ml-4">Search</button>
-                    </div>
-                    <div v-if="seenStart" className="mx-auto mt-3">
+                    </div> -->
+                    <div class="inline-flex">
+                      <div class="flex form-control w-1/2 mr-5">
+                          <label class="label">
+                            <span class="label-text text-black bg-white bg-opacity-80 px-2 rounded-lg">Pax</span>
+                          </label>
+                          <select class="select select-bordered bg-opacity-90" v-model.lazy="input.pax">
+                            <option selected>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                          </select>
+                      </div>  
+                      <div v-if="this.user.type == 'driver'" class="flex form-control w-1/2">
+                          <label class="label">
+                            <span class="label-text text-black bg-white bg-opacity-80 px-2 rounded-lg">Vehicle Type</span>
+                          </label>
+                          <select class="select select-bordered bg-opacity-90" v-model.lazy="input.vehicleType">
+                            <option selected>Car</option>
+                            <option>Van</option>
+                            <option>Motorcycle</option>
+                            <option>Lorry</option>
+                          </select>
+                      </div>  
+                      <div v-else class="flex form-control w-1/2 ">
+                          <label class="label">
+                              <span class="label-text text-black bg-white bg-opacity-80 px-2 rounded-lg">Preferred Vehicle Type</span>
+                          </label>
+                          <select class="select select-bordered bg-opacity-90" v-model.lazy="input.vehiclePreference">
+                              <option selected>Car Only</option>
+                              <option>All Vehicles</option>
+                              <option>Car, Lorry & Van Only</option>
+                              <option>Car & Motorcycle Only</option>
+                          </select>
+                      </div>
+                  </div>
+                    
+                  <div className="inline-flex mt-5 ">
+                    <input v-model.lazy="input.s_address" type="text" placeholder="Starting Point Address" className="input input-bordered w-full bg-opacity-90 "  />
+                    <button type="button" @click='queryMapsStart()' class="btn bg-slate-500 text-white ml-4 bg-opacity-90">Search</button>
+                  </div>
+                    <div v-if="seenStart" className="mt-3">
                       <p>{{ input.startNeighborhood }}</p>
                         <GMapMap
                             :center="centerStart"
                             :zoom="18"
                             map-type-id="terrain"
-                            style="width: 30vw; height: 20rem"
+                            style="width: auto; height: 20rem"
                         >
                             <GMapMarker
                                 :key="index"
@@ -36,17 +80,17 @@
                             />
                         </GMapMap>
                     </div>
-                    <div class="justify-center">
-                        <input v-model.lazy="input.d_address" type="text" placeholder="Destination Point Address" className="input input-bordered input-warning w-full max-w-xs sm:max-w-md mt-5" />
-                        <button type="button" @click='queryMapsDest()' class="btn btn-warning bg-yellow-300 text-black ml-4">Search</button>
+                    <div class="inline-flex mt-5">
+                        <input v-model.lazy="input.d_address" type="text" placeholder="Destination Point Address" className="input input-bordered w-full bg-opacity-90" />
+                        <button type="button" @click='queryMapsDest()' class="btn bg-slate-500 text-white ml-4 bg-opacity-90">Search</button>
                     </div>
-                    <div v-if="seenDest" className="mx-auto mt-3">
+                    <div v-if="seenDest" className="mt-3">
                       <p>{{ input.destNeighborhood }}</p>
                         <GMapMap
                             :center="centerDest"
                             :zoom="18"
                             map-type-id="terrain"
-                            style="width: 30vw; height: 20rem"
+                            style="width: auto; height: 20rem"
                         >
                             <GMapMarker
                                 :key="index"
@@ -57,7 +101,7 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <button type="button" @click="writeReqData" class="btn btn-warning bg-yellow-300 text-black mb-5">Submit Request</button>
+                    <button type="button" @click="writeReqData" class="btn bg-slate-500 text-white ml-5 bg-opacity-90">Submit</button>
                 </div>
             </form>
         </div>
@@ -81,8 +125,10 @@
 <script>
 import MapsService from "../services/MapsService";
 import Nav from "../components/Nav.vue";
-import { getAuth } from 'firebase/auth'
-import { getDatabase, ref, set } from 'firebase/database'
+// import { getAuth } from 'firebase/auth'
+// import { getDatabase, ref, set } from 'firebase/database'
+import { getAuth, signOut } from 'firebase/auth'
+import { getDatabase, ref, child, set, get, update } from 'firebase/database';
 // import './maps.css'
 
 export default {
@@ -94,15 +140,20 @@ export default {
   props: {},
   data() {
     return {
+      user: {
+        type: ""
+      },
       auth: null,
       input: {
         s_address: "",
         d_address: "",
         startNeighborhood: "",
         destNeighborhood: "",
-        pax: null,
+        pax: 1,
         datetime: "",
         user: "",
+        vehicleType: "Car",
+        vehiclePreference: "Car Only"
       },
       centerStart: { 
         lat: 0.0, lng: 0.0 
@@ -128,9 +179,25 @@ export default {
       seenDest: false,
     };
   },
-  mounted() {
-    this.auth = getAuth()
-    this.input.user = this.auth.currentUser.displayName
+  mounted(){
+      this.auth = getAuth();
+      this.input.user = this.auth.currentUser.displayName
+      this.dbRef = ref(getDatabase())
+      get(child(this.dbRef, `userTypes/${this.auth.currentUser.uid}`)).then((snapshot) => {
+          if (snapshot.exists()){
+              if(snapshot.val().type == "hitcher"){
+                  this.user.type = "hitcher"
+              } else {
+                  this.user.type = "driver"
+              }
+          } else {
+              alert("Application encountered a severe issue. Please login again.")
+              this.logout()
+          }
+      }).catch((error) => {
+          console.error(error)
+          this.logout()
+      })
   },
   methods: {
     queryMapsStart() {
@@ -213,6 +280,9 @@ export default {
     },
     writeReqData () {
       //should check if all fields have been entered before setting and redirecting
+      console.log(this.input.pax)
+      console.log(this.input.vehicleType)
+      console.log(this.input.vehiclePreference)
       const db = getDatabase()
       set(ref(db, 'userReqs/' + this.auth.currentUser.uid), this.input);
       // set(push(ref(db, 'userReqs/')), this.input);
@@ -234,7 +304,22 @@ export default {
     },
     logout(){
         this.$router.push('/login')
-    }
+    },
+    change() {
+        const db = getDatabase()
+        if(this.user.type == "driver"){
+            this.user.type = "hitcher"
+            update(ref(db, 'userTypes/' + this.auth.currentUser.uid), {
+                type: this.user.type
+            })
+        } else {
+            this.user.type = "driver"
+            update(ref(db, 'userTypes/' + this.auth.currentUser.uid), {
+                type: this.user.type
+            })
+        }
+        location.reload()
+    },
   },
 };
 </script>

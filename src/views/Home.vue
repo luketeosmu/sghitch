@@ -6,9 +6,9 @@
             <Nav />
             
             <!-- Page content here -->
-            <div class="px-3 mt-5">
-                <div class="text-center">
-                    <span class="text-center text-2xl sm:text-4xl text-black font-semibold bg-white bg-opacity-80 rounded-lg py-1 px-2">
+            <div class="">
+                <div class="flex justify-center items-center text-center mt-10 mb-5 px-2 sm:px-0">
+                    <span class="text-center text-3xl text-black font-semibold bg-white bg-opacity-80 rounded-lg py-1 px-2 max-w-lg w-full">
                         Requests @ {{ timeStr }}, {{ dateStr }} 
                     </span>
                 </div>
@@ -16,11 +16,11 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-10 h-10 ">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <input type="time" class="rounded-lg p-1 w-32 ml-1 mr-5 bg-slate-500 text-white font-medium text-center text-lg" v-model="time" @change="setTimeStr()">
+                    <input type="time" class="rounded-lg p-1 w-32 ml-1 mr-5 bg-slate-500 bg-opacity-90 text-white font-medium text-center text-lg" v-model="time" @change="setTimeStr()">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-10 h-10 ml-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
                     </svg>
-                    <input type="date" class="rounded-lg p-1 w-36 ml-1 bg-slate-500 text-lg text-white font-medium" v-model="date" @change="setDateStr()">
+                    <input type="date" class="rounded-lg p-1 w-36 ml-1 bg-slate-500 bg-opacity-90 text-lg text-white font-medium" v-model="date" @change="setDateStr()">
                 </div>
                 <!-- <hr> -->
                 <div v-if="this.user.type != 'hitcher'">
@@ -66,12 +66,19 @@ export default {
     },
     methods: {
         change() {
-            if(this.user.type == "driver") {
+            const db = getDatabase()
+            if(this.user.type == "driver"){
                 this.user.type = "hitcher"
+                update(ref(db, 'userTypes/' + this.auth.currentUser.uid), {
+                    type: this.user.type
+                })
             } else {
                 this.user.type = "driver"
+                update(ref(db, 'userTypes/' + this.auth.currentUser.uid), {
+                    type: this.user.type
+                })
             }
-            console.log(this.user.type)
+            location.reload()
         },
         home() {
             window.location.reload()
@@ -89,7 +96,9 @@ export default {
             this.$router.push('/accountsettings')
         },
         logout(){
-            this.$router.push('/login')
+            signOut(this.auth).then(() => {
+                this.$router.push('/login')
+            })
         },
         setDateStr() {
             let dateArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -106,10 +115,6 @@ export default {
                 today = new Date(year, month, day)
                 // console.log(month)
                 this.dateStr = day + " " + dateArr[(month - 1)]
-
-                // if(today.getMonth() == 0) {
-                //     this.dateStr = day + " " + dateArr[11]
-                // }
             }
         },
         setTimeStr() {
@@ -177,29 +182,155 @@ export default {
                     {
                         user: "Ali baba",
                         rating: 5,
-                        time: "12:00",
-                        pax: 4,
+                        time: "10:10",
+                        pax: 1,
                         available: 2,
                         from: "Woodlands",
-                        to: "Choa Chu Kang"
+                        to: "Tampines"
                     },
                     {
                         user: "John Wick",
                         rating: 5,
-                        time: "12:30",
-                        pax: 4,
+                        time: "10:15",
+                        pax: 2,
                         available: 2,
                         from: "Woodlands",
-                        to: "Bras Basah"
+                        to: "Tampines"
                     },
                     {
                         user: "Jennie Kim",
                         rating: 5,
-                        time: "13:00",
+                        time: "10:07",
+                        pax: 3,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
+                    },
+                    {
+                        user: "KIm Jong Kook",
+                        rating: 5,
+                        time: "10:00",
+                        pax: 1,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Toa Payoh"
+                    },
+                    {
+                        user: "Kimchi Jigae",
+                        rating: 5,
+                        time: "12:00",
+                        pax: 2,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Somerset"
+                    },
+                    {
+                        user: "Buddae Jigae",
+                        rating: 5,
+                        time: "12:00",
                         pax: 4,
                         available: 2,
                         from: "Woodlands",
-                        to: "Ang Mo Kio"
+                        to: "Orchard"
+                    },
+                    {
+                        user: "Shaun Ting",
+                        rating: 5,
+                        time: "10:00",
+                        pax: 3,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
+                    },
+                    {
+                        user: "Ali baba",
+                        rating: 5,
+                        time: "10:10",
+                        pax: 4,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
+                    },
+                    {
+                        user: "John Wick",
+                        rating: 5,
+                        time: "10:15",
+                        pax: 4,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
+                    },
+                    {
+                        user: "Jennie Kim",
+                        rating: 5,
+                        time: "10:07",
+                        pax: 4,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
+                    },
+                    {
+                        user: "KIm Jong Kook",
+                        rating: 5,
+                        time: "12:00",
+                        pax: 4,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Raffles Place"
+                    },
+                    {
+                        user: "Kimchi Jigae",
+                        rating: 5,
+                        time: "12:00",
+                        pax: 4,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Somerset"
+                    },
+                    {
+                        user: "Buddae Jigae",
+                        rating: 5,
+                        time: "12:00",
+                        pax: 4,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Orchard"
+                    },
+                    {
+                        user: "Shaun Ting",
+                        rating: 5,
+                        time: "10:00",
+                        pax: 3,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
+                    },
+                    {
+                        user: "Ali baba",
+                        rating: 5,
+                        time: "10:10",
+                        pax: 4,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
+                    },
+                    {
+                        user: "John Wick",
+                        rating: 5,
+                        time: "10:15",
+                        pax: 4,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
+                    },
+                    {
+                        user: "Jennie Kim",
+                        rating: 5,
+                        time: "10:07",
+                        pax: 4,
+                        available: 2,
+                        from: "Woodlands",
+                        to: "Tampines"
                     },
                     {
                         user: "KIm Jong Kook",

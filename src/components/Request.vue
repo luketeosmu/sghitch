@@ -2,26 +2,26 @@
     <div>
         <div v-if="requests.length != 0" class="grid grid-rows-8">
             <div  v-for="request in requests">
-                <label :for="from + to + request.user" class="relative inline-flex w-96 p-2 mx-1 my-3 bg-gray-800 text-white rounded-md border border-slate-700 shadow-md hover:bg-slate-500 cursor-pointer text-center">
+                <label :for="from + to + request.user" class="relative inline-flex w-80 sm:w-96 p-2 my-3 bg-gray-800 text-white rounded-md border border-slate-700 shadow-md hover:bg-slate-500 cursor-pointer text-center">
                     <div class="flex flex-col text-xs sm:text-base font-light mb-2">
                         <div class="inline-flex ">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-6 sm:h-6 sm:mt-1 mx-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-6 sm:h-6 mt-1 mx-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <span class="mt-1">{{ setTimeStr(request.time) }}</span>
                         </div>
                         <div v-if="this.user.type != 'hitcher'" class="inline-flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-6 sm:h-6 sm:mt-1 ml-1 mr-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-6 sm:h-6 mt-1 ml-1 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                             </svg>
                             <span class="mt-1">{{ request.pax }} </span>
                         </div>
                         <div v-else>Available seats: {{ request.available }} persons</div>
                     </div>
-                    <div class="text-xs sm:text-xl font-base mt-3 ml-3">
+                    <div class="text-base sm:text-xl font-base mt-3 ml-3">
                         <!-- <div>From: {{ request.from }}</div> -->
                         <div class="inline-flex ">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 mt-1 sm:w-6 sm:h-6 mx-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mt-1 sm:w-6 sm:h-6 mx-2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5" />
                             </svg>
                             {{ request.to }} 
