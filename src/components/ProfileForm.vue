@@ -225,7 +225,6 @@ export default {
 
         browse() {
             this.$refs.input.click()  
-            console.log(this.item.imageUrl) 
         },
 
         onChange(e) {
