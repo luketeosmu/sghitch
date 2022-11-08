@@ -91,7 +91,7 @@
                 <input v-model="inputPassword.currentPassword" type="password" class="input input-bordered w-full" />
                 <label class="label">
                     <span class="label-text-alt"></span>
-                    <span @click='forgotPassword()' class="label-text-alt ">Forgot Password?</span>
+                    <a href=""><span @click='forgotPassword()' class="label-text-alt ">Forgot Password?</span></a>
                 </label>
 
                 <label class="label">
@@ -127,6 +127,8 @@ export default {
                 auth.currentUser.email,
                 this.input.password
             )
+            //if empty string or invalid email reject
+
             reauthenticateWithCredential(auth.currentUser, credential).then(() => {
                 updateProfile(auth.currentUser, {
                     displayName: this.input.displayName
@@ -139,8 +141,15 @@ export default {
                             displayName: this.input.displayName,
                             email: this.input.email,
                         }).then(() => {
-                            alert("Successfully updated details!")
-                            location.reload()
+                            let user_input = {
+                                email: this.input.email,
+                                displayName: this.input.displayName,
+                            }
+                            set(ref(db, 'userInfo/' + auth.currentUser.uid), user_input)
+                            .then(() => {
+                                alert("Successfully updated details!")
+                                location.reload()
+                            })
                         })
                     })
                 })
