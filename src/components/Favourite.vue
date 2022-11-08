@@ -1,6 +1,6 @@
 <template lang="">
     <div class=" justify-center items-center">
-        <div :class="{ 'xl:w-auto' : this.user.type === 'hitcher'}" class="inline-block shadow-xl relative rounded-lg mx-4 px-3 pt-5 xl:w-5/6 overflow-y-auto max-h-[650px] mt-3 border border-solid border-2 border-slate-600 bg-white bg-opacity-90">
+        <div :class="{ 'xl:w-auto': this.user.type == 'hitcher', 'xl:w-5/6': this.user.type == 'driver' }" class="inline-block shadow-xl relative rounded-lg mx-4 px-3 pt-5 overflow-y-auto max-h-[650px] mt-3 border border-solid border-2 border-slate-600 bg-white bg-opacity-90">
             <div class="inline-flex">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 sm:w-10 sm:h-10">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
