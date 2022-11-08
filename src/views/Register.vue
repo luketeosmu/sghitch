@@ -74,7 +74,6 @@ export default {
                 lastName: "",
                 password: "",
                 confirmPassword: "",
-                mobileNumber: "",
             }
         }
     },
@@ -88,9 +87,10 @@ export default {
             // check valid email format
             // check matching passwords
             const auth = getAuth()
+            const displayName = this.input.firstName + " " + this.input.lastName
+
             createUserWithEmailAndPassword(getAuth(), this.input.email, this.input.password)
             .then((res) => {
-                const displayName = this.input.firstName + " " + this.input.lastName
                 updateProfile(auth.currentUser, {
                     displayName: displayName
                 }).then((res) => {
@@ -98,16 +98,26 @@ export default {
                     set(ref(db, 'userTypes/' + auth.currentUser.uid), {
                         type: "hitcher"
                     })
-                    const fs = getFirestore()
-                    setDoc(doc(fs, "users", auth.currentUser.uid), {
-                        uid: auth.currentUser.uid,
-                        displayName: displayName,
+                    // const fs = getFirestore()
+                    // setDoc(doc(fs, "users", auth.currentUser.uid), {
+                    //     uid: auth.currentUser.uid,
+                    //     displayName: displayName,
+                    //     email: this.input.email,
+                    // }).then(() => {
+                    //     setDoc(doc(fs, "userChats", auth.currentUser.uid), {})
+                    //     .then(() => {
+                    //         this.$router.push('/login')
+                        
+                    //     })
+                    // })
+                    let user_input = {
                         email: this.input.email,
-                    }).then(() => {
-                        setDoc(doc(fs, "userChats", auth.currentUser.uid), {})
-                        .then(() => {this.$router.push('/login')})
+                        displayName: displayName,
+                    }
+                    set(ref(db, 'userInfo/' + auth.currentUser.uid), user_input)
+                    .then(() => {
+                        this.$router.push('/login')
                     })
-                    
                 })
             })
             .catch((error) => {
