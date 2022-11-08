@@ -1,26 +1,26 @@
 <template lang="">
-    <div class="flex justify-center items-center ">
-        <div class="inline-block shadow-xl rounded-lg mx-4 px-3 pt-5 relative mt-3 border border-solid border-2 border-slate-600 bg-white bg-opacity-90">
+    <div class=" justify-center items-center">
+        <div :class="{ 'xl:w-auto' : this.user.type === 'hitcher'}" class="inline-block shadow-xl relative rounded-lg mx-4 px-3 pt-5 xl:w-5/6 overflow-y-auto max-h-[650px] mt-3 border border-solid border-2 border-slate-600 bg-white bg-opacity-90">
             <div class="inline-flex">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 sm:w-10 sm:h-10">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
                 </svg>
-                <h3 class="font-bold text-2xl sm:text-3xl font-sans text-black"> Rides from Favourites </h3>
+                <h3 class="font-bold text-2xl sm:text-3xl font-roboto text-black "> Favourites </h3>
             </div>
 
             <div v-if='favourites.length != 0' v-for="favourite in favourites">
                 <div class="flex relative mb-5 px-12 sm:px-20 pt-12 pb-10 rounded-2xl justify-center shadow-xl " >
                     <div class="absolute top-0 flex items-center justify-center">
                         <div>
-                            <h3 class="font-bold text-xl sm:text-2xl font-sans mt-3 text-black" id="favourite">{{ favourite.from }}</h3>
+                            <h3 class="font-bold text-xl sm:text-2xl font-roboto mt-3 text-black" id="favourite">{{ favourite.from }}</h3>
                         </div>
                         <span>
-                            <svg @click="swap(favourite)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5 mt-5 mx-2 text-center cursor-pointer">
+                            <svg @click="swap(favourite)" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5 mt-4 mx-2 text-center cursor-pointer">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
                             </svg>
                         </span>
                         <div>
-                            <h3 class="font-bold text-xl sm:text-2xl font-sans mt-3 text-black" id="favourite">{{ favourite.to }}</h3>
+                            <h3 class="font-bold text-xl sm:text-2xl font-roboto mt-3 text-black" id="favourite">{{ favourite.to }}</h3>
                         </div>
                     </div>
                     <div v-if="getValidReq(favourite).length != 0" class="px-1">
@@ -38,25 +38,25 @@
                         </label>
                         <div :id="favourite.from + favourite.to">
                             <Request :requests="getValidReq(favourite)" :showDest="false" :from="favourite.from" :to="favourite.to"/>
-                            <button @click='showAll(favourite.from, favourite.to)' type="button" class="btn-xs sm:btn-sm btn-ghost block bg-slate-600 hover:bg-slate-500 rounded-xl text-white font-semibold absolute right-5 bottom-5">
+                            <!-- <button @click='showAll(favourite.from, favourite.to)' type="button" class="btn-xs sm:btn-sm btn-ghost block bg-slate-600 hover:bg-slate-500 rounded-xl text-white font-semibold absolute right-5 bottom-5">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                                 </svg>
-                            </button>
+                            </button> -->
                         </div>
                         <div :id="favourite.from + favourite.to + 'hide'" class="px-1 w-80 sm:w-96 hidden">
                         </div>
                     </div>
-                    <div v-else class="flex justify-center items-center w-80 sm:w-96">
+                    <div v-else class="flex justify-center items-center w-80 sm:w-96 ">
                         <h3 class="text-center text-base sm:text-2xl">No rides to display</h3>
-                        <button @click='newReq()' type="button" class="block bg-black bg-opacity-30 p-2 sm:p-3 ml-2 rounded-2xl text-white text-sm font-semibold">Add Request</button>
+                        <button @click='newReq()' type="button" class="block bg-black bg-opacity-30 hover:bg-opacity-50 p-2 sm:p-3 ml-2 rounded-2xl text-white text-sm font-semibold">Add Request</button>
                     </div>
                 </div>
             </div>
             <div v-else > 
-                <div class="flex relative mb-5 px-16 sm:px-20 pt-12 pb-10 rounded-2xl justify-center shadow-xl " >
+                <div class="flex relative mb-5 px-16 sm:px-20 py-1 rounded-2xl justify-center shadow-xl " >
                     <h3 class="text-center text-base sm:text-2xl px-2">No favourites to display</h3>
-                    <button @click='addFavourite()' type="button" class="block bg-black bg-opacity-30 p-2 sm:p-3 ml-2 rounded-2xl text-white text-sm font-semibold">Add Favourite</button>
+                    <button @click='addFavourite()' type="button" class="block bg-black bg-opacity-30 hover:bg-opacity-50 p-2 sm:p-3 ml-2 rounded-2xl text-white text-sm font-semibold">Add Favourite</button>
              </div>
             </div>
         </div>
@@ -112,13 +112,19 @@ export default {
         },
         addFavourite() {
             this.$router.push('./newfav')
+        },
+        newReq() {
+            this.$router.push('./newReq')
         }
     },
     data() {
         return {
             favourites: [
             ],
-            validReq: []
+            validReq: [],
+            user: {
+                type: ""
+            },
         }
     },
     mounted() {
@@ -136,6 +142,22 @@ export default {
             }
         }).catch((error) => {
             console.error(error)
+        })
+
+        get(child(dbRef, `userTypes/${auth.currentUser.uid}`)).then((snapshot) => {
+            if (snapshot.exists()){
+                if(snapshot.val().type == "hitcher"){
+                    this.user.type = "hitcher"
+                } else {
+                    this.user.type = "driver"
+                }
+            } else {
+                alert("Application encountered a severe issue. Please login again.")
+                this.logout()
+            }
+        }).catch((error) => {
+            console.error(error)
+            this.logout()
         })
     }
     

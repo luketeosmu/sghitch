@@ -14,8 +14,7 @@
             <div class="dropdown hidden md:block">
                 <ul class="menu menu-horizontal p-0 text-white" tabindex="0">
                     <li><a class="btn btn-ghost bg-transparent " @click='home()'>Home</a></li>
-                    <li><a class="btn btn-ghost bg-transparent" @click='profile()'>Profile</a></li>
-                    <li><a class="btn btn-ghost bg-transparent" @click='newFav()'>Favourites</a></li>
+                    <li><a class="btn btn-ghost bg-transparent" @click='newFav()'>Edit Favourites</a></li>
                     
                 </ul>
             </div>
@@ -25,12 +24,20 @@
                     </label>
             </div> 
         </div>
-        <div class="navbar-center">
-            <span class="font-bold text-4xl font-sans cursor-pointer text-white" @click='home()'>Hitch.</span>
+        <div class="navbar-center cursor-pointer" @click='home()'>
+            <span class="font-bold text-5xl font-bebas text-white" >Hitch.</span>
             <div v-if="this.user.type == 'driver'">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-10 h-10 mx-2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
-                </svg>
+                <span class="flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-10 h-10 mx-2 ">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                    </svg>
+                    <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6 mt-6" id="first">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6 mt-6" id="second">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                    </svg> -->
+                </span>
             </div>
             <div v-else>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-10 h-10 mx-2">
@@ -48,14 +55,14 @@
             </button> -->
             <div class="dropdown dropdown-end mr-3 hidden md:block">
                 <label tabindex="0" class="md:flex btn btn-ghost p-3 rounded-2xl font-semibold px-1 ml-3 text-white">My Account &nbsp<i class="bi bi-caret-down-fill"></i></label>
-                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 focus:bg-white active:bg-white">
                     <!-- to dynamically change -->
-                    <li v-if="this.user.type == 'driver'"><a @click="change()">Switch to Hitcher</a></li> 
-                    <li v-else><a @click="change()">Switch to Driver</a></li> 
-                    <li><a @click="viewChats()">View Chats</a></li>
-                    <li><a @click="accountSettings()">Account Settings</a></li>
+                    <li v-if="this.user.type == 'driver'"><a @click="change()" class="active:bg-slate-300 text-black">Switch to Hitcher</a></li> 
+                    <li v-else><a @click="change()" class="active:bg-slate-300 text-black">Switch to Driver</a></li> 
+                    <li><a @click="viewChats()" class="active:bg-slate-300 text-black">View Offers</a></li>
+                    <li><a @click="accountSettings()" class="active:bg-slate-300 text-black">Account Settings</a></li>
                     <hr/>
-                    <li><a @click="logout()">Logout</a></li>
+                    <li><a @click="logout()" class="active:bg-slate-300 text-black">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -166,8 +173,21 @@ export default {
             console.error(error)
             this.logout()
         })
+        // if(this.user.type == "driver") {
+        //     setInterval(this.displayFirst(), 1000)
+        //     setInterval(this.displaySecond(), 2000)
+        // }
     },
     methods: {
+        // displayFirst() {
+        //     console.log("hi")
+        //     document.getElementById("first").style.display = "block"
+        //     document.getElementById("second").style.display = "none"
+        // },
+        // displaySecond() {
+        //     document.getElementById("first").style.display = "none"
+        //     document.getElementById("second").style.display = "block"
+        // },
         newReq() {
             this.$router.push('/newReq')
         },

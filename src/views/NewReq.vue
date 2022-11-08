@@ -3,21 +3,21 @@
     <!-- when searching for requests, sort by distance away from starting point -->
     <div class="drawer bg-no-repeat bg-cover bg-center bg-merlion-background">
     <input id="my-drawer-3" type="checkbox" class="drawer-toggle" /> 
-    <div class="drawer-content flex flex-col">
+    <div class="drawer-content flex flex-col ">
         <!-- Navbar -->
         <Nav />
         <!-- Page content here -->
-        <div class="mt-10">
+        <span class="mt-10 w-96 sm:w-[600px] mx-auto text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-60 rounded-lg py-1 px-2 mb-10 ">
+                New Request
+        </span>
+        <div class=" inline-block ml-auto mr-auto shadow-xl rounded-lg w-96 sm:w-[600px]  px-3 py-5 relative mt-3 border bg-white bg-opacity-95 ">
             <!-- query autocomplete api, maps sdk api -->
             <form>
-              <div class="grid grid-row-4 flex form-control px-2 sm:px-0 max-w-lg items-center mx-auto mb-5">
-                <span class="text-center text-3xl text-black font-semibold bg-white bg-opacity-60 rounded-lg py-1 px-2 mb-10 ">
-                        New Request
-                </span>
+              <div class="grid grid-row-4 form-control px-2 sm:px-0 items-center mx-auto mb-5">
                 <!-- <span class="text-3xl rounded-lg py-2 text-black font-bold mb-5">Add Request</span> -->
                 <div class="flex form-control">
                   <label class="label">
-                      <span class="label-text text-black bg-white bg-opacity-80 px-2 rounded-lg">Date & Time of Request</span>
+                      <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Date & Time of Request</span>
                     </label>
                   <input v-model.lazy="input.datetime" type="datetime-local" placeholder="Date and Time" className="input input-bordered w-full bg-opacity-90" />
                 </div>
@@ -27,7 +27,7 @@
                     <div class="inline-flex">
                       <div class="flex form-control w-1/2 mr-5">
                           <label class="label">
-                            <span class="label-text text-black bg-white bg-opacity-80 px-2 rounded-lg">Pax</span>
+                            <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Pax</span>
                           </label>
                           <select class="select select-bordered bg-opacity-90" v-model.lazy="input.pax">
                             <option selected>1</option>
@@ -39,7 +39,7 @@
                       </div>  
                       <div v-if="this.user.type == 'driver'" class="flex form-control w-1/2">
                           <label class="label">
-                            <span class="label-text text-black bg-white bg-opacity-80 px-2 rounded-lg">Vehicle Type</span>
+                            <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Vehicle Type</span>
                           </label>
                           <select class="select select-bordered bg-opacity-90" v-model.lazy="input.vehicleType">
                             <option selected>Car</option>
@@ -50,7 +50,7 @@
                       </div>  
                       <div v-else class="flex form-control w-1/2 ">
                           <label class="label">
-                              <span class="label-text text-black bg-white bg-opacity-80 px-2 rounded-lg">Preferred Vehicle Type</span>
+                              <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Preferred Vehicle Type</span>
                           </label>
                           <select class="select select-bordered bg-opacity-90" v-model.lazy="input.vehiclePreference">
                               <option selected>Car Only</option>
@@ -63,13 +63,13 @@
                     
                   <div className="inline-flex mt-5 ">
                     <input v-model.lazy="input.s_address" type="text" placeholder="Starting Point Address" className="input input-bordered w-full bg-opacity-90 "  />
-                    <button type="button" @click='queryMapsStart()' class="btn bg-slate-500 text-white ml-4 bg-opacity-90">Search</button>
+                    <button type="button" @click='queryMapsStart()' class="btn btn-ghost hover:bg-slate-700 bg-slate-500 text-white ml-4 bg-opacity-90">Search</button>
                   </div>
                     <div v-if="seenStart" className="mt-3">
                       <p>{{ input.startNeighborhood }}</p>
                         <GMapMap
                             :center="centerStart"
-                            :zoom="18"
+                            :zoom="18"  
                             map-type-id="terrain"
                             style="width: auto; height: 20rem"
                         >
@@ -82,7 +82,7 @@
                     </div>
                     <div class="inline-flex mt-5">
                         <input v-model.lazy="input.d_address" type="text" placeholder="Destination Point Address" className="input input-bordered w-full bg-opacity-90" />
-                        <button type="button" @click='queryMapsDest()' class="btn bg-slate-500 text-white ml-4 bg-opacity-90">Search</button>
+                        <button type="button" @click='queryMapsDest()' class="btn btn-ghost hover:bg-slate-700 bg-slate-600 text-white ml-4 bg-opacity-90">Search</button>
                     </div>
                     <div v-if="seenDest" className="mt-3">
                       <p>{{ input.destNeighborhood }}</p>
@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <button type="button" @click="writeReqData" class="btn bg-slate-500 text-white ml-5 bg-opacity-90">Submit</button>
+                    <button type="button" @click="writeReqData" class="btn btn-ghost hover:bg-slate-700 bg-slate-600 text-white ml-5 bg-opacity-90">Submit</button>
                 </div>
             </form>
         </div>
@@ -111,10 +111,9 @@
             <label for="my-drawer-3" class="drawer-overlay"></label> 
             <ul class="menu p-4 overflow-y-auto w-80 bg-base-100">
               <li><a @click="home()">Home</a></li>
-              <li><a @click="profile()">Profile</a></li>
               <li><a @click="favourite()">Favourite</a></li>
               <li><a @click="change()">Switch to Hitcher</a></li>
-              <li><a @click="chat()">Chat</a></li>
+              <li><a @click="chat()">Offers</a></li>
               <li><a @click="settings()">Account Settings</a></li>
               <hr/>
               <li><a @click="logout()">Logout</a></li>

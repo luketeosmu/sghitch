@@ -55,7 +55,7 @@
             </div>
         </div> -->
         <div class="form-control flex justify-center items-center mb-5 mt-5 ">
-            <span class="text-center text-3xl text-black font-semibold bg-white bg-opacity-90 rounded-lg py-1 px-2 mb-5 max-w-lg w-full">
+            <span class="text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-90 rounded-lg py-1 px-2 mb-5 max-w-lg w-full">
                 Personal Info
             </span>
             <form class="bg-white bg-opacity-90 rounded-lg p-5 max-w-lg w-full">
@@ -75,13 +75,13 @@
                 <input  v-model="input.password" type="password" placeholder="Enter password to make changes" class="input input-bordered w-full" required />
 
                 <br>
-                <button type="button" @click="updateInfo" class="btn bg-slate-700 bg-opacity-90 text-white mt-5 md:mt-5"> Save Changes </button>
+                <button type="button" @click="updateInfo" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white mt-5 md:mt-5"> Save Changes </button>
 
             </form>
         </div>
         
         <div class="form-control flex justify-center items-center mb-5">
-            <span class="text-center text-3xl text-black font-semibold bg-white bg-opacity-90 rounded-lg py-1 px-2 mb-5 max-w-lg w-full">
+            <span class="text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-90 rounded-lg py-1 px-2 mb-5 max-w-lg w-full">
                 Change Password
             </span>
             <form class="bg-white bg-opacity-90 rounded-lg p-5 max-w-lg w-full">
@@ -105,7 +105,7 @@
                 <input v-model="inputPassword.confirmNewPassword" type="password"  class="input input-bordered w-full" />
                 
                 <br>
-                <button  type="button" @click="updatePassword" class="btn bg-slate-700 bg-opacity-90 text-white mt-5 md:mt-5" > Confirm </button>
+                <button  type="button" @click="updatePassword" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white mt-5 md:mt-5" > Confirm </button>
     
             </form> 
         </div>

@@ -1,7 +1,7 @@
 <template>
-    <div class="h-screen flex grid grid-cols-1 sm:grid-cols-2">
+    <div class="h-screen flex grid grid-cols-1 sm:grid-cols-2 bg-no-repeat bg-cover bg-bottom bg-home-background">
         <div class="absolute z-30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  ">
-            <div class="card w-96 p-12 bg-slate-700 bg-opacity-80">
+            <div class="card w-96 p-12 bg-slate-700 bg-opacity-95">
             <form>
                 <h1 class="text-white font-bold font-sans text-3xl mb-7 text-center">Register</h1>
                 <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4 border-black">
@@ -49,9 +49,9 @@
         </div>
         </div>
         </div>
-        <div class="video-docker absolute top-0 left-0 w-full h-full overflow-hidden">
+        <!-- <div class="video-docker absolute top-0 left-0 w-full h-full overflow-hidden">
             <video class="min-w-full min-h-full absolute object-cover" src="../vid2.mp4" type="video/mp4" autoplay muted loop></video>
-        </div>
+        </div> -->
 </template>
 <script>
 // import UserService from '../services/UserService'
