@@ -79,7 +79,12 @@
 
             </form>
         </div>
-        
+        <div class="alert alert-success shadow-lg" v-if="this.updateSuccess">
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <span>Your purchase has been confirmed!</span>
+            </div>
+        </div>
         <div class="form-control flex justify-center items-center mb-5">
             <span class="text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-90 rounded-lg py-1 px-2 mb-5 max-w-lg w-full">
                 Change Password
@@ -187,7 +192,8 @@ export default {
                 currentPassword: "",
                 newPassword: "",
                 confirmNewPassword: ""
-            }
+            },
+            updateSuccess: false
         }
     },
     mounted() {

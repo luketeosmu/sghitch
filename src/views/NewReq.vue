@@ -53,8 +53,8 @@
                               <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Preferred Vehicle Type</span>
                           </label>
                           <select class="select select-bordered bg-opacity-90" v-model.lazy="input.vehiclePreference">
-                              <option selected>Car Only</option>
-                              <option>All Vehicles</option>
+                              <option selected>All Vehicles</option>
+                              <option>Car Only</option>
                               <option>Car, Lorry & Van Only</option>
                               <option>Car & Motorcycle Only</option>
                           </select>
@@ -153,7 +153,7 @@ export default {
         user: "",
         uid: "",
         vehicleType: "Car",
-        vehiclePreference: "Car Only",
+        vehiclePreference: "All Vehicles",
         centerStart: { 
         lat: 0.0, lng: 0.0 
         },

@@ -9,7 +9,7 @@
             </div>
 
             <div v-if='favourites.length != 0' v-for="favourite in favourites">
-                <div class="flex relative mb-5 px-12 sm:px-20 pt-12 pb-10 rounded-2xl justify-center shadow-xl " >
+                <div class="flex relative mb-5 px-12 sm:px-20 pt-12 pb-10 rounded-2xl justify-center items-center shadow-xl" >
                     <div class="absolute top-0 flex items-center justify-center">
                         <div>
                             <h3 class="font-bold text-xl sm:text-2xl font-roboto mt-3 text-black" id="favourite">{{ favourite.from }}</h3>
@@ -37,7 +37,7 @@
                             
                         </label>
                         <div :id="favourite.from + favourite.to">
-                            <Request :requests="getValidReq(favourite)" :showDest="false" :from="favourite.from" :to="favourite.to"/>
+                            <Request :requests="getValidReq(favourite)" :showDest="false" :from="favourite.from" :to="favourite.to" :userType="this.user.type"/>
                             <!-- <button @click='showAll(favourite.from, favourite.to)' type="button" class="btn-xs sm:btn-sm btn-ghost block bg-slate-600 hover:bg-slate-500 rounded-xl text-white font-semibold absolute right-5 bottom-5">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -54,9 +54,11 @@
                 </div>
             </div>
             <div v-else > 
-                <div class="flex relative mb-5 px-16 sm:px-20 py-1 rounded-2xl justify-center shadow-xl " >
-                    <h3 class="text-center text-base sm:text-2xl px-2">No favourites to display</h3>
-                    <button @click='addFavourite()' type="button" class="block bg-black bg-opacity-30 hover:bg-opacity-50 p-2 sm:p-3 ml-2 rounded-2xl text-white text-sm font-semibold">Add Favourite</button>
+                <div class="flex relative mb-5 px-16 sm:px-20 py-1 justify-center" >
+                    <div class="inline-flex xl:mt-48">
+                        <h3 class="text-center text-base sm:text-2xl px-2">No favourites to display</h3>
+                        <button @click='addFavourite()' type="button" class="block bg-black bg-opacity-30 hover:bg-opacity-50 p-2 sm:p-3 ml-2 rounded-2xl text-white text-sm font-semibold">Add Favourite</button>
+                    </div>
              </div>
             </div>
         </div>
@@ -102,7 +104,7 @@ export default {
         getValidReq(favourite) {
             let validReq = []
             for(let request of this.requests) {
-                if(favourite.from == request.from && favourite.to == request.to) {
+                if(favourite.from == request.startNeighbourhood && favourite.to == request.destNeighbourhood) {
                     // console.log(request.from)
                     // console.log(request.to)
                     validReq.push(request)

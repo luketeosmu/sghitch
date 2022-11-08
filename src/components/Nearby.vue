@@ -8,7 +8,7 @@
                 </svg>
                 <h3 class="text-2xl sm:text-3xl font-bold font-roboto text-black z-10"> Nearby</h3>
             </div>
-            <div v-if='this.requests.length > 0' class="flex justify-center mt-10" >
+            <div v-if='requests.length > 0' class="flex justify-center mt-10" >
                 <label class="btn btn-circle btn-xs swap swap-rotate absolute top-8 right-5 xl:hidden">
   
                 <!-- this hidden checkbox controls the state -->
@@ -21,7 +21,7 @@
                     <svg class="w-4 h-4 swap-on fill-current " xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"/></svg>
                 </label>
                 <div id="nearby" class="mt-10">
-                    <Request :requests="requests" :showDest="true" :from="'nearby'" :to="null"/>
+                    <Request :requests="requests" :showDest="true" :from="'nearby'" :to="null" :userType="userType"/>
                     <!-- <button @click='showAll()' type="button" class="btn-xs sm:btn-sm btn-ghost block bg-slate-600 hover:bg-slate-500 rounded-xl text-white font-semibold absolute right-5 bottom-5">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
@@ -31,9 +31,11 @@
                 <div id="hide" class="inline-flex w-80 sm:w-96 hidden">
                 </div>
             </div>
-            <div v-else class="flex justify-center items-center text-center py-1 mx-auto mt-10 w-80 sm:w-96"> 
-                <h3 class="sm:text-2xl ">No rides to display</h3>
-                <button @click='newReq()' type="button" class="block bg-black hover:bg-opacity-50 bg-opacity-30 p-2 sm:p-3 ml-2 sm:ml-3 rounded-2xl text-white text-sm font-semibold">Add Request</button>
+            <div v-else class="flex justify-center text-center py-1 mx-auto mt-10 w-80 sm:w-96 "> 
+                <div class="inline-flex">
+                    <h3 class="sm:text-2xl">No rides to display</h3>
+                    <button @click='newReq()' type="button" class="block bg-black hover:bg-opacity-50 bg-opacity-30 p-2 sm:p-3 ml-2 sm:ml-3 rounded-2xl text-white text-sm font-semibold">Add Request</button>
+                </div>
             </div>
         </div>
     </div>
@@ -44,7 +46,8 @@ import Request from "../components/Request.vue"
 export default {
     name: "Nearby",
     props: {
-        requests: Array
+        requests: Array,
+        userType: String
     },
     components: {
         Request,
@@ -71,7 +74,7 @@ export default {
         },
         showAll() {
             this.$router.push('/showall/nearby')
-        }
+        },
     },
     data() {
         return {
