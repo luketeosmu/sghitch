@@ -104,7 +104,7 @@ export default {
         getValidReq(favourite) {
             let validReq = []
             for(let request of this.requests) {
-                if(favourite.from == request.startNeighbourhood && favourite.to == request.destNeighbourhood) {
+                if(favourite.from == request.startNeighborhood && favourite.to == request.destNeighborhood) {
                     // console.log(request.from)
                     // console.log(request.to)
                     validReq.push(request)

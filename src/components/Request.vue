@@ -36,7 +36,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mt-1 sm:w-7 sm:h-7 mx-2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5" />
                             </svg>
-                            {{ request.destNeighbourhood }} 
+                            {{ request.destNeighborhood }} 
                         </div>
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 mt-4 absolute right-5 ">
@@ -63,8 +63,8 @@
                         <div>Time: {{ setTimeStr(request.datetime.split("T")[1]) }}</div>
                         <div v-if="this.user.type != 'hitcher'">Pax: {{ request.pax }} persons</div>
                         <div v-else>Available seats: {{ request.available }} persons</div>
-                        <div v-if="showFrom">From: {{ request.from }}</div>
-                        <div v-if="showDest"> Destination: {{ request.destNeighbourhood }} </div>
+                        <div v-if="showFrom">From: {{ request.startNeighborhood }}</div>
+                        <div v-if="showDest"> Destination: {{ request.destNeighborhood }} </div>
                     </ul>
                     <button @click='chat()' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold absolute right-5 bottom-5 ">Chat</button>
                 </label>

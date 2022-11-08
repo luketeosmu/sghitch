@@ -167,11 +167,11 @@ export default {
             return false
         },
         setValidReq() {
-            // console.log("byebye")
-            // console.log(this.vehiclePreferenceIsValid("Van"))
-            // console.log(this.vehiclePreference)
             this.validReq = []
-            for(let request of this.requests) {
+            console.log(this.allRequests)
+            for(let request of this.allRequests) {
+                console.log(request.datetime)
+                console.log("start neighborhood: " + request.startNeighborhood)
                 if(this.checkTime(request.datetime.split("T")[1]) && this.vehiclePreferenceIsValid(request.vehicleType)) {
                     this.validReq.push(request)
                     // console.log(request)
@@ -181,6 +181,10 @@ export default {
             this.validReq.sort(function(a,b) {
                 return a.datetime.split("T")[1].localeCompare(b.datetime.split("T")[1])
             });
+            // console.log(this.allRequests)
+            // for(let request of this.allRequests) {
+            //     console.log(Object.values(request)[0].datetime)
+            // }
         },
         vehiclePreferenceIsValid(vehicleType) {
             switch(this.vehiclePreference) {
@@ -271,7 +275,9 @@ export default {
                     const childData = childSnapshot.val(); //request details
                     let request = {}
                     request[childKey] = childData
-                    this.allRequests.push(request) //add object to new allRequests array in data()
+                    console.log(childData)
+                    // this.allRequests.push(request) //add object to new allRequests array in data()
+                    this.allRequests.push(childData)
                 });
             }, {
                 onlyOnce: true
