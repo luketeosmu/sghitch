@@ -209,13 +209,13 @@ export default {
             const dbRef = ref(db, '/userReqs');
 
             onValue(dbRef, (snapshot) => {
-            snapshot.forEach((childSnapshot) => {
-                const childKey = childSnapshot.key; //request id
-                const childData = childSnapshot.val(); //request details
-                let request = {}
-                request[childKey] = childData
-                this.allRequests.push(request) //add object to new allRequests array in data()
-            });
+                snapshot.forEach((childSnapshot) => {
+                    const childKey = childSnapshot.key; //request id
+                    const childData = childSnapshot.val(); //request details
+                    let request = {}
+                    request[childKey] = childData
+                    this.allRequests.push(request) //add object to new allRequests array in data()
+                });
             }, {
                 onlyOnce: true
             });
