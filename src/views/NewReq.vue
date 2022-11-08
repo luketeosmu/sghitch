@@ -68,7 +68,7 @@
                     <div v-if="seenStart" className="mt-3">
                       <p>{{ input.startNeighborhood }}</p>
                         <GMapMap
-                            :center="centerStart"
+                            :center="input.centerStart"
                             :zoom="18"  
                             map-type-id="terrain"
                             style="width: auto; height: 20rem"
@@ -87,7 +87,7 @@
                     <div v-if="seenDest" className="mt-3">
                       <p>{{ input.destNeighborhood }}</p>
                         <GMapMap
-                            :center="centerDest"
+                            :center="input.centerDest"
                             :zoom="18"
                             map-type-id="terrain"
                             style="width: auto; height: 20rem"
@@ -127,7 +127,7 @@ import Nav from "../components/Nav.vue";
 // import { getAuth } from 'firebase/auth'
 // import { getDatabase, ref, set } from 'firebase/database'
 import { getAuth, signOut } from 'firebase/auth'
-import { getDatabase, ref, child, set, get, update } from 'firebase/database';
+import { getDatabase, ref, child, set, get, update, push } from 'firebase/database';
 // import './maps.css'
 
 export default {
@@ -153,13 +153,13 @@ export default {
         user: "",
         uid: "",
         vehicleType: "Car",
-        vehiclePreference: "Car Only"
-      },
-      centerStart: { 
+        vehiclePreference: "Car Only",
+        centerStart: { 
         lat: 0.0, lng: 0.0 
-      },
-      centerDest: { 
-        lat: 0.0, lng: 0.0 
+        },
+        centerDest: { 
+          lat: 0.0, lng: 0.0 
+        },
       },
       markersStart: [
         {
@@ -221,8 +221,8 @@ export default {
               if (sNeighborhood != "") {
                 //display map
                 this.input.s_address = res.data.results[0].formatted_address
-                this.centerStart.lat = res.data.results[0].geometry.location.lat
-                this.centerStart.lng = res.data.results[0].geometry.location.lng
+                this.input.centerStart.lat = res.data.results[0].geometry.location.lat
+                this.input.centerStart.lng = res.data.results[0].geometry.location.lng
                 this.markersStart[0].position.lat = res.data.results[0].geometry.location.lat
                 this.markersStart[0].position.lng = res.data.results[0].geometry.location.lng
                 this.input.startNeighborhood = sNeighborhood
@@ -258,8 +258,8 @@ export default {
               }
               if (dNeighborhood != "") {
                 this.input.d_address = res.data.results[0].formatted_address
-                this.centerDest.lat = res.data.results[0].geometry.location.lat
-                this.centerDest.lng = res.data.results[0].geometry.location.lng
+                this.input.centerDest.lat = res.data.results[0].geometry.location.lat
+                this.input.centerDest.lng = res.data.results[0].geometry.location.lng
                 this.markersDest[0].position.lat = res.data.results[0].geometry.location.lat
                 this.markersDest[0].position.lng = res.data.results[0].geometry.location.lng
                 this.input.destNeighborhood = dNeighborhood
@@ -281,15 +281,18 @@ export default {
     },
     writeReqData () {
       //should check if all fields have been entered before setting and redirecting
-      console.log(this.input.pax)
-      console.log(this.input.vehicleType)
-      console.log(this.input.vehiclePreference)
-      const db = getDatabase()
-      set(ref(db, 'userReqs/' + this.auth.currentUser.uid), this.input);
-      // set(push(ref(db, 'userReqs/')), this.input);
+
+      // set(ref(db, 'userReqs/' + this.auth.currentUser.uid), this.input);
+      const db = getDatabase();
+      const postListRef = ref(db, 'userReqs');
+      const newPostRef = push(postListRef);
+      set(newPostRef, this.input);
+      alert("Successfully submitted request!")
+
+      this.$router.push('/')
     },
     home() {
-            this.$router.push('../')
+        this.$router.push('../')
     },
     profile() {
         this.$router.push('/profile')

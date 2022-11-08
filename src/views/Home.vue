@@ -60,7 +60,7 @@ import Nearby from "../components/Nearby.vue"
 import Request from "../components/Request.vue"
 
 import { getAuth, signOut } from 'firebase/auth'
-import { getDatabase, ref, child, get, update } from 'firebase/database';
+import { getDatabase, ref, child, get, update, onValue } from 'firebase/database';
 export default {
     name: "Home",
     props: {},
@@ -162,8 +162,64 @@ export default {
             this.validReq.sort(function(a,b) {
                 return a.time.localeCompare(b.time)
             });
-        }
+        },
+        getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) { //run this for each, and display if met
+            var R = 6371; // Radius of the earth in km
+            var dLat = this.deg2rad(lat2-lat1);  // deg2rad below
+            var dLon = this.deg2rad(lon2-lon1);  //need this.?
+            var a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2)
+                ; 
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            var d = R * c; // Distance in km
+            return d;
+        },
+        deg2rad(deg) {
+            return deg * (Math.PI/180)
+        },
+        currentLocation(){
+            let lat = 0
+            let long = 0
+            let getLocationPromise = new Promise((resolve, reject) => {
+                if(navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        lat = position.coords.latitude
+                        long = position.coords.longitude
 
+                        resolve({latitude: lat, 
+                                longitude: long})
+                    })
+                } else {
+                    console.log("your browser doesn't support geolocation API")
+                }
+            })
+
+            getLocationPromise.then((location) => {
+                // console.log(lat) //can use var
+                // console.log(location.longitude) //can use this too
+                // above gives current user lat and lng
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        retrieveAllReq(){
+            const db = getDatabase();
+            const dbRef = ref(db, '/userReqs');
+
+            onValue(dbRef, (snapshot) => {
+            snapshot.forEach((childSnapshot) => {
+                const childKey = childSnapshot.key; //request id
+                const childData = childSnapshot.val(); //request details
+                let request = {}
+                request[childKey] = childData
+                this.allRequests.push(request) //add object to new allRequests array in data()
+            });
+            }, {
+                onlyOnce: true
+            });
+        }
     },
     data() {
         return {
@@ -175,7 +231,10 @@ export default {
             ampm: "",
             time: "",
             date: "",
+            currentLat: "",
+            currentLng: "",
             validReq: [],
+            allRequests: [],
             requests: [
                     {
                         user: "Shaun Ting",
@@ -395,57 +454,8 @@ export default {
                 this.validReq.push(request)
             }
         }
-        if(navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(displayLocationInfo);
-
-            function displayLocationInfo(position){
-                const lng = position.coords.longitude
-                const lat = position.coords.latitude
-
-                console.log(`longitude: ${ lng } | latitude: ${ lat }`)
-
-                var origin1 = new google.maps.LatLng(lat, lng)
-
-                var destination1 = new google.maps.LatLng(1.2963, 103.8502)
-                var destination2 = new google.maps.LatLng(1.3695, 103.8484)
-
-                var service = new google.maps.DistanceMatrixService()
-                service.getDistanceMatrix(
-                    {
-                        origins: [origin1],
-                        destinations: [destination1, destination2],
-                        travelMode: 'DRIVING'
-                    }, callback);
-
-
-                console.log(origin)
-            }
-
-            function callback(response, status) {
-                if (status == 'OK') {
-                    var origins = response.originAddresses;
-                    var destinations = response.destinationAddresses;
-
-                    for (var i = 0; i < origins.length; i++) {
-                        var results = response.rows[i].elements;
-                        for (var j = 0; j < results.length; j++) {
-                            var element = results[j];
-                            var distance = element.distance.text;
-                            var duration = element.duration.text;
-                            var from = origins[i];
-                            var to = destinations[j];
-                        }
-                    }
-
-                    console.log(response)
-                }
-            }
-            // https://stackoverflow.com/questions/18883601/function-to-calculate-distance-between-two-coordinates
-            //amongst all requests lat and lng, which are the nearest?
-        } else {
-            console.log('geolocation is NOT available on your browser')
-            //use this to trigger warning that location is not enabled: check top left corner of browser or go to settings
-        }
+        this.currentLocation()
+        this.retrieveAllReq()
     }
 }
 </script>
