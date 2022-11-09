@@ -56,7 +56,8 @@
             <ul class="menu p-4 overflow-y-auto w-80 bg-base-100">
                 <li><a @click="home()">Home</a></li>
                 <li><a @click="favourite()">Favourite</a></li>
-                <li><a @click="change()">Switch to Hitcher</a></li>
+                <li v-if="this.user.type == 'driver'" ><a  @click="change()">Switch to Hitcher</a></li>
+                <li v-else><a @click="change()">Switch to Driver</a></li>
                 <li><a @click="chat()">Offers</a></li>
                 <li><a @click="settings()">Account Settings</a></li>
                 <hr/>
@@ -135,6 +136,8 @@ export default {
                 // console.log(month)
                 this.dateStr = day + " " + dateArr[(month - 1)]
             }
+            this.setValidReq()
+            this.setValidNearbyReq()
         },
         setTimeStr() {
             let hours = ""
@@ -166,13 +169,47 @@ export default {
             }
             return false
         },
+        checkDate(reqDate) {
+            // console.log("DATEEE" + reqDate)
+            let reqDateSplit = reqDate.split("-")
+            let year = reqDateSplit[0]
+            let month = reqDateSplit[1]
+            let day = reqDateSplit[2]
+            let today = new Date()
+            if(this.date == "") {
+                // console.log(new Date().getMonth() + 1)
+                // console.log(today.getDay() + "" + today.getMonth() + "" + today.getFullYear())
+                if(today.getDate() == day && today.getMonth() + 1 == month && today.getFullYear() == year) {
+                    console.log("yeash")
+                    return true
+                }
+                return false
+            } else {
+                let selectedYear = this.date.split("-")[0]
+                let selectedMonth = this.date.split("-")[1]
+                let selectedDay = this.date.split("-")[2]
+                console.log(month)
+                if(selectedDay == day && selectedMonth == month && selectedYear == year) {
+                    return true
+                }
+                return false
+            }
+            // console.log("selected date" + this.date)
+            // // console.log(day + " == " + this.date.getDay())
+            // // console.log(month + " == " + this.date.getMonth())
+            // // console.log(year + " == " + this.date.getFullYear())
+            // console.log("naesh")
+            // console.log(reqDate)
+            // return false
+        },
         setValidReq() {
             this.validReq = []
-            console.log(this.allRequests)
+            // console.log(this.allRequests)
+            console.log("setValidReq")
             for(let request of this.allRequests) {
-                console.log(request.datetime)
-                console.log("start neighborhood: " + request.startNeighborhood)
-                if(this.checkTime(request.datetime.split("T")[1]) && this.vehiclePreferenceIsValid(request.vehicleType)) {
+                // console.log(request.datetime)
+                // console.log("start neighborhood: " + request.startNeighborhood)
+                if(this.checkTime(request.datetime.split("T")[1]) && this.checkDate(request.datetime.split("T")[0]) && this.vehiclePreferenceIsValid(request.vehicleType) && this.auth.currentUser.uid != request.uid) {
                     this.validReq.push(request)
                     // console.log(request)
                     // console.log(request.centerStart.lat + " " + request.centerStart.lon)

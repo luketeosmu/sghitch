@@ -112,7 +112,8 @@
             <ul class="menu p-4 overflow-y-auto w-80 bg-base-100">
               <li><a @click="home()">Home</a></li>
               <li><a @click="favourite()">Favourite</a></li>
-              <li><a @click="change()">Switch to Hitcher</a></li>
+              <li v-if="this.user.type == 'driver'" ><a  @click="change()">Switch to Hitcher</a></li>
+              <li v-else><a @click="change()">Switch to Driver</a></li>
               <li><a @click="chat()">Offers</a></li>
               <li><a @click="settings()">Account Settings</a></li>
               <hr/>
@@ -307,7 +308,9 @@ export default {
         this.$router.push('/accountsettings')
     },
     logout(){
-        this.$router.push('/login')
+        signOut(this.auth).then(() => {
+            this.$router.push('/login')
+        })
     },
     change() {
         const db = getDatabase()
