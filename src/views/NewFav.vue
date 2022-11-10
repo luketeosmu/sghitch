@@ -14,10 +14,10 @@
             <ul class="menu p-4 overflow-y-auto w-80 bg-base-100">
             <!-- Sidebar content here -->
             <li><a @click="home()">Home</a></li>
-            <li><a @click="profile()">Profile</a></li>
             <li><a @click="favourite()">Favourite</a></li>
-            <li><a @click="change()">Switch to Hitcher</a></li>
-            <li><a @click="chat()">Chat</a></li>
+            <li v-if="this.user.type == 'driver'" ><a  @click="change()">Switch to Hitcher</a></li>
+            <li v-else><a @click="change()">Switch to Driver</a></li>
+            <li><a @click="chat()">Offers</a></li>
             <li><a @click="settings()">Account Settings</a></li>
             <hr/>
             <li><a @click="logout()">Logout</a></li>
@@ -30,8 +30,8 @@ import MapsService from '../services/MapsService'
 import Nav from '../components/Nav.vue'
 import AddFav from '../components/AddFav.vue'
 import CurrFav from '../components/CurrFav.vue'
-import { getDatabase, ref, push, set, query, onValue, child, get } from 'firebase/database'
-import { getAuth } from 'firebase/auth'
+import { getDatabase, ref, push, set, query, onValue, update, child, get } from 'firebase/database'
+import { getAuth, signOut } from 'firebase/auth'
 
 export default {
     name: "NewFav",
@@ -59,20 +59,22 @@ export default {
             this.$router.push('/accountsettings')
         },
         logout(){
-            signOut(this.auth).then(() => {
+            const auth = getAuth()
+            signOut(auth).then(() => {
                 this.$router.push('/login')
             })
         },
         change() {
             const db = getDatabase()
+            const auth = getAuth()
             if(this.user.type == "driver"){
                 this.user.type = "hitcher"
-                update(ref(db, 'userTypes/' + this.auth.currentUser.uid), {
+                update(ref(db, 'userTypes/' + auth.currentUser.uid), {
                     type: this.user.type
                 })
             } else {
                 this.user.type = "driver"
-                update(ref(db, 'userTypes/' + this.auth.currentUser.uid), {
+                update(ref(db, 'userTypes/' + auth.currentUser.uid), {
                     type: this.user.type
                 })
             }
@@ -103,6 +105,22 @@ export default {
             }
         }).catch((error) => {
             console.error(error)
+        })
+
+        get(child(dbRef, `userTypes/${auth.currentUser.uid}`)).then((snapshot) => {
+            if (snapshot.exists()){
+                if(snapshot.val().type == "hitcher"){
+                    this.user.type = "hitcher"
+                } else {
+                    this.user.type = "driver"
+                }
+            } else {
+                alert("Application encountered a severe issue. Please login again.")
+                this.logout()
+            }
+        }).catch((error) => {
+            console.error(error)
+            this.logout()
         })
     },
 }

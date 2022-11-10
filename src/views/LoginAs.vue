@@ -1,6 +1,6 @@
 <template>
       <div class="h-screen flex">
-        <div class="flex flex-col w-full lg:flex-row z-30 items-center justify-center text-center my-96 ">
+        <div class="flex flex-col w-full lg:flex-row z-30 items-center justify-center text-center ">
             <div @click="setUserType('driver')" class="grid block w-72 h-24 card text-3xl text-white font-semibold bg-slate-700 bg-opacity-70 hover:bg-opacity-90 hover:cursor-pointer rounded-box place-items-center">Sign in as Driver</div> 
             <div class="divider lg:divider-horizontal text-white">OR</div> 
             <div @click="setUserType('hitcher')" class="grid block w-72 h-24 card text-3xl text-slate-700 font-semibold bg-white bg-opacity-70 hover:bg-white hover:text-black hover:bg-opacity-80 hover:cursor-pointer rounded-box place-items-center">Sign in as Hitcher</div>

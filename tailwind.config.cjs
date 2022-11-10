@@ -11,6 +11,12 @@ module.exports = {
         'profile-background': "url('/src/images/profileBG.jpg')",
         'settings-background': "url('/src/images/settingsBG.jpg')",
         'merlion-background': "url('/src/images/Merlion.png')",
+      },
+      fontFamily: {
+        bebas: "'Bebas Neue', cursive",
+        roboto: "'Roboto', sans-serif",
+        bree: "'Bree Serif', serif"
+
       }
     },
   },

@@ -7,7 +7,7 @@
         </span>
     </div> -->
         <div class="form-control text-center justify-center items-center mt-10 px-2 sm:px-0">
-            <span class="text-center text-3xl text-black font-semibold bg-white bg-opacity-80 rounded-lg py-1 px-2 mb-5 max-w-lg w-full">
+            <span class="text-center text-3xl text-black font-roboto font-semibold  bg-white bg-opacity-80 rounded-lg py-1 px-2 mb-5 max-w-lg w-full">
                 Add new Favourite
             </span>
             <div class="inline-block md:inline-flex">
@@ -51,7 +51,7 @@
                     </select>
                 </div>
                 <div>
-                    <button class="btn bg-slate-700 bg-opacity-80 text-white ml-5 mt-5 md:mt-0" @click='addFav()' >Add</button>
+                    <button class="btn btn-ghost bg-slate-500 bg-opacity-90 hover:bg-slate-700 text-white ml-5 mt-5 md:mt-0" @click='addFav()' >Add</button>
                 </div>
             </div>
             <div v-if="alert" class="flex alert bg-red-700 bg-opacity-80 shadow-lg text-white w-96 justify-center items-center text-center mt-5 ">
