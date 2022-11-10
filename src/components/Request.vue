@@ -4,7 +4,7 @@
             <div  v-for="request in requests">
                 <label :for="from + to + request.user" class="relative inline-flex w-80 sm:w-96 p-2 my-3 bg-gray-800 text-white rounded-md border border-slate-700 shadow-md hover:bg-slate-500 cursor-pointer text-center">
                     <div class="flex flex-col text-xs sm:text-base font-light mb-2">
-                        <div class="inline-flex ">
+                        <div class="inline-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-6 sm:h-6 mt-1 mx-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
@@ -30,10 +30,17 @@
                         </div>
 
                     </div>
-                    <div class="text-base sm:text-2xl font-base my-auto ml-5">
+                    <div class="text-base sm:text-lg font-base my-auto inline-block">
                         <!-- <div>From: {{ request.from }}</div> -->
+                        <div class="inline-flex">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                            </svg>
+                            {{ request.startNeighborhood }} 
+                        </div>
                         <div class="inline-flex ">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mt-1 sm:w-7 sm:h-7 mx-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 sm:w-6 sm:h-6 ml-3">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5" />
                             </svg>
                             {{ request.destNeighborhood }} 
@@ -55,18 +62,18 @@
                 </label>
                 <input type="checkbox" :id="from + to + request.user" class="modal-toggle" />
                 <label :for="from + to + request.user" class="modal cursor-pointer">
-                <label class="modal-box relative lg:w-1/3 2xl:w-1/4" for="">
+                <label class="modal-box relative w-auto" for="">
                     <ul class="text-xl mb-2">
-                        <div v-if="this.user.type == 'driver'" class="font-bold text-2xl">Hitcher: {{ request.user }}</div>
-                        <div v-else class="font-bold text-2xl">Driver: {{ request.user }}</div>
-                        <div class="font-bold text-2xl">Rating: {{ request.rating }}/5</div>
-                        <div>Time: {{ setTimeStr(request.datetime.split("T")[1]) }}</div>
-                        <div v-if="this.user.type != 'hitcher'">Pax: {{ request.pax }} persons</div>
-                        <div v-else>Available seats: {{ request.available }} persons</div>
-                        <div v-if="showFrom">From: {{ request.startNeighborhood }}</div>
-                        <div v-if="showDest"> Destination: {{ request.destNeighborhood }} </div>
+                        <div v-if="this.userType == 'driver'" class=""><b>Hitcher:</b> {{ request.user }}</div>
+                        <div v-else class=""><b>Driver:</b> {{ request.user }}</div>
+                        <!-- <div class="font-bold text-2xl">Rating: {{ request.rating }}/5</div> -->
+                        <div><b>Time:</b> {{ setTimeStr(request.datetime.split("T")[1]) }}</div>
+                        <div v-if="this.userType != 'hitcher'"><b>Pax:</b> {{ request.pax }} persons</div>
+                        <div v-else><b>Available seats:</b> {{ request.available }} persons</div>
+                        <div><b>From:</b> {{ request.s_address }}</div>
+                        <div><b>Destination:</b> {{ request.d_address }} </div>
                     </ul>
-                    <button @click='chat()' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold absolute right-5 bottom-5 ">Chat</button>
+                    <button @click='chat()' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold">Chat</button>
                 </label>
                 </label>
             </div>
@@ -176,12 +183,32 @@ export default {
 
             this.$router.push('/chat')
         },
+        // setTimeStr(time) {
+        //     console.log("REQUEST" + time)
+        //     let str = String(time)
+        //     let hours = str.split(":")[0]
+        //     let minutes = str.split(":")[1]
+        //     let ampm = hours >= 12 ? 'PM' : 'AM';
+        //     let timeStr = hours + ':' + minutes + ' ' + ampm;
+        //     return timeStr
+        // },
         setTimeStr(time) {
-            let str = String(time)
-            let hours = str.split(":")[0]
-            let minutes = str.split(":")[1]
+            let hours = ""
+            let minutes = ""
+            // if(this.time == "") {
+            //     let date = new Date()
+            //     hours = date.getHours();
+            //     minutes = date.getMinutes();
+            //     minutes = minutes < 10 ? '0' + minutes : minutes;
+            // } else {
+            //     }
+            // let str = String(this.time)
+            hours = time.split(":")[0]
+            minutes = time.split(":")[1]
             let ampm = hours >= 12 ? 'PM' : 'AM';
-            let timeStr = hours + ':' + minutes + ' ' + ampm;
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            let timeStr = hours + ':' + minutes + ampm
             return timeStr
         },
     }

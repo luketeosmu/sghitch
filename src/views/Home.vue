@@ -11,7 +11,7 @@
                 
                 <div class="flex justify-center items-center text-center mt-10 mb-5 px-2 sm:px-0 w-[450px] sm:w-[570px] mx-auto">
                     <span class="text-center text-2xl text-black  bg-white bg-opacity-80 rounded-lg py-1 px-2 w-full">
-                        <p class="font-semibold">Requests @ </p>
+                        <p class="font-semibold"><span v-if="this.user.type == 'driver'">Hitcher </span><span v-else>Driver </span>Requests @ </p>
                         <span class="mr-5 text-5xl font-bree">{{ timeStr }}<span class=text-4xl>{{ ampm }}</span> | {{ dateStr }} </span>
                     </span>
                 </div>
@@ -83,6 +83,144 @@ export default {
         Favourite,
         Nearby,
         Request
+    },
+    data() {
+        return {
+            user: {
+                type: ""
+            },
+            timeStr: "",
+            dateStr: "",
+            ampm: "",
+            time: "",
+            date: "",
+            currentLat: "",
+            currentLng: "",
+            validReq: [],
+            validNearbyReq: [],
+            allRequests: [],
+            // requests: [
+            //         {
+            //             centerStart: {
+            //                 lat: "1.431630",
+            //                 lon: "103.785590",
+            //             },
+            //             centerDest: {
+            //                 lat: "1.360540",
+            //                 lon: "103.957380"
+            //             },
+            //             d_address: "Tampines St 45 529498",
+            //             datetime: "2022-11-09T10:00",
+            //             destNeighbourhood: "Tampines",
+            //             pax: "3",
+            //             available: "1",
+            //             s_address: "Woodlands Ave 1 730308",
+            //             startNeighbourhood: "Woodlands",
+            //             uid: "12345",
+            //             user: "luke",
+            //             vehiclePreference: "Car only",
+            //             vehicleType: "Motorcycle"
+            //         },
+            //         {
+            //             centerStart: {
+            //                 lat: "1.360540",
+            //                 lon: "103.957380",
+            //             },
+            //             centerDest: {
+            //                 lat: "1.360540",
+            //                 lon: "103.957380"
+            //             },
+            //             d_address: "Tampines St 45 529498",
+            //             datetime: "2022-11-09T10:00",
+            //             destNeighbourhood: "Tampines",
+            //             pax: "3",
+            //             available: "2",
+            //             s_address: "Marsiling Mrt",
+            //             startNeighbourhood: "Woodlands",
+            //             uid: "12345",
+            //             user: "kim jong kook",
+            //             vehiclePreference: "Car only",
+            //             vehicleType: "Car"
+            //         },
+            //         {
+            //             centerStart: {
+            //                 lat: "1.439500",
+            //                 lon: "103.775630",
+            //             },
+            //             centerDest: {
+            //                 lat: "1.320610",
+            //                 lon: "103.886932"
+            //             },
+            //             d_address: "Geylang Shady Place",
+            //             datetime: "2022-11-09T10:00",
+            //             destNeighbourhood: "Geylang",
+            //             pax: "3",
+            //             available: "2",
+            //             s_address: "Woodlands Ave 1 730308",
+            //             startNeighbourhood: "Woodlands",
+            //             uid: "12345",
+            //             user: "john tao",
+            //             vehiclePreference: "Car only",
+            //             vehicleType: "Car"
+            //         },
+            //         {
+            //             centerStart: {
+            //                 lat: "1.289440",
+            //                 lon: "103.849983",
+            //             },
+            //             centerDest: {
+            //                 lat: "1.360540",
+            //                 lon: "103.957380"
+            //             },
+            //             d_address: "Tampines St 45 529498",
+            //             datetime: "2022-11-09T10:00",
+            //             destNeighbourhood: "Tampines",
+            //             pax: "3",
+            //             available: "2",
+            //             s_address: "SMU",
+            //             startNeighbourhood: "Museum",
+            //             uid: "12345",
+            //             user: "prof kyong",
+            //             vehiclePreference: "Car only",
+            //             vehicleType: "Car"
+            //         },
+            // ],
+            vehiclePreference: "All Vehicles"
+        }
+    },
+    mounted() {
+        this.auth = getAuth();
+        this.dbRef = ref(getDatabase())
+        get(child(this.dbRef, `userTypes/${this.auth.currentUser.uid}`)).then((snapshot) => {
+            if (snapshot.exists()){
+                if(snapshot.val().type == "hitcher"){
+                    this.user.type = "hitcher"
+                } else {
+                    this.user.type = "driver"
+                }
+            } else {
+                alert("Application encountered a severe issue. Please login again.")
+                this.logout()
+            }
+        }).catch((error) => {
+            console.error(error)
+            this.logout()
+        })
+        let today = new Date()
+        let mins = ""
+        if(today.getMinutes() < 10) {
+            mins = "0" + today.getMinutes()
+        } else {
+            mins = today.getMinutes()
+        }
+        let month = today.getMonth() + 1
+        console.log("curr min: " + today.getMinutes())
+        this.time = today.getHours() + ":" + mins
+        this.date = today.getFullYear() + "-" + month + "-" + today.getDate()
+        this.setDateStr()
+        this.setTimeStr()
+        this.currentLocation()
+        this.retrieveAllReq()
     },
     methods: {
         change() {
@@ -160,17 +298,28 @@ export default {
             this.setValidNearbyReq()
         },
         checkTime(reqTime) {
-            let selectedHour = this.time.split(":")[0]
-            let selectedMins = this.time.split(":")[1]
-            let hour = reqTime.split(":")[0]
-            let mins = reqTime.split(":")[1]
-            if(hour == selectedHour && selectedMins - mins <= 30) {
+            console.log("CHECKTIME")
+            console.log("this time: " + this.time)
+            let selectedHour = 0
+            let selectedMins = 0
+            selectedHour = parseInt(this.time.split(":")[0])
+            selectedMins = parseInt(this.time.split(":")[1])
+            let hour = parseInt(reqTime.split(":")[0])
+            let mins = parseInt(reqTime.split(":")[1])
+            let timeDiff = selectedMins - mins                      // for same hour
+            let diff = 60 - mins + selectedMins                     // for hour + 1 (e.g. request time: 9:40pm, current time: 10:05pm)
+            if(hour == selectedHour && (timeDiff <= 30 && timeDiff >= -15) ) {
+                console.log("true")
                 return true
+            } else if(hour + 1 == selectedHour) {
+                if(diff <= 30) {
+                    return true
+                }
             }
             return false
         },
         checkDate(reqDate) {
-            // console.log("DATEEE" + reqDate)
+            console.log("DATEEE" + reqDate)
             let reqDateSplit = reqDate.split("-")
             let year = reqDateSplit[0]
             let month = reqDateSplit[1]
@@ -180,7 +329,7 @@ export default {
                 // console.log(new Date().getMonth() + 1)
                 // console.log(today.getDay() + "" + today.getMonth() + "" + today.getFullYear())
                 if(today.getDate() == day && today.getMonth() + 1 == month && today.getFullYear() == year) {
-                    console.log("yeash")
+                    // console.log("yeash")
                     return true
                 }
                 return false
@@ -188,31 +337,26 @@ export default {
                 let selectedYear = this.date.split("-")[0]
                 let selectedMonth = this.date.split("-")[1]
                 let selectedDay = this.date.split("-")[2]
+                console.log("selectedDay: " + selectedDay)
+                console.log("selectedMonth: " + selectedMonth)
+                console.log("selectedYear: " + selectedYear)
                 console.log(month)
                 if(selectedDay == day && selectedMonth == month && selectedYear == year) {
+                    console.log("yeash")
                     return true
                 }
                 return false
             }
-            // console.log("selected date" + this.date)
-            // // console.log(day + " == " + this.date.getDay())
-            // // console.log(month + " == " + this.date.getMonth())
-            // // console.log(year + " == " + this.date.getFullYear())
-            // console.log("naesh")
-            // console.log(reqDate)
-            // return false
         },
         setValidReq() {
             this.validReq = []
-            // console.log(this.allRequests)
-            console.log("setValidReq")
+            console.log("setvalidreq")
             for(let request of this.allRequests) {
-                // console.log(request.datetime)
-                // console.log("start neighborhood: " + request.startNeighborhood)
-                if(this.checkTime(request.datetime.split("T")[1]) && this.checkDate(request.datetime.split("T")[0]) && this.vehiclePreferenceIsValid(request.vehicleType) && this.auth.currentUser.uid != request.uid) {
+                // console.log(request.rid)
+                if(this.checkTime(request.datetime.split("T")[1]) && this.checkDate(request.datetime.split("T")[0])) {
+                    console.log(request.d_address)
+                    console.log("everything true, valid req")
                     this.validReq.push(request)
-                    // console.log(request)
-                    // console.log(request.centerStart.lat + " " + request.centerStart.lon)
                 }
             }
             this.validReq.sort(function(a,b) {
@@ -298,8 +442,8 @@ export default {
             })
 
             getLocationPromise.then((location) => {
-                console.log(lat) //can use var
-                console.log(location.longitude) //can use this too
+                // console.log(lat) //can use var
+                // console.log(location.longitude) //can use this too
                 // above gives current user lat and lng
                 this.currentLat = lat
                 this.currentLng = location.longitude
@@ -315,335 +459,21 @@ export default {
                 snapshot.forEach((childSnapshot) => {
                     const childKey = childSnapshot.key; //request id
                     const childData = childSnapshot.val(); //request details
-                    let request = {}
-                    request[childKey] = childData
-                    console.log(childData)
+                    // let request = {}
+                    // request[childKey] = childData
+                    // console.log(childData)
                     // this.allRequests.push(request) //add object to new allRequests array in data()
+                    // childData["rid"] = childKey         //add request ID to request object
                     this.allRequests.push(childData)
+                    this.setValidReq()
+                    this.setValidNearbyReq()
                 });
             }, {
                 onlyOnce: true
             });
         }
     },
-    data() {
-        return {
-            user: {
-                type: ""
-            },
-            timeStr: "",
-            dateStr: "",
-            ampm: "",
-            time: "",
-            date: "",
-            currentLat: "",
-            currentLng: "",
-            validReq: [],
-            validNearbyReq: [],
-            allRequests: [],
-            requests: [
-                    {
-                        centerStart: {
-                            lat: "1.431630",
-                            lon: "103.785590",
-                        },
-                        centerDest: {
-                            lat: "1.360540",
-                            lon: "103.957380"
-                        },
-                        d_address: "Tampines St 45 529498",
-                        datetime: "2022-11-09T10:00",
-                        destNeighbourhood: "Tampines",
-                        pax: "3",
-                        available: "1",
-                        s_address: "Woodlands Ave 1 730308",
-                        startNeighbourhood: "Woodlands",
-                        uid: "12345",
-                        user: "luke",
-                        vehiclePreference: "Car only",
-                        vehicleType: "Motorcycle"
-                    },
-                    {
-                        centerStart: {
-                            lat: "1.360540",
-                            lon: "103.957380",
-                        },
-                        centerDest: {
-                            lat: "1.360540",
-                            lon: "103.957380"
-                        },
-                        d_address: "Tampines St 45 529498",
-                        datetime: "2022-11-09T10:00",
-                        destNeighbourhood: "Tampines",
-                        pax: "3",
-                        available: "2",
-                        s_address: "Marsiling Mrt",
-                        startNeighbourhood: "Woodlands",
-                        uid: "12345",
-                        user: "kim jong kook",
-                        vehiclePreference: "Car only",
-                        vehicleType: "Car"
-                    },
-                    {
-                        centerStart: {
-                            lat: "1.439500",
-                            lon: "103.775630",
-                        },
-                        centerDest: {
-                            lat: "1.320610",
-                            lon: "103.886932"
-                        },
-                        d_address: "Geylang Shady Place",
-                        datetime: "2022-11-09T10:00",
-                        destNeighbourhood: "Geylang",
-                        pax: "3",
-                        available: "2",
-                        s_address: "Woodlands Ave 1 730308",
-                        startNeighbourhood: "Woodlands",
-                        uid: "12345",
-                        user: "john tao",
-                        vehiclePreference: "Car only",
-                        vehicleType: "Car"
-                    },
-                    {
-                        centerStart: {
-                            lat: "1.289440",
-                            lon: "103.849983",
-                        },
-                        centerDest: {
-                            lat: "1.360540",
-                            lon: "103.957380"
-                        },
-                        d_address: "Tampines St 45 529498",
-                        datetime: "2022-11-09T10:00",
-                        destNeighbourhood: "Tampines",
-                        pax: "3",
-                        available: "2",
-                        s_address: "SMU",
-                        startNeighbourhood: "Museum",
-                        uid: "12345",
-                        user: "prof kyong",
-                        vehiclePreference: "Car only",
-                        vehicleType: "Car"
-                    },
-            //         {
-            //             user: "Shaun Ting",
-            //             rating: 5,
-            //             time: "10:00",
-            //             pax: 3,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Tampines"
-            //         },
-            //         {
-            //             user: "Ali baba",
-            //             rating: 5,
-            //             time: "10:10",
-            //             pax: 1,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Tampines"
-            //         },
-            //         {
-            //             user: "John Wick",
-            //             rating: 5,
-            //             time: "10:15",
-            //             pax: 2,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Tampines"
-            //         },
-            //         {
-            //             user: "Jennie Kim",
-            //             rating: 5,
-            //             time: "10:07",
-            //             pax: 3,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Tampines"
-            //         },
-            //         {
-            //             user: "KIm Jong Kook",
-            //             rating: 5,
-            //             time: "10:00",
-            //             pax: 1,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Toa Payoh"
-            //         },
-            //         {
-            //             user: "Kimchi Jigae",
-            //             rating: 5,
-            //             time: "12:00",
-            //             pax: 2,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Somerset"
-            //         },
-            //         {
-            //             user: "Buddae Jigae",
-            //             rating: 5,
-            //             time: "12:00",
-            //             pax: 4,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Orchard"
-            //         },
-            //         {
-            //             user: "Shaun Ting",
-            //             rating: 5,
-            //             time: "10:00",
-            //             pax: 3,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Tampines"
-            //         },
-            //         {
-            //             user: "Ali baba",
-            //             rating: 5,
-            //             time: "10:10",
-            //             pax: 4,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Tampines"
-            //         },
-            //         {
-            //             user: "John Wick",
-            //             rating: 5,
-            //             time: "10:15",
-            //             pax: 4,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Tampines"
-            //         },
-            //         {
-            //             user: "Jennie Kim",
-            //             rating: 5,
-            //             time: "10:07",
-            //             pax: 4,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Tampines"
-            //         },
-            //         {
-            //             user: "KIm Jong Kook",
-            //             rating: 5,
-            //             time: "12:00",
-            //             pax: 4,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Raffles Place"
-            //         },
-            //         {
-            //             user: "Kimchi Jigae",
-            //             rating: 5,
-            //             time: "12:00",
-            //             pax: 4,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Somerset"
-            //         },
-            //         {
-            //             user: "Buddae Jigae",
-            //             rating: 5,
-            //             time: "12:00",
-            //             pax: 4,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Orchard"
-            //         },
-            //         {
-            //             user: "Shaun Ting",
-            //             rating: 5,
-            //             time: "10:00",
-            //             pax: 3,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Tampines"
-            //         },
-            //         {
-            //             user: "Ali baba",
-            //             rating: 5,
-            //             time: "10:10",
-            //             pax: 4,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Tampines"
-            //         },
-            //         {
-            //             user: "John Wick",
-            //             rating: 5,
-            //             time: "10:15",
-            //             pax: 4,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Tampines"
-            //         },
-            //         {
-            //             user: "Jennie Kim",
-            //             rating: 5,
-            //             time: "10:07",
-            //             pax: 4,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Tampines"
-            //         },
-            //         {
-            //             user: "KIm Jong Kook",
-            //             rating: 5,
-            //             time: "12:00",
-            //             pax: 4,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Raffles Place"
-            //         },
-            //         {
-            //             user: "Kimchi Jigae",
-            //             rating: 5,
-            //             time: "12:00",
-            //             pax: 4,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Somerset"
-            //         },
-            //         {
-            //             user: "Buddae Jigae",
-            //             rating: 5,
-            //             time: "12:00",
-            //             pax: 4,
-            //             available: 2,
-            //             from: "Woodlands",
-            //             to: "Orchard"
-            //         },
-            ],
-            vehiclePreference: "All Vehicles"
-        }
-    },
-    mounted() {
-        this.auth = getAuth();
-        this.dbRef = ref(getDatabase())
-        get(child(this.dbRef, `userTypes/${this.auth.currentUser.uid}`)).then((snapshot) => {
-            if (snapshot.exists()){
-                if(snapshot.val().type == "hitcher"){
-                    this.user.type = "hitcher"
-                } else {
-                    this.user.type = "driver"
-                }
-            } else {
-                alert("Application encountered a severe issue. Please login again.")
-                this.logout()
-            }
-        }).catch((error) => {
-            console.error(error)
-            this.logout()
-        })
-        this.setDateStr()
-        this.setTimeStr()
-        this.setValidReq()
-        this.setValidNearbyReq()
-        this.currentLocation()
-        this.retrieveAllReq()
-    }
+    
 }
 </script>
 <style lang="">
