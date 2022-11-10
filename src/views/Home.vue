@@ -245,12 +245,17 @@ export default {
             } 
         },
         setValidNearbyReq() {
-            // console.log("hih")
             this.validNearbyReq = []
             for(let request of this.validReq) {
-                if(this.getDistanceFromLatLonInKm(request.centerStart.lat, request.centerStart.lon, this.currentLat, this.currentLng) <= 5 ) {
+                console.log("SETVALIDNEARBY")
+                console.log(request.centerStart.lat)
+                console.log(request.centerStart.lng)
+                console.log(this.currentLat)
+                console.log(this.currentLng)
+                console.log("END")
+                if(this.getDistanceFromLatLonInKm(request.centerStart.lat, request.centerStart.lng, this.currentLat, this.currentLng) <= 5 ) {
                     this.validNearbyReq.push(request)
-                    console.log(request.centerStart.lat + " " + request.centerStart.lon)
+                    console.log(request.centerStart.lat + " " + request.centerStart.lng)
                 }
             }
             this.validNearbyReq.sort(function(a,b) {

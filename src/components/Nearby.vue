@@ -33,7 +33,7 @@
             </div>
             <div v-else class="flex justify-center text-center py-1 mx-auto mt-10 w-80 sm:w-96 "> 
                 <div class="inline-flex">
-                    <h3 class="sm:text-2xl">No rides to display</h3>
+                    <h3 class="sm:text-2xl">No hitchers to display</h3>
                     <button @click='newReq()' type="button" class="block bg-black hover:bg-opacity-50 bg-opacity-30 p-2 sm:p-3 ml-2 sm:ml-3 rounded-2xl text-white text-sm font-semibold">Add Request</button>
                 </div>
             </div>
