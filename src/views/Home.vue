@@ -7,8 +7,6 @@
             
             <!-- Page content here -->
             <div class="">
-                
-                
                 <div class="flex justify-center items-center text-center mt-10 mb-5 px-2 sm:px-0 w-[450px] sm:w-[570px] mx-auto">
                     <span class="text-center text-2xl text-black  bg-white bg-opacity-80 rounded-lg py-1 px-2 w-full">
                         <p class="font-semibold"><span v-if="this.user.type == 'driver'">Hitcher </span><span v-else>Driver </span>Requests @ </p>
@@ -72,7 +70,6 @@ import Nav from "../components/Nav.vue"
 import Favourite from "../components/Favourite.vue"
 import Nearby from "../components/Nearby.vue"
 import Request from "../components/Request.vue"
-
 import { getAuth, signOut } from 'firebase/auth'
 import { getDatabase, ref, child, get, update, onValue } from 'firebase/database';
 export default {
@@ -99,92 +96,118 @@ export default {
             validReq: [],
             validNearbyReq: [],
             allRequests: [],
-            // requests: [
-            //         {
-            //             centerStart: {
-            //                 lat: "1.431630",
-            //                 lon: "103.785590",
-            //             },
-            //             centerDest: {
-            //                 lat: "1.360540",
-            //                 lon: "103.957380"
-            //             },
-            //             d_address: "Tampines St 45 529498",
-            //             datetime: "2022-11-09T10:00",
-            //             destNeighbourhood: "Tampines",
-            //             pax: "3",
-            //             available: "1",
-            //             s_address: "Woodlands Ave 1 730308",
-            //             startNeighbourhood: "Woodlands",
-            //             uid: "12345",
-            //             user: "luke",
-            //             vehiclePreference: "Car only",
-            //             vehicleType: "Motorcycle"
-            //         },
-            //         {
-            //             centerStart: {
-            //                 lat: "1.360540",
-            //                 lon: "103.957380",
-            //             },
-            //             centerDest: {
-            //                 lat: "1.360540",
-            //                 lon: "103.957380"
-            //             },
-            //             d_address: "Tampines St 45 529498",
-            //             datetime: "2022-11-09T10:00",
-            //             destNeighbourhood: "Tampines",
-            //             pax: "3",
-            //             available: "2",
-            //             s_address: "Marsiling Mrt",
-            //             startNeighbourhood: "Woodlands",
-            //             uid: "12345",
-            //             user: "kim jong kook",
-            //             vehiclePreference: "Car only",
-            //             vehicleType: "Car"
-            //         },
-            //         {
-            //             centerStart: {
-            //                 lat: "1.439500",
-            //                 lon: "103.775630",
-            //             },
-            //             centerDest: {
-            //                 lat: "1.320610",
-            //                 lon: "103.886932"
-            //             },
-            //             d_address: "Geylang Shady Place",
-            //             datetime: "2022-11-09T10:00",
-            //             destNeighbourhood: "Geylang",
-            //             pax: "3",
-            //             available: "2",
-            //             s_address: "Woodlands Ave 1 730308",
-            //             startNeighbourhood: "Woodlands",
-            //             uid: "12345",
-            //             user: "john tao",
-            //             vehiclePreference: "Car only",
-            //             vehicleType: "Car"
-            //         },
-            //         {
-            //             centerStart: {
-            //                 lat: "1.289440",
-            //                 lon: "103.849983",
-            //             },
-            //             centerDest: {
-            //                 lat: "1.360540",
-            //                 lon: "103.957380"
-            //             },
-            //             d_address: "Tampines St 45 529498",
-            //             datetime: "2022-11-09T10:00",
-            //             destNeighbourhood: "Tampines",
-            //             pax: "3",
-            //             available: "2",
-            //             s_address: "SMU",
-            //             startNeighbourhood: "Museum",
-            //             uid: "12345",
-            //             user: "prof kyong",
-            //             vehiclePreference: "Car only",
-            //             vehicleType: "Car"
-            //         },
-            // ],
+            requests: [
+                    {
+                        centerStart: {
+                            lat: "1.360540",
+                            lng: "103.957380"
+                        },
+                        centerDest: {
+                            lat: "1.431630",
+                            lng: "103.785590",
+                        },
+                        s_address: "Tampines St 45 529498",
+                        datetime: "2022-11-12T00:40",
+                        startNeighborhood: "Tampines",
+                        pax: "3",
+                        available: "1",
+                        d_address: "Woodlands Ave 1 730308",
+                        destNeighborhood: "Woodlands",
+                        uid: "12345",
+                        user: "luke",
+                        vehiclePreference: "Car only",
+                        vehicleType: "Car",
+                        askingPrice: "10.00"
+                    },
+                    {
+                        centerStart: {
+                            lat: "1.360540",
+                            lon: "103.957380",
+                        },
+                        centerDest: {
+                            lat: "1.360540",
+                            lon: "103.957380"
+                        },
+                        d_address: "Tampines St 45 529498",
+                        datetime: "2022-11-12T10:00",
+                        destNeighborhood: "Tampines",
+                        pax: "3",
+                        available: "2",
+                        s_address: "Marsiling Mrt",
+                        startNeighborhood: "Woodlands",
+                        uid: "12345",
+                        user: "kim jong kook",
+                        vehiclePreference: "Car only",
+                        vehicleType: "Car",
+                        askingPrice: "10.00"
+                    },
+                    {
+                        centerStart: {
+                            lat: "1.360540",
+                            lon: "103.957380",
+                        },
+                        centerDest: {
+                            lat: "1.360540",
+                            lon: "103.957380"
+                        },
+                        d_address: "Tampines St 45 529498",
+                        datetime: "2022-11-12T10:00",
+                        destNeighborhood: "Tampines",
+                        pax: "3",
+                        available: "2",
+                        s_address: "Marsiling Mrt",
+                        startNeighborhood: "Woodlands",
+                        uid: "12345",
+                        user: "kim jong kook",
+                        vehiclePreference: "Car only",
+                        vehicleType: "Car",
+                        askingPrice: "10.00"
+                    },
+                    {
+                        centerStart: {
+                            lat: "1.439500",
+                            lon: "103.775630",
+                        },
+                        centerDest: {
+                            lat: "1.320610",
+                            lon: "103.886932"
+                        },
+                        d_address: "Geylang Shady Place",
+                        datetime: "2022-11-12T10:00",
+                        destNeighborhood: "Geylang",
+                        pax: "3",
+                        available: "2",
+                        s_address: "Woodlands Ave 1 730308",
+                        startNeighborhood: "Woodlands",
+                        uid: "12345",
+                        user: "john tao",
+                        vehiclePreference: "Car only",
+                        vehicleType: "Car",
+                        askingPrice: "10.00"
+                    },
+                    {
+                        centerStart: {
+                            lat: "1.289440",
+                            lon: "103.849983",
+                        },
+                        centerDest: {
+                            lat: "1.360540",
+                            lon: "103.957380"
+                        },
+                        d_address: "Tampines St 45 529498",
+                        datetime: "2022-11-12T10:00",
+                        destNeighborhood: "Tampines",
+                        pax: "3",
+                        available: "2",
+                        s_address: "SMU",
+                        startNeighborhood: "Museum",
+                        uid: "12345",
+                        user: "prof kyong",
+                        vehiclePreference: "Car only",
+                        vehicleType: "Car",
+                        askingPrice: "10.00"
+                    },
+            ],
             vehiclePreference: "All Vehicles"
         }
     },
@@ -212,6 +235,7 @@ export default {
         this.setTimeStr()
         this.currentLocation()
         this.retrieveAllReq()
+        // this.
     },
     methods: {
         change() {
@@ -257,8 +281,15 @@ export default {
             } else {
                 mins = today.getMinutes()
             }
-            console.log("curr min: " + today.getMinutes())
-            this.time = today.getHours() + ":" + mins
+            // console.log("curr min: " + today.getMinutes())
+            let hours = ""
+            if(today.getHours() < 10) {
+                hours = "0"  + today.getHours() 
+            } else {
+                hours = today.getHours()
+            }
+            this.time = hours + ":" + mins
+            // console.log("NOW TIME: " + this.time)
         },
         setDefaultDate() {
             let today = new Date()
@@ -312,8 +343,8 @@ export default {
             this.setValidNearbyReq()
         },
         checkTime(reqTime) {
-            console.log("CHECKTIME")
-            console.log("this time: " + this.time)
+            // console.log("CHECKTIME")
+            // console.log("this time: " + this.time)
             let selectedHour = 0
             let selectedMins = 0
             selectedHour = parseInt(this.time.split(":")[0])
@@ -323,7 +354,7 @@ export default {
             let timeDiff = selectedMins - mins                      // for same hour
             let diff = 60 - mins + selectedMins                     // for hour + 1 (e.g. request time: 9:40pm, current time: 10:05pm)
             if(hour == selectedHour && (timeDiff <= 30 && timeDiff >= -15) ) {
-                console.log("true")
+                // console.log("true")
                 return true
             } else if(hour + 1 == selectedHour) {
                 if(diff <= 30) {
@@ -333,7 +364,7 @@ export default {
             return false
         },
         checkDate(reqDate) {
-            console.log("DATEEE" + reqDate)
+            // console.log("DATEEE" + reqDate)
             let reqDateSplit = reqDate.split("-")
             let year = reqDateSplit[0]
             let month = reqDateSplit[1]
@@ -351,12 +382,12 @@ export default {
                 let selectedYear = this.date.split("-")[0]
                 let selectedMonth = this.date.split("-")[1]
                 let selectedDay = this.date.split("-")[2]
-                console.log("selectedDay: " + selectedDay)
-                console.log("selectedMonth: " + selectedMonth)
-                console.log("selectedYear: " + selectedYear)
-                console.log(month)
+                // console.log("selectedDay: " + selectedDay)
+                // console.log("selectedMonth: " + selectedMonth)
+                // console.log("selectedYear: " + selectedYear)
+                // console.log(month)
                 if(selectedDay == day && selectedMonth == month && selectedYear == year) {
-                    console.log("yeash")
+                    // console.log("yeash")
                     return true
                 }
                 return false
@@ -364,11 +395,12 @@ export default {
         },
         setValidReq() {
             this.validReq = []
-            console.log("setvalidreq")
-            for(let request of this.allRequests) {
+            // console.log("setvalidreq")
+            //change to this.allRequests
+            for(let request of this.requests) {
                 // console.log(request.rid)
                 if(this.checkTime(request.datetime.split("T")[1]) && this.checkDate(request.datetime.split("T")[0])) {
-                    console.log(request.d_address)
+                    // console.log(request.d_address)
                     console.log("everything true, valid req")
                     this.validReq.push(request)
                 }
@@ -410,10 +442,11 @@ export default {
                 console.log(request.centerStart.lng)
                 console.log(this.currentLat)
                 console.log(this.currentLng)
+                console.log("distance is= " + this.getDistanceFromLatLonInKm(request.centerStart.lat, request.centerStart.lng, this.currentLat, this.currentLng))
                 console.log("END")
-                if(this.getDistanceFromLatLonInKm(request.centerStart.lat, request.centerStart.lng, this.currentLat, this.currentLng) <= 5 ) {
-                    this.validNearbyReq.push(request)
+                if(this.getDistanceFromLatLonInKm(request.centerStart.lat, request.centerStart.lng, this.currentLat, this.currentLng) <= 10 ) {
                     console.log(request.centerStart.lat + " " + request.centerStart.lng)
+                    this.validNearbyReq.push(request)
                 }
             }
             this.validNearbyReq.sort(function(a,b) {
