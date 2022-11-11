@@ -16,17 +16,17 @@
                 
                 <h1 class="text-center text-white text-3xl mb-4"> Leave a review </h1>
                 <div class="rating rating-lg flex justify-center">
-                    <input type="radio" name="rating-9" class="rating-hidden" />
-                    <input type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
-                    <input type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500"  checked />
-                    <input type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
-                    <input type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
-                    <input type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
+                    <input v-model="item.reviewRating" v-bind:value="0" type="radio" name="rating-9" class="rating-hidden" />
+                    <input v-model="item.reviewRating" v-bind:value="1" type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
+                    <input v-model="item.reviewRating" v-bind:value="2" type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500"  checked />
+                    <input v-model="item.reviewRating" v-bind:value="3" type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
+                    <input v-model="item.reviewRating" v-bind:value="4" type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
+                    <input v-model="item.reviewRating" v-bind:value="5" type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
                 </div>
                 <label class="label">
                     <span class="label-text text-white text-xl ml-10 mr-10">Review</span>
                 </label> 
-                <textarea v-model="reviewText" class="textarea textarea-bordered h-30 ml-10 mr-10" placeholder=""></textarea>
+                <textarea v-model="item.reviewText" class="textarea textarea-bordered h-30 ml-10 mr-10" placeholder=""></textarea>
         
                 <button type="button" @click="addReview()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white mb-8 mt-5 md:mt-5 md:ml-10 mr-10"> Submit Review </button>
                 
@@ -49,12 +49,12 @@
                             <div class="font-bold">Display Name</div>
                             <div class="text-sm opacity-50">
                                 <div class="rating rating-lg">
-                                    <input v-model="reviewRating" v-bind:value="0" type="radio" name="rating-10" class="rating-hidden" checked/>
-                                    <input v-model="reviewRating" v-bind:value="1" type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
-                                    <input v-model="reviewRating" v-bind:value="2" type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
-                                    <input v-model="reviewRating" v-bind:value="3" type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
-                                    <input v-model="reviewRating" v-bind:value="4" type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
-                                    <input v-model="reviewRating" v-bind:value="5" type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
+                                    <input type="radio" name="rating-10" class="rating-hidden" checked/>
+                                    <input type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
+                                    <input type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
+                                    <input type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
+                                    <input type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
+                                    <input type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
                                 </div>
                             </div>
                             <div class="text-sm opacity-50">Review</div>
@@ -96,7 +96,7 @@ export default {
             const auth = getAuth()
             const db = getDatabase()
 
-            let review = {photoURL: auth.currentUser.photoURL, rating: "test", reviewText: this.item.reviewText, reviewId: auth.currentUser.uid}
+            let review = {photoURL: auth.currentUser.photoURL, rating: this.item.reviewRating, reviewText: this.item.reviewText, reviewId: auth.currentUser.uid}
 
             const postListRef = ref(db, 'userReviews/' + this.item.profileUID)
             const newUID = push(postListRef)
