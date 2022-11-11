@@ -10,25 +10,26 @@
         <span class="mt-10 w-96 sm:w-[600px] mx-auto text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-60 rounded-lg py-1 px-2 mb-10 ">
                 New Request
         </span>
-        <div class=" inline-block ml-auto mr-auto shadow-xl rounded-lg w-96 sm:w-[600px]  px-3 py-5 relative mt-3 border bg-white bg-opacity-95 ">
+        <div class=" inline-block mx-auto shadow-xl rounded-lg w-96 sm:w-[600px]  px-3 py-5 relative mt-3 border bg-white bg-opacity-95 ">
             <!-- query autocomplete api, maps sdk api -->
             <form>
-              <div class="grid grid-rows-4 form-control px-2 sm:px-0 items-center mx-auto mb-5">
+              <div class="grid grid-rows-8 form-control px-2 sm:px-0 items-center mx-auto mb-5">
                 <!-- <span class="text-3xl rounded-lg py-2 text-black font-bold mb-5">Add Request</span> -->
-                <div class="inline-flex mb-2">
-                  <div class="flex form-control w-1/2 mr-5">
+                <div class="grid sm:grid-cols-2">
+                  <div class="flex form-control sm:mr-5">
                     <label class="label">
                       <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Date & Time of Request</span>
-                    </label>
+                    </label> 
                     <input v-model.lazy="input.datetime" type="datetime-local" placeholder="Date and Time" className="input input-bordered w-full bg-opacity-90" />
                   </div>
-                  <div class="flex form-control w-1/2">
+
+                  <div class="flex form-control mt-3 sm:mt-0">
                     <div class="tooltip " data-tip="This is the asking price you can provide to other users for them to gauge how much to offer you">
                       <label class="label">
                         <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Asking Price</span>
                       </label>
                     </div>
-                    <input v-model.lazy="input.datetime" type="number" placeholder="0.00" className="input input-bordered w-full bg-opacity-90" />
+                    <input v-model.lazy="askingPrice" type="number" placeholder="0.00" className="input input-bordered w-full bg-opacity-90" />
                     <!-- <label class="input-group w-1/2">
                       <span class="bg-slate-600 text-white">$</span>
                       <input type="number" placeholder="0.00" class="input input-bordered" />
@@ -38,48 +39,50 @@
                     <!-- <div class="">
                         <input v-model.lazy="input.pax" type="number" placeholder="No. of Pax" className="input input-bordered input-warning w-full max-w-xs sm:max-w-md mt-5" />
                     </div> -->
-                    <div class="inline-flex">
-                      <div class="flex form-control w-1/2 mr-5">
-                          <label class="label">
-                            <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Pax</span>
-                          </label>
-                          <select class="select select-bordered bg-opacity-90" v-model.lazy="input.pax">
-                            <option selected>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                          </select>
-                      </div>  
-                      <div v-if="this.user.type == 'driver'" class="flex form-control w-1/2">
-                          <label class="label">
-                            <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Vehicle Type</span>
-                          </label>
-                          <select class="select select-bordered bg-opacity-90" v-model.lazy="input.vehicleType">
-                            <option selected>Car</option>
-                            <option>Van</option>
-                            <option>Motorcycle</option>
-                            <option>Lorry</option>
-                          </select>
-                      </div>  
-                      <div v-else class="flex form-control w-1/2 ">
-                          <label class="label">
-                              <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Preferred Vehicle Type</span>
-                          </label>
-                          <select class="select select-bordered bg-opacity-90" v-model.lazy="input.vehiclePreference">
-                              <option selected>All Vehicles</option>
-                              <option>Car Only</option>
-                              <option>Car, Lorry & Van Only</option>
-                              <option>Car & Motorcycle Only</option>
-                          </select>
-                      </div>
+                <div class="grid sm:grid-cols-2">
+                  <div class="flex form-control sm:mr-5 mt-3 sm:mt-2">
+                      <label class="label">
+                        <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Pax</span>
+                      </label>
+                      <select class="select select-bordered bg-opacity-90" v-model.lazy="input.pax">
+                        <option selected>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                      </select>
                   </div>
-                    
-                  <div className="inline-flex mt-5 ">
-                    <input v-model.lazy="input.s_address" type="text" placeholder="Starting Point Address" className="input input-bordered w-full bg-opacity-90 "  />
+                  <div>
+                    <div v-if="this.user.type == 'driver'" class="flex form-control mt-3 sm:mt-2">
+                        <label class="label">
+                          <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Vehicle Type</span>
+                        </label>
+                        <select class="select select-bordered bg-opacity-90" v-model.lazy="input.vehicleType">
+                          <option selected>Car</option>
+                          <option>Van</option>
+                          <option>Motorcycle</option>
+                          <option>Lorry</option>
+                        </select>
+                    </div>  
+                    <div v-else class="flex form-control mt-3 sm:mt-2">
+                        <label class="label">
+                            <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Preferred Vehicle Type</span>
+                        </label>
+                        <select class="select select-bordered bg-opacity-90" v-model.lazy="input.vehiclePreference">
+                            <option selected>All Vehicles</option>
+                            <option>Car Only</option>
+                            <option>Car, Lorry & Van Only</option>
+                            <option>Car & Motorcycle Only</option>
+                        </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="">
+                  <div className="inline-flex mt-3 sm:mt-5 sm:w-full">
+                    <input v-model.lazy="input.s_address" type="text" placeholder="Starting Point Address" className="input input-bordered sm:w-full bg-opacity-90"/>
                     <button type="button" @click='queryMapsStart()' class="btn btn-ghost hover:bg-slate-700 bg-slate-500 text-white ml-4 bg-opacity-90">Search</button>
                   </div>
-                    <div v-if="seenStart" className="mt-3">
+                  <div v-if="seenStart" className="mt-3">
                       <p>{{ input.startNeighborhood }}</p>
                         <GMapMap
                             :center="input.centerStart"
@@ -93,32 +96,36 @@
                                 :position="m.position"
                             />
                         </GMapMap>
-                    </div>
-                    <div class="inline-flex mt-5">
-                        <input v-model.lazy="input.d_address" type="text" placeholder="Destination Point Address" className="input input-bordered w-full bg-opacity-90" />
-                        <button type="button" @click='queryMapsDest()' class="btn btn-ghost hover:bg-slate-700 bg-slate-600 text-white ml-4 bg-opacity-90">Search</button>
-                    </div>
-                    <div v-if="seenDest" className="mt-3">
-                      <p>{{ input.destNeighborhood }}</p>
-                        <GMapMap
-                            :center="input.centerDest"
-                            :zoom="18"
-                            map-type-id="terrain"
-                            style="width: auto; height: 20rem"
-                        >
-                            <GMapMarker
-                                :key="index"
-                                v-for="(m, index) in markersDest"
-                                :position="m.position"
-                            />
-                        </GMapMap>
-                    </div>
+                  </div>
                 </div>
-                <div class="text-center">
-                    <button type="button" @click="writeReqData" class="btn btn-ghost hover:bg-slate-700 bg-slate-600 text-white ml-5 bg-opacity-90">Submit</button>
+                <div class="grid grid-cols-1">
+                      <div class="inline-flex mt-3 sm:mt-5 sm:w-full">
+                          <input v-model.lazy="input.d_address" type="text" placeholder="Destination Point Address" className="input input-bordered sm:w-full bg-opacity-90" />
+                          <button type="button" @click='queryMapsDest()' class="btn btn-ghost hover:bg-slate-700 bg-slate-600 text-white ml-4 bg-opacity-90">Search</button>
+                      </div>
+                
+                  <div v-if="seenDest" className="mt-3">
+                    <p>{{ input.destNeighborhood }}</p>
+                      <GMapMap
+                          :center="input.centerDest"
+                          :zoom="18"
+                          map-type-id="terrain"
+                          style="width: auto; height: 20rem"
+                      >
+                          <GMapMarker
+                              :key="index"
+                              v-for="(m, index) in markersDest"
+                              :position="m.position"
+                          />
+                      </GMapMap>
+                  </div>
                 </div>
-            </form>
-        </div>
+              </div>
+                      <div class="text-center mt-5 ">
+                          <button type="button" @click="writeReqData" class="btn btn-ghost hover:bg-slate-700 bg-slate-600 text-white ml-5 bg-opacity-90">Submit</button>
+                      </div>
+                  </form>
+                </div>
         <!-- Page content ends here -->
         </div> 
         <div class="drawer-side">
@@ -176,6 +183,7 @@ export default {
           lat: 0.0, lng: 0.0 
         },
       },
+      askingPrice: "",
       markersStart: [
         {
             position: {
@@ -314,14 +322,14 @@ export default {
     writeReqData () {
       //should check if all fields have been entered before setting and redirecting
 
-      // set(ref(db, 'userReqs/' + this.auth.currentUser.uid), this.input);
+      set(ref(db, 'userReqs/' + this.auth.currentUser.uid), this.input);
       const db = getDatabase();
       const postListRef = ref(db, 'userReqs');
       const newPostRef = push(postListRef);
       set(newPostRef, this.input);
       alert("Successfully submitted request!")
-
       this.$router.push('/')
+      // console.log(this.input.datetime)
     },
     home() {
         this.$router.push('../')
