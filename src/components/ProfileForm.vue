@@ -1,212 +1,86 @@
 <template lang="">
     <div>
-        <div class="p-16">
-            <div class="p-8 bg-white rounded-lg shadow mt-24">
-            <div class="grid grid-cols-1 md:grid-cols-1">
-                <div class="relative">
-                    <div style="overflow:hidden" class="w-48 h-48 bg-indigo-100 mx-auto rounded-full shadow-2xl absolute inset-x-0 top-0 -mt-32 flex items-center justify-center text-indigo-500"> 
-                        <img v-if="item.imageUrl" :src="item.imageUrl" contain style="width:100%;height:100%;object-fit:cover"/>
-                        <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-24 w-24" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                        </svg>
-
-                    </div>
-                </div>
-
-                <div class="space-x-8 flex justify-between md:mt-20 sm:mt-200 md:justify-center">
-                    <button @click="browse()" class="text-white py-2 px-4 uppercase rounded bg-blue-400 hover:bg-blue-500 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
-                    Browse
-                    </button>
-                    <input style="display:none" ref="input" type="file" accept="image/*" @change="onChange" />
-
-                    <button @click="onUpload()" class="text-white py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5">
-                    Upload
-                    </button>
-                </div>
-            </div>
-
-            <div class="mt-10 text-center border-b pb-12">
-                <h1 class="text-4xl font-medium text-gray-700 mb-4">Jessica Jones</h1>
-                <div class="rating rating-md rating-half">
-                    <input type="radio" name="rating-10" class="rating-hidden" />
-                    <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-1" checked />
-                    <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-2" />
-                    <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-1" />
-                    <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-2" />
-                    <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-1" />
-                    <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-2" />
-                    <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-1" />
-                    <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-2" />
-                    <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-1" />
-                    <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-2" />
-                </div>
-                <p class="mt-2 text-gray-500">4.5 stars </p>
-                <h1 class="mt-8 text-xl text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, rem nulla. Nostrum maiores adipisci minus ex ratione quos dolor reiciendis blanditiis. Sed laboriosam voluptatum ullam velit, inventore consequuntur quis facilis!</h1>
-            </div>
-
-            <div class="mt-8 flex flex-col justify-center">
-                <p class="text-black-600 text-center font-light text-3xl font-extrabold mb-8"> REVIEW </p>
-                <div class="grid grid-cols-2">
-                    <div class="row-span-2 col-span-1"> 
-                        <p class="text-black-600 text-end font-light mr-10 text-4xl font-bold mb-4"> 4.5 </p>
-                    </div>
-                    <div class="row-span-1 col-span-1"> 
-                        <div class="rating rating-md rating-half">
-                            <input type="radio" name="rating-10" class="rating-hidden" />
-                            <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-1" />
-                            <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-2" />
-                            <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-1" />
-                            <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-2" />
-                            <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-1" />
-                            <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-2" />
-                            <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-1" />
-                            <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-2" />
-                            <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-1" checked/>
-                            <input type="radio" name="rating-10" class="bg-yellow-500 mask mask-star-2 mask-half-2" />
-                        </div>
-                    </div>
-                    <div class="row-span-1 col-span-1"> 
-                        <p class="text-black-600 text-start font-light text-xl ml-2"> from 20 people </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-6 flex flex-col justify-center">
-                <div class="overflow-x-auto w-full">
-                    <table class="table w-full">
-                    
-                        <thead>
-                        
-                        </thead>
-                        <tbody>
-                        
-                        <tr class="hover">
-                            <th></th>
-                            <th></th>
-                            <td>
-                            <div class="flex items-center space-x-3">
-                                <div class="avatar">
-                                    <div class="mask mask-squircle w-12 h-12">
-                                       
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="font-bold">Soerdiman</div>
-                                    <div class="rating rating-sm">
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" />
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" />
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" />
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" checked/>
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" />
-                                    </div>
-                                </div>
-                                <div class="whitespace-normal">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus reprehenderit, non nostrum ducimus placeat consequatur atque dolor ullam ab cumque fugit suscipit eum natus aliquid voluptatum laboriosam voluptate debitis veritatis?
-                                </div>
-                            </div>
-                           
-                            </td>
-                        </tr>
-                       
-                        <tr class="hover">
-                            <th></th>
-                            <th></th>
-                            <td>
-                            <div class="flex items-center space-x-3">
-                                <div class="avatar">
-                                    <div class="mask mask-squircle w-12 h-12">
-                                        
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="font-bold">Soerdiman</div>
-                                    <div class="rating rating-sm">
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" />
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" />
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" />
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" checked/>
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" />
-                                    </div>
-                                </div>
-                                <div class="whitespace-normal">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus reprehenderit, non nostrum ducimus placeat consequatur atque dolor ullam ab cumque fugit suscipit eum natus aliquid voluptatum laboriosam voluptate debitis veritatis?
-                                </div>
-                            </div>
-                           
-                            </td>
-                        </tr>
-                    
-                        <tr class="hover">
-                            <th></th>
-                            <th></th>
-                            <td>
-                            <div class="flex items-center space-x-3">
-                                <div class="avatar">
-                                    <div class="mask mask-squircle w-12 h-12">
-                                        
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="font-bold">Soerdiman</div>
-                                    <div class="rating rating-sm">
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" />
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" />
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" />
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" checked/>
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" />
-                                    </div>
-                                </div>
-                                <div class="whitespace-normal">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus reprehenderit, non nostrum ducimus placeat consequatur atque dolor ullam ab cumque fugit suscipit eum natus aliquid voluptatum laboriosam voluptate debitis veritatis?
-                                </div>
-                            </div>
-                           
-                            </td>
-                        </tr>
-                      
-                        <tr class="hover">
-                            <th></th>
-                            <th></th>
-                            <td>
-                            <div class="flex items-center space-x-3">
-                                <div class="avatar">
-                                    <div class="mask mask-squircle w-12 h-12">
-                                        
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="font-bold">Soerdiman</div>
-                                    <div class="rating rating-sm">
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" />
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" />
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" />
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" checked/>
-                                        <input type="radio" name="rating-6" class="mask mask-star-2 bg-orange-400" />
-                                    </div>
-                                </div>
-                                <div class="whitespace-normal">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus reprehenderit, non nostrum ducimus placeat consequatur atque dolor ullam ab cumque fugit suscipit eum natus aliquid voluptatum laboriosam voluptate debitis veritatis?
-                                </div>
-                            </div>
-                           
-                            </td>
-                        </tr>
-                        </tbody>
-                   
-                        <tfoot>
-                    
-                        </tfoot>
-                        
-                    </table>
-                </div>
+        <div class="avatar flex justify-center mt-8">
+            <div class="w-40 rounded-full ring ring-white ring-offset-base-100 ring-offset-2">
+                <img v-if="item.imageUrl" :src="item.imageUrl" contain style="width:100%;height:100%;object-fit:cover"/>
+                <img v-else src="https://placeimg.com/192/192/people" />
             </div>
         </div>
+        <div class="flex justify-center">
+            <span class="text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-90 rounded-lg py-1 px-2 mb-4 max-w-xs w-full mt-4">
+                {{ item.displayName }}
+            </span>              
+        </div>
+        <div class="flex justify-center mb-4">
+            <button type="button" @click="browse()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white mr-6"> Browse </button>
+            <input style="display:none" ref="input" type="file" accept="image/*" @change="onChange" />
+            <button type="button" @click="onUpload()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white"> Upload </button>
+        </div> 
+        <div class="overflow-x-auto w-full">
+            <table class="table w-full">
+                <!-- head -->
+                <thead>
+                <tr>
+                    <th>
+                    <label>
+                        <input type="checkbox" class="checkbox" />
+                    </label>
+                    </th>
+                    <th>Name</th>
+                    <th>Job</th>
+                    <th>Favorite Color</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- row 1 -->
+                <tr>
+                    <th>
+                    <label>
+                        <input type="checkbox" class="checkbox" />
+                    </label>
+                    </th>
+                    <td>
+                    <div class="flex items-center space-x-3">
+                        <div class="avatar">
+                        <div class="mask mask-squircle w-12 h-12">
+                            
+                        </div>
+                        </div>
+                        <div>
+                        <div class="font-bold">Hart Hagerty</div>
+                        <div class="text-sm opacity-50">United States</div>
+                        </div>
+                    </div>
+                    </td>
+                    <td>
+                    Zemlak, Daniel and Leannon
+                    <br/>
+                    <span class="badge badge-ghost badge-sm">Desktop Support Technician</span>
+                    </td>
+                    <td>Purple</td>
+                    <th>
+                    <button class="btn btn-ghost btn-xs">details</button>
+                    </th>
+                </tr>
+                </tbody>
+                <!-- foot -->
+                <tfoot>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Job</th>
+                    <th>Favorite Color</th>
+                    <th></th>
+                </tr>
+                </tfoot>
+                
+            </table>
+        </div>
     </div>
-</div>
 </template>
 <script>
 import { getAuth, updateProfile } from 'firebase/auth';
-// import { getStorage, ref, uploadString } from "firebase/storage"
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 export default {
     name: "ProfileForm",
@@ -215,6 +89,7 @@ export default {
         return {
             item:{
                 //...
+                displayName: null,
                 image : null,
                 imageUrl: null
             }
@@ -305,7 +180,15 @@ export default {
     mounted() {
         const auth = getAuth()
         this.item.imageUrl = auth.currentUser.photoURL
+        this.item.displayName = auth.currentUser.displayName
     },
+    created: function(){
+        if (this.$route.params.uid) {
+            const uid = this.$route.params.uid
+            console.log(uid)
+        }
+            // this.fetchCustomers();
+        }
 }
 </script>
 <style lang="">

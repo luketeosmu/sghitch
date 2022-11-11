@@ -72,6 +72,7 @@
                         <div v-else><b>Available seats:</b> {{ request.available }} persons</div>
                         <div><b>From:</b> {{ request.s_address }}</div>
                         <div><b>Destination:</b> {{ request.d_address }} </div>
+                        <button @click='view(request.uid)' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold mt-2">View Profile</button>
                     </ul>
                     <button @click='chat()' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold">Chat</button>
                 </label>
@@ -211,6 +212,9 @@ export default {
             let timeStr = hours + ':' + minutes + ampm
             return timeStr
         },
+        view(uid){
+            this.$router.push({name:'Profile', params: { uid }})
+        }
     }
 }
 </script>
