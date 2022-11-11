@@ -200,8 +200,25 @@ export default {
           console.error(error)
           this.logout()
       })
+      this.setDateTime()
   },
   methods: {
+    setDateTime() {
+      let today = new Date()
+      let year = today.getFullYear()
+      let month = today.getMonth() + 1
+      let day = today.getDate()
+      let mins = ""
+        if(today.getMinutes() < 10) {
+            mins = "0" + today.getMinutes()
+        } else {
+            mins = today.getMinutes()
+      }
+      let hour = today.getHours()
+      let str = year + "-" + month + "-" + day + "T" + hour + ":" + mins
+      // console.log(year + "-" + month + "-" + day + "T" + hour + ":" + mins)
+      this.input.datetime = str
+    },
     queryMapsStart() {
       try {
         if (this.input.s_address != "") {

@@ -206,17 +206,8 @@ export default {
             console.error(error)
             this.logout()
         })
-        let today = new Date()
-        let mins = ""
-        if(today.getMinutes() < 10) {
-            mins = "0" + today.getMinutes()
-        } else {
-            mins = today.getMinutes()
-        }
-        let month = today.getMonth() + 1
-        console.log("curr min: " + today.getMinutes())
-        this.time = today.getHours() + ":" + mins
-        this.date = today.getFullYear() + "-" + month + "-" + today.getDate()
+        this.setDefaultDate()
+        this.setDefaultTime()
         this.setDateStr()
         this.setTimeStr()
         this.currentLocation()
@@ -258,24 +249,47 @@ export default {
                 this.$router.push('/login')
             })
         },
+        setDefaultTime() {
+            let today = new Date()
+            let mins = ""
+            if(today.getMinutes() < 10) {
+                mins = "0" + today.getMinutes()
+            } else {
+                mins = today.getMinutes()
+            }
+            console.log("curr min: " + today.getMinutes())
+            this.time = today.getHours() + ":" + mins
+        },
+        setDefaultDate() {
+            let today = new Date()
+            let month = today.getMonth() + 1
+            this.date = today.getFullYear() + "-" + month + "-" + today.getDate()
+        },
         setDateStr() {
+            // console.log("setDateStr")
             let dateArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
             let today = new Date()
-            if(this.date == "") {
-                // console.log(today.getMonth())
+
+            let currMonth = today.getMonth() + 1
+            let currDay = today.getDate()
+            let currYear = today.getFullYear()
+            let str = String(this.date)
+            let year = str.split("-")[0]
+            let month = str.split("-")[1]
+            let day = str.split("-")[2]
+            // console.log(currMonth + ":" + month)
+            // console.log(currYear + ":" + year)
+            // console.log(currDay + ":" + day)
+            if(year == currYear && currMonth == month && currDay == day) {
                 this.dateStr = "Today"
             } else {
-                // console.log(this.date)
-                let str = String(this.date)
-                let year = str.split("-")[0]
-                let month = str.split("-")[1]
-                let day = str.split("-")[2]
-                today = new Date(year, month, day)
-                // console.log(month)
                 this.dateStr = day + " " + dateArr[(month - 1)]
             }
             this.setValidReq()
             this.setValidNearbyReq()
+
+            // today = new Date(year, month, day)
+            // console.log(month)
         },
         setTimeStr() {
             let hours = ""
