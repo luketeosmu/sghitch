@@ -56,7 +56,14 @@ export default {
       logout(){
         this.$router.push('/login')
       }
-    }
+    },
+    data() {
+        return {
+            reviews: [
+            ],
+            
+        }
+    },
 }
 </script>
 

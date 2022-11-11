@@ -6,186 +6,125 @@
                 <img v-else src="https://placeimg.com/192/192/people" />
             </div>
         </div>
-        <div class="flex justify-center">
+        <div class="flex justify-center mb-4">
             <span class="text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-90 rounded-lg py-1 px-2 mb-4 max-w-xs w-full mt-4">
                 {{ item.displayName }}
             </span>              
         </div>
-        <div class="flex justify-center mb-4">
-            <button type="button" @click="browse()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white mr-6"> Browse </button>
-            <input style="display:none" ref="input" type="file" accept="image/*" @change="onChange" />
-            <button type="button" @click="onUpload()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white"> Upload </button>
-        </div> 
-        <div class="overflow-x-auto w-full">
+        <form>
+            <div class="form-control mb-4">
+                
+                <h1 class="text-center text-white text-3xl mb-4"> Leave a review </h1>
+                <div class="rating rating-lg flex justify-center">
+                    <input type="radio" name="rating-9" class="rating-hidden" />
+                    <input type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
+                    <input type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500"  checked />
+                    <input type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
+                    <input type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
+                    <input type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
+                </div>
+                <label class="label">
+                    <span class="label-text text-white text-xl ml-10 mr-10">Review</span>
+                </label> 
+                <textarea v-model="reviewText" class="textarea textarea-bordered h-30 ml-10 mr-10" placeholder=""></textarea>
+        
+                <button type="button" @click="addReview()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white mb-8 mt-5 md:mt-5 md:ml-10 mr-10"> Submit Review </button>
+                
+            </div>
+        </form>
+        
+        <div class="overflow-x-auto md:ml-10 mr-10">
             <table class="table w-full">
-                <!-- head -->
-                <thead>
-                <tr>
-                    <th>
-                    <label>
-                        <input type="checkbox" class="checkbox" />
-                    </label>
-                    </th>
-                    <th>Name</th>
-                    <th>Job</th>
-                    <th>Favorite Color</th>
-                    <th></th>
-                </tr>
-                </thead>
                 <tbody>
                 <!-- row 1 -->
                 <tr>
-                    <th>
-                    <label>
-                        <input type="checkbox" class="checkbox" />
-                    </label>
-                    </th>
                     <td>
                     <div class="flex items-center space-x-3">
                         <div class="avatar">
-                        <div class="mask mask-squircle w-12 h-12">
-                            
-                        </div>
+                            <div class="mask mask-squircle w-12 h-12">
+                                <!-- IMG --> Image
+                            </div>
                         </div>
                         <div>
-                        <div class="font-bold">Hart Hagerty</div>
-                        <div class="text-sm opacity-50">United States</div>
+                            <div class="font-bold">Display Name</div>
+                            <div class="text-sm opacity-50">
+                                <div class="rating rating-lg">
+                                    <input v-model="reviewRating" v-bind:value="0" type="radio" name="rating-10" class="rating-hidden" checked/>
+                                    <input v-model="reviewRating" v-bind:value="1" type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
+                                    <input v-model="reviewRating" v-bind:value="2" type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
+                                    <input v-model="reviewRating" v-bind:value="3" type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
+                                    <input v-model="reviewRating" v-bind:value="4" type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
+                                    <input v-model="reviewRating" v-bind:value="5" type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
+                                </div>
+                            </div>
+                            <div class="text-sm opacity-50">Review</div>
                         </div>
                     </div>
                     </td>
-                    <td>
-                    Zemlak, Daniel and Leannon
-                    <br/>
-                    <span class="badge badge-ghost badge-sm">Desktop Support Technician</span>
-                    </td>
-                    <td>Purple</td>
-                    <th>
-                    <button class="btn btn-ghost btn-xs">details</button>
-                    </th>
                 </tr>
                 </tbody>
-                <!-- foot -->
-                <tfoot>
-                <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Job</th>
-                    <th>Favorite Color</th>
-                    <th></th>
-                </tr>
-                </tfoot>
-                
             </table>
         </div>
     </div>
 </template>
 <script>
 import { getAuth, updateProfile } from 'firebase/auth';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
+import { getDatabase, ref, onValue, push, set} from "firebase/database";
+// import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 export default {
     name: "ProfileForm",
+
+    props: {
+        reviews: Array
+    },
 
     data() {
         return {
             item:{
-                //...
-                displayName: null,
+                displayName: "",
                 image : null,
-                imageUrl: null
+                imageUrl: null,
+                reviewRating: "",
+                reviewText: "",
+                profileUID: "",
             }
         }
     },
 
     methods: {
-
-        browse() {
-            this.$refs.input.click()  
-        },
-
-        onChange(e) {
-            const file = e.target.files[0]
-            this.image = file
-            this.item.imageUrl = URL.createObjectURL(file)
-        },
-
-        onUpload(){
-
+        addReview(){
             const auth = getAuth()
-            const storage = getStorage()
-            const userId = auth.currentUser.uid
-            
-            //read file
-            const file = document.querySelector('input[type=file]').files[0]
+            const db = getDatabase()
 
-            // Create the file metadata
-            /** @type {any} */
-            const metadata = {
-            contentType: 'image/jpeg'
-            };
+            let review = {photoURL: auth.currentUser.photoURL, rating: "test", reviewText: this.item.reviewText, reviewId: auth.currentUser.uid}
 
-            // Upload file and metadata to the object 'images/mountains.jpg'
-            
-            const imgRef = ref(storage, 'userImg/' + 'ProfileImg_' + userId);
-            
-            const uploadTask = uploadBytesResumable(imgRef, file, metadata);
+            const postListRef = ref(db, 'userReviews/' + this.item.profileUID)
+            const newUID = push(postListRef)
+            set(newUID, review)
+            review.key = newUID.key
+            this.reviews.push(review)
 
-            // Listen for state changes, errors, and completion of the upload.
-            uploadTask.on('state_changed',
-            (snapshot) => {
-                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log('Upload is ' + progress + '% done');
-                switch (snapshot.state) {
-                case 'paused':
-                    console.log('Upload is paused');
-                    break;
-                case 'running':
-                    console.log('Upload is running');
-                    break;
-                }
-            }, 
-            (error) => {
-                switch (error.code) { 
-                case 'storage/unauthorized':
-                    // User doesn't have permission to access the object
-                    break;
-                case 'storage/canceled':
-                    // User canceled the upload
-                    break;
-                case 'storage/unknown':
-                    // Unknown error occurred, inspect error.serverResponse
-                    break;
-                }
-            }, 
-            () => {
-                // Upload completed successfully, now we can get the download URL
-                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                        updateProfile(auth.currentUser, {
-                        photoURL: downloadURL
-                        }).then(() => {
-                            alert("Successfully updated details!")
-                            location.reload()
-                        }).catch((error) => {
-                            console.log(error.code)
-                            console.log(error.message)
-                            console.log(error)
-                            alert("Failed to update details. Please try again.")    
-                        });
-                        console.log('File available at', downloadURL);
-                    });
-                }
-            );      
-        },
+            this.item.reviewText = ""
+        }
     },
     mounted() {
-        const auth = getAuth()
-        this.item.imageUrl = auth.currentUser.photoURL
-        this.item.displayName = auth.currentUser.displayName
+        // const auth = getAuth()
+        // this.item.imageUrl = auth.currentUser.photoURL
+        // this.item.displayName = auth.currentUser.displayName
     },
     created: function(){
         if (this.$route.params.uid) {
             const uid = this.$route.params.uid
+            this.item.profileUID = uid
             console.log(uid)
+
+            const db = getDatabase();
+            const userObj = ref(db, 'userInfo/' + uid);
+            onValue(userObj, (snapshot) => {
+                const data = snapshot.val();
+                this.item.imageUrl = data.email
+                this.item.displayName = data.displayName
+            });
         }
             // this.fetchCustomers();
         }
