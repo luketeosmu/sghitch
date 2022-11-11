@@ -11,10 +11,13 @@
                 {{ item.displayName }}
             </span>              
         </div>
-        <form>
-            <div class="form-control mb-4">
-                
-                <h1 class="text-center text-white text-3xl mb-4"> Leave a review </h1>
+        <div class="flex justify-center">
+            <button type="button" @click="show()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white mb-8 mt-5 md:mt-5 md:ml-10 mr-10"> Leave a review </button>
+        </div>
+        <form v-show="isHidden">
+            <div class="form-control mb-4 bg-white bg-opacity-90 rounded-lg ml-10 mr-10">
+
+                <h1 class="text-center text-black text-3xl mb-4 pt-4"> Click the stars to give a rating! </h1>
                 <div class="rating rating-lg flex justify-center">
                     <input v-model="item.reviewRating" v-bind:value="0" type="radio" name="rating-9" class="rating-hidden" />
                     <input v-model="item.reviewRating" v-bind:value="1" type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
@@ -24,9 +27,9 @@
                     <input v-model="item.reviewRating" v-bind:value="5" type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
                 </div>
                 <label class="label">
-                    <span class="label-text text-white text-xl ml-10 mr-10">Review</span>
+                    <span class="label-text text-black text-xl ml-10 mr-10">Review</span>
                 </label> 
-                <textarea v-model="item.reviewText" class="textarea textarea-bordered h-30 ml-10 mr-10" placeholder=""></textarea>
+                <textarea v-model="item.reviewText" class="textarea textarea-bordered h-24 ml-10 mr-10" placeholder=""></textarea>
         
                 <button type="button" @click="addReview()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white mb-8 mt-5 md:mt-5 md:ml-10 mr-10"> Submit Review </button>
                 
@@ -87,7 +90,8 @@ export default {
                 reviewRating: "",
                 reviewText: "",
                 profileUID: "",
-            }
+            },
+            isHidden: false
         }
     },
 
@@ -105,6 +109,13 @@ export default {
             this.reviews.push(review)
 
             this.item.reviewText = ""
+        },
+        show(){
+            if(this.isHidden){
+                this.isHidden = false
+            }else{
+            this.isHidden = true
+            }
         }
     },
     mounted() {
