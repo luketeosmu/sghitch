@@ -13,13 +13,27 @@
         <div class=" inline-block ml-auto mr-auto shadow-xl rounded-lg w-96 sm:w-[600px]  px-3 py-5 relative mt-3 border bg-white bg-opacity-95 ">
             <!-- query autocomplete api, maps sdk api -->
             <form>
-              <div class="grid grid-row-4 form-control px-2 sm:px-0 items-center mx-auto mb-5">
+              <div class="grid grid-rows-4 form-control px-2 sm:px-0 items-center mx-auto mb-5">
                 <!-- <span class="text-3xl rounded-lg py-2 text-black font-bold mb-5">Add Request</span> -->
-                <div class="flex form-control">
-                  <label class="label">
+                <div class="inline-flex mb-2">
+                  <div class="flex form-control w-1/2 mr-5">
+                    <label class="label">
                       <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Date & Time of Request</span>
                     </label>
-                  <input v-model.lazy="input.datetime" type="datetime-local" placeholder="Date and Time" className="input input-bordered w-full bg-opacity-90" />
+                    <input v-model.lazy="input.datetime" type="datetime-local" placeholder="Date and Time" className="input input-bordered w-full bg-opacity-90" />
+                  </div>
+                  <div class="flex form-control w-1/2">
+                    <div class="tooltip " data-tip="This is the asking price you can provide to other users for them to gauge how much to offer you">
+                      <label class="label">
+                        <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Asking Price</span>
+                      </label>
+                    </div>
+                    <input v-model.lazy="input.datetime" type="number" placeholder="0.00" className="input input-bordered w-full bg-opacity-90" />
+                    <!-- <label class="input-group w-1/2">
+                      <span class="bg-slate-600 text-white">$</span>
+                      <input type="number" placeholder="0.00" class="input input-bordered" />
+                    </label> -->
+                  </div>
                 </div>
                     <!-- <div class="">
                         <input v-model.lazy="input.pax" type="number" placeholder="No. of Pax" className="input input-bordered input-warning w-full max-w-xs sm:max-w-md mt-5" />
@@ -200,8 +214,25 @@ export default {
           console.error(error)
           this.logout()
       })
+      this.setDateTime()
   },
   methods: {
+    setDateTime() {
+      let today = new Date()
+      let year = today.getFullYear()
+      let month = today.getMonth() + 1
+      let day = today.getDate()
+      let mins = ""
+        if(today.getMinutes() < 10) {
+            mins = "0" + today.getMinutes()
+        } else {
+            mins = today.getMinutes()
+      }
+      let hour = today.getHours()
+      let str = year + "-" + month + "-" + day + "T" + hour + ":" + mins
+      // console.log(year + "-" + month + "-" + day + "T" + hour + ":" + mins)
+      this.input.datetime = str
+    },
     queryMapsStart() {
       try {
         if (this.input.s_address != "") {
