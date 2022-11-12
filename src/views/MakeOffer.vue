@@ -313,13 +313,23 @@ export default {
     },
     writeReqData () {
       //should check if all fields have been entered before setting and redirecting
-      //displayname
-      //datetime
+
       //pax, amount
       //uid
       //start address
       //dest address
       //reqid
+      const auth = getAuth()
+      let offer = {}
+      offer['datetime'] = this.input.datetime
+      offer['pax'] = this.input.pax
+      offer['uid'] = auth.currentUser.uid
+      offer['displayName'] = auth.currentUser.displayName
+      offer['askingPrice'] = this.askingPrice
+      offer['startAddress'] = this.input.s_address
+      offer['destAddress'] = this.input.d_address
+      offer['rid'] = this.requestId
+
       const db = getDatabase();
       const postListRef = ref(db, 'driverOffers/' + request.uid);
       const newPostRef = push(postListRef);
