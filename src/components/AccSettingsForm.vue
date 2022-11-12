@@ -18,17 +18,19 @@
                 <label class="label">
                     <span class="label-text">Email Address </span>
                 </label>
-                <input v-model="input.email" type="email" class="input input-bordered w-full" required />
+                <input @blur="validateEmail()" v-model="input.email" type="email" class="input input-bordered w-full" required />
+                <span class="floating-placeholder text-red-400" v-if="errorMsg.email">{{errorMsg.email}}</span>
 
                 <label class="label">
                     <span class="label-text">Display Name </span>
                 </label>
-                <input v-model="input.displayName" type="text" placeholder="Type here" class="input input-bordered w-full" required />
+                <input @blur="validateDisplayName()" v-model="input.displayName" type="text" placeholder="Type here" class="input input-bordered w-full" required />
+                <span class="floating-placeholder text-red-400" v-if="errorMsg.displayName">{{errorMsg.displayName}}</span>
 
                 <label class="label">
                     <span class="label-text">Current Password  </span>
                 </label>
-                <input  v-model="input.password" type="password" placeholder="Enter password to make changes" class="input input-bordered w-full" required />
+                <input v-model="input.password" type="password" placeholder="Enter password to make changes" class="input input-bordered w-full" required />
 
                 <br>
                 <button type="button" @click="updateInfo" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white mt-5 md:mt-5"> Save Changes </button>
@@ -49,7 +51,7 @@
                 <label class="label">
                     <span class="label-text">Current Password </span>
                 </label>
-                <input v-model="inputPassword.currentPassword" type="password" class="input input-bordered w-full" />
+                <input @blur="validatePassword()" v-model="inputPassword.currentPassword" type="password" class="input input-bordered w-full" />
                 <label class="label">
                     <span class="label-text-alt"></span>
                     <a href=""><span @click='forgotPassword()' class="label-text-alt ">Forgot Password?</span></a>
@@ -115,7 +117,7 @@ export default {
                 console.log(error.code)
                 console.log(error.message)
                 console.log(error)
-                alert("Failed to update details. Please try again.")
+                alert("Incorrect password. Please try again.")
             })
 
         },
@@ -227,6 +229,38 @@ export default {
                 }
             );      
         },
+
+        validateEmail() {
+            if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.input.email)) {
+                this.errorMsg['email'] = 'Please enter a valid email address';
+            } else {
+                this.errorMsg['email'] = '';
+            }
+        },
+
+        validateDisplayName() {
+            if (!/^[A-Za-z\s]+$/.test(this.input.displayName) || this.input.displayName.length < 4) {
+                this.errorMsg['displayName'] = 'Please enter a valid display name';
+            } else {
+                this.errorMsg['displayName'] = '';
+            }
+        },
+        
+        validatePassword() {
+            if (this.input.password.trim().length < 6) {
+                this.errorMsg['password'] = 'Password is too short';
+            } else if (this.input.password.trim().length > 20) {
+                this.errorMsg['password'] = 'Password is too long';
+            } else if (this.input.password.trim().search(/\d/) == -1) {
+                this.errorMsg['password'] = 'Password needs to contain at least 1 number';
+            } else if (this.input.password.trim().search(/[a-zA-Z]/) == -1) {
+                this.errorMsg['password'] = 'Password needs to contain at least 1 letter';
+            } else if (this.input.password.trim().search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
+                this.errorMsg['password'] = 'Special characters not allowed';
+            } else {
+                this.errorMsg['password'] = '';
+            }
+        },
     },
     data () {
         return{
@@ -244,7 +278,12 @@ export default {
             item:{
                 image : null,
                 imageUrl: null
-            }
+            },
+            errorMsg: [],
+            checkErrorArr: false,
+            formIsValid: false,
+            isHidden: false,
+            clicked: false,
         }
     },
     mounted() {
