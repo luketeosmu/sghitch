@@ -2,7 +2,7 @@
     <div>
         <div v-if="requests.length != 0" class="grid grid-rows-8">
             <div  v-for="request in requests">
-                <label :for="from + to + request.user" class="relative inline-flex w-80 sm:w-96 p-2 my-3 bg-gray-800 text-white rounded-md border border-slate-700 shadow-md hover:bg-slate-500 cursor-pointer text-center">
+                <label :for="from + to + request.rid" class="relative inline-flex w-80 sm:w-96 p-2 my-3 bg-gray-800 text-white rounded-md border border-slate-700 shadow-md hover:bg-slate-500 cursor-pointer text-center">
                     <div class="flex flex-col text-xs sm:text-base font-light mb-2">
                         <div class="inline-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-6 sm:h-6 mt-1 mx-1">
@@ -65,8 +65,8 @@
                         </button> -->
                     </div>
                 </label>
-                <input type="checkbox" :id="from + to + request.user" class="modal-toggle" />
-                <label :for="from + to + request.user" class="modal cursor-pointer">
+                <input type="checkbox" :id="from + to + request.rid" class="modal-toggle" />
+                <label :for="from + to + request.rid" class="modal cursor-pointer">
                 <label class="modal-box relative w-auto sm:min-w-[400px] bg-gray-800 text-white overflow-x-hidden" for="">
                     <ul class="text-sm sm:text-lg mb-2 font-light ml-3 mr-3">
                         <div v-if="this.userType == 'driver'" class="inline-flex">
