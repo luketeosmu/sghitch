@@ -70,16 +70,24 @@
                 <label class="modal-box relative w-auto sm:min-w-[400px] bg-gray-800 text-white overflow-x-hidden" for="">
                     <ul class="text-sm sm:text-lg mb-2 font-light ml-3 mr-3">
                         <div v-if="this.userType == 'driver'" class="inline-flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
+                            <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            {{ request.user }}
+                            </svg> -->
+                        
+                            <div class="avatar mr-2">
+                                <div @click='view(request.uid)' class="w-20 rounded-full">
+                                    <img :src="item.imageUrl" contain style="width:100%;height:100%;object-fit:cover"/>
+                                </div>
+                            </div>
+                            <span style="display: flex; align-items: center;">{{ request.user }}</span>
+                            
                         </div>
                         <div v-else class="inline-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-                            {{ request.user }}</div>
+                            {{ request.user }} </div>
+                            
                         <br>
                         <!-- <div class="font-bold text-2xl">Rating: {{ request.rating }}/5</div> -->
                         <div class="inline-flex">
@@ -152,7 +160,6 @@
                             <button v-if="this.userType == 'driver'"  class="btn btn-sm sm:btn mt-5" @click="makeOffer(request)">Make Offer</button>
                             <!-- <button class="btn" @click="makeHitcherOffer()">Make Offer</button> -->
                         </div>
-                        <button @click='view(request.uid)' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold mt-2">View Profile</button>
                     </ul>
                 </label>
                 </label>
@@ -189,9 +196,14 @@ export default {
             vehicleNo: "",
             invalidPrice: false,
             invalidVehicleNo: false,
+            item:{
+                imageUrl: null
+            },
         }
     },
     mounted() {
+        const auth = getAuth()
+        this.item.imageUrl = auth.currentUser.photoURL
     },
     methods: {
         makeHitcherOffer() {
