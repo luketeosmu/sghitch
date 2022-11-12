@@ -6,7 +6,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                 </svg>
-                <h3 class="text-2xl sm:text-3xl font-bold font-roboto text-black z-10"> Nearby <span class="text-base font-normal">(within 10km radius near you)</span></h3>
+                <h3 class="text-2xl sm:text-3xl font-bold font-roboto text-black"> Nearby <span class="text-base font-normal">(within 10km radius near you)</span></h3>
             </div>
             <div v-if='requests.length > 0' class="flex justify-center mt-3" >
                 <label class="btn btn-circle btn-xs swap swap-rotate absolute top-8 right-5 xl:hidden">

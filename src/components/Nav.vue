@@ -46,19 +46,32 @@
             </div>
         </div>
         <div class="navbar-end">
-            <button @click='newReq()' type="button" class="btn btn-ghost block p-1 md:p-3 rounded-2xl font-semibold text-white" to="newReq">New Request</button>
-            <div class="dropdown dropdown-end mr-3 hidden md:block indicator" >
+            <button @click='newReq()' type="button" class="btn btn-ghost block p-1 md:p-3 rounded-2xl font-semibold text-white hidden md:block" to="newReq">New Request</button>
+            <div class="dropdown dropdown-end mr-3 block indicator" >
                 <label tabindex="0" class="md:flex btn btn-ghost p-3 rounded-2xl font-semibold px-1 ml-3 text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                         </svg>
-                        <span class="indicator-item badge badge-sm badge-secondary mt-2">{{ this.offers.length }}</span> 
+                        <span class="indicator-item badge badge-sm bg-white text-slate-700 mt-2" v-if="this.getPendingCount() != 0">{{ this.getPendingCount() }}</span> 
                 </label>
                 <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-slate-600 rounded-box w-96 h-[600px]">
                     <!-- to dynamically change -->
-                    <li v-for="offer of this.offers">
-                        <label :for="offer.user" class="hover:bg-slate-500 active:bg-slate-500 text-white">{{ offer.user }} made an offer of ${{ offer.askingPrice }}</label>
-                    </li> 
+                    <span class="text-lg text-white font-bold font-roboto">Notifications</span>
+                    <hr>
+                    <li v-if="this.acceptedOffer != null">
+                        <label class="hover:bg-slate-500 active:bg-slate-500 text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                            </svg>
+                            Ride with {{ acceptedOffer.user }} is about the commence!
+                        </label>
+                    </li>
+                    <li v-if="this.offers.length != 0" v-for="offer of this.offers">
+                        <label v-if="offer.status == 'pending'" :for="offer.user" class="hover:bg-slate-500 active:bg-slate-500 text-white"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        {{ offer.user }} made an offer of ${{ offer.askingPrice }}</label>
+                    </li>
                 </ul>
             </div>
             <!-- <button class="btn btn-ghost btn-circle">
@@ -84,37 +97,40 @@
     <div v-for="offer of this.offers">
         <input type="checkbox" :id="offer.user" class="modal-toggle" />
             <label :for="offer.user" class="modal cursor-pointer">
-            <label class="modal-box relative w-auto min-w-[400px] bg-gray-800 text-white font-light" for="">
-                <div v-if="this.userType == 'driver'" class="inline-flex">
+            <label class="modal-box relative w-auto min-w-[400px]  bg-gray-800 text-white font-light" for="">
+                <div class="inline-flex">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                     {{ offer.user }}
                 </div>
-                <div v-else class="inline-flex">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    {{ offer.user }}</div>
                 <br>
-                <!-- <div class="font-bold text-2xl">Rating: {{ request.rating }}/5</div> -->
                 <div class="inline-flex">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-4 h-4 sm:w-6 sm:h-6 mr-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     {{ setTimeStr(offer.datetime.split("T")[1]) }}
                 </div>
                 <br>
-                <div class="inline-flex">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-4 h-4 sm:w-6 sm:h-6 mr-1">
+                <div class="inline-flex" v-if="this.userType == 'driver'">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
                     </svg>
                     <span>
                         {{ offer.pax }} persons 
                     </span>
                 </div>
-                <br>
-                <div class="inline-flex" v-if="this.userType == 'driver'">
+                <br v-if="this.userType == 'driver'">
+                <div class="inline-flex" v-if="this.userType == 'hitcher'">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                    </svg>
+                    <span>
+                        {{ offer.carplateNo }} 
+                    </span>
+                </div>
+                <br v-if="this.userType == 'hitcher'">
+                <div class="inline-flex">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -122,24 +138,31 @@
                 </div>
                 <br>
                 <div class="inline-flex" v-if="this.userType == 'driver'">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-4 h-4 sm:w-6 sm:h-6 mr-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                         </svg>
                     {{ offer.s_address }} 
                     <svg aria-hidden="true" class="mx-2 w-4 h-4 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                {{ offer.d_address }} 
+                    {{ offer.d_address }} 
                 </div>
-                <br>
-                <!-- <div class="form-control mt-3" v-if="this.userType == 'driver'">
-                    <div class="input-group text-black">
-                        <input v-model="offerPrice" placeholder="$0.00" type="number" className="input input-bordered w-1/3 bg-opacity-90 " />
-                        <button class="btn" @click="makeOffer()">Accept Offer</button>
+                <br v-if="this.userType == 'driver'">
+
+                <div v-if="offer.status == 'accepted'" class="alert alert-success shadow-lg mt-2 h-[20px] flex justify-center items-center text-center">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span>Your have accepted the offer!</span>
                     </div>
-                </div> -->
-                <div class="grid grid-cols-2 gap-x-5 mt-5">
-                    <button @click='acceptOffer()' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold">Accept</button>
-                    <button @click='declineOffer()' type="button" class="btn btn-ghost block bg-white hover:bg-slate-100 px-3 rounded-xl text-slate-600 font-semibold">Decline</button>
+                </div>
+                <div v-if="offer.status == 'rejected'" class="alert alert-success shadow-lg mt-2 h-[20px] flex justify-center items-center text-center">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span>You have rejected the offer!</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-x-5 mt-5" v-show="offer.status=='pending'">
+                    <button  @click='offer.status = "accepted", this.acceptedOffer = offer, this.offers = []' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold flex justify-center items-center text-center">Accept</button>
+                    <button  @click='offer.status = "rejected"' type="button" class="btn btn-ghost block bg-white hover:bg-slate-100 px-3 rounded-xl text-slate-600 font-semibold flex justify-center items-center text-center">Decline</button>
                 </div>
             </label>
         </label>
@@ -166,6 +189,7 @@ export default {
             user: {
                 type: ""
             },
+            acceptedOffer: null,
             offers: [
                 {   
                     status: "pending",
@@ -186,8 +210,7 @@ export default {
                         destNeighborhood: "Woodlands",
                         uid: "12345",
                         user: "luke",
-                        vehiclePreference: "Car only",
-                        vehicleType: "Car",
+                        carplateNo: "SFY16C",
                         askingPrice: "10.00"
                 },
                 {
@@ -209,8 +232,7 @@ export default {
                         destNeighborhood: "Woodlands",
                         uid: "12345",
                         user: "john",
-                        vehiclePreference: "Car only",
-                        vehicleType: "Car",
+                        carplateNo: "SFY16C",
                         askingPrice: "10.00"
                 },
                 {
@@ -232,8 +254,7 @@ export default {
                         destNeighborhood: "Woodlands",
                         uid: "12345",
                         user: "lyegend",
-                        vehiclePreference: "Car only",
-                        vehicleType: "Car",
+                        carplateNo: "SFY16C",
                         askingPrice: "10.00"
                 },
             ]
@@ -273,6 +294,22 @@ export default {
             hours = hours ? hours : 12; // the hour '0' should be '12'
             let timeStr = hours + ':' + minutes + ampm
             return timeStr
+        },
+        acceptOffer() {
+        },
+        declineOffer() {
+        },
+        getPendingCount() {
+            let count = 0
+            if(this.acceptedOffer != null) {
+                return 1
+            }
+            for(let offer of this.offers) {
+                if(offer.status == "pending") {
+                    count += 1
+                }
+            }
+            return count
         },
         newReq() {
             this.$router.push('/newReq')
