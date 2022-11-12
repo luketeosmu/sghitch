@@ -7,7 +7,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                 </svg>
                 <!-- <h3 class="text-2xl sm:text-3xl font-bold font-roboto text-black"> Nearby <span class="text-base font-normal">(within 10km radius near you)</span></h3> -->
-                <h3 class="text-2xl sm:text-3xl font-bold font-roboto text-black"> Nearby </h3>
+                <h3 class="text-2xl sm:text-3xl font-bold font-roboto text-black"> Nearby <span class="text-base font-normal">(within {{distanceVal}}km near you)</span></h3>
                 
             </div>
             <div class="mx-auto mt-16 ">

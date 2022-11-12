@@ -29,11 +29,7 @@
                         <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Asking Price</span>
                       </label>
                     </div>
-                    <input v-model.lazy="askingPrice" type="number" placeholder="0.00" :className="invalidVehicleNo ? 'input input-bordered w-full bg-opacity-90 border-red-400 border-2' : 'input input-bordered w-full bg-opacity-90'" />
-                    <!-- <label class="input-group w-1/2">
-                      <span class="bg-slate-600 text-white">$</span>
-                      <input type="number" placeholder="0.00" class="input input-bordered" />
-                    </label> -->
+                    <input v-model.lazy="askingPrice" type="number" placeholder="0.00" :className="invalidPrice ? 'input input-bordered w-full bg-opacity-90 border-red-400 border-2' : 'input input-bordered w-full bg-opacity-90'" />
                   </div>
                   <div class="flex form-control mt-3 sm:mt-0" v-else>
                     <!-- <div class="tooltip " data-tip="This is the asking price you can provide to other users for them to gauge how much to offer you"> -->
