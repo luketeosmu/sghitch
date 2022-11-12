@@ -95,6 +95,7 @@ export default {
                 confirmPassword: "",
             },
             errorMsg: [],
+            checkErrorArr: false,
             formIsValid: false,
             isHidden: false,
             clicked: false,
@@ -113,14 +114,18 @@ export default {
             this.clicked = true
             for(let msg in this.errorMsg){
                 if(this.errorMsg[msg] == ""){
-                    this.formIsValid = true
+                    this.checkErrorArr = true
                 }
                 else{
-                    this.formIsValid = false
+                    this.checkErrorArr = false
                 }
             }
 
-            if(this.formIsValid){
+            if(this.input.email != "" && this.input.firstName != "" && this.input.lastName != "" && this.input.password != "" && this.input.confirmPassword != ""){
+                this.formIsValid = true
+            }
+
+            if(this.formIsValid && this.checkErrorArr){
 
                  //hide error box
                  this.isHidden = false
