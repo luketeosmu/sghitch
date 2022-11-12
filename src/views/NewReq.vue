@@ -269,13 +269,18 @@ export default {
       let month = today.getMonth() + 1
       let day = today.getDate()
       let mins = ""
-        if(today.getMinutes() < 10) {
-            mins = "0" + today.getMinutes()
-        } else {
-            mins = today.getMinutes()
+      let hours = ""
+      if(today.getMinutes() < 10) {
+          mins = "0" + today.getMinutes()
+      } else {
+          mins = today.getMinutes()
       }
-      let hour = today.getHours()
-      let str = year + "-" + month + "-" + day + "T" + hour + ":" + mins
+      if(today.getHours() < 10) {
+        hours = "0" + today.getHours()
+      } else {
+        hours = today.getHours()
+      }
+      let str = year + "-" + month + "-" + day + "T" + hours + ":" + mins
       // console.log(year + "-" + month + "-" + day + "T" + hour + ":" + mins)
       this.input.datetime = str
     },
