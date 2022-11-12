@@ -2,8 +2,7 @@
     <div>
         <div class="avatar flex justify-center mt-8 mb-4">
             <div class="w-40 rounded-full ring ring-white ring-offset-base-100 ring-offset-2">
-                <img v-if="item.imageUrl" :src="item.imageUrl" contain style="width:100%;height:100%;object-fit:cover"/>
-                <img v-else src="https://placeimg.com/192/192/people" />
+                <img :src="item.imageUrl" contain style="width:100%;height:100%;object-fit:cover"/>
             </div>
         </div>
         <div class="flex justify-center mb-4">

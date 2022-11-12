@@ -1,5 +1,6 @@
 <template lang="">
-    <div class="navbar sticky top-0 z-10 absolute bg-slate-700 bg-opacity-90">
+    <!-- <div class="navbar sticky top-0 z-10 absolute bg-opacity-90" :class="[this.user.type == 'driver' ? 'bg-slate-700':'bg-slate-200']"> -->
+    <div class="navbar sticky top-0 z-10 absolute bg-opacity-90 bg-slate-700">
         <div class="navbar-start">
             <!-- <div class="dropdown">
                 <label tabindex="0" class="btn btn-ghost btn-circle md:hidden">
@@ -25,7 +26,7 @@
             </div> 
         </div>
         <div class="navbar-center cursor-pointer" @click='home()'>
-            <span class="font-bold text-5xl font-bebas text-white" >Hitch.</span>
+            <span class="font-bold text-5xl font-bebas text-white">Hitch.</span>
             <div v-if="this.user.type == 'driver'">
                 <span class="flex">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-10 h-10 mx-2 ">
