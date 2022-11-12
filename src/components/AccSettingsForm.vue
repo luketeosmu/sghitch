@@ -31,6 +31,13 @@
                     <span class="label-text">Current Password  </span>
                 </label>
                 <input v-model="input.password" type="password" placeholder="Enter password to make changes" class="input input-bordered w-full" required />
+                
+                <div v-show="isHidden" class="alert alert-error shadow-lg mt-4">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span>Error! Fields are either unchanged or incomplete</span>
+                    </div>
+                </div>
 
                 <br>
                 <button type="button" @click="updateInfo" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white mt-5 md:mt-5"> Save Changes </button>
@@ -51,7 +58,7 @@
                 <label class="label">
                     <span class="label-text">Current Password </span>
                 </label>
-                <input @blur="validatePassword()" v-model="inputPassword.currentPassword" type="password" class="input input-bordered w-full" />
+                <input v-model="inputPassword.currentPassword" type="password" class="input input-bordered w-full" />
                 <label class="label">
                     <span class="label-text-alt"></span>
                     <a href=""><span @click='forgotPassword()' class="label-text-alt ">Forgot Password?</span></a>
@@ -60,12 +67,21 @@
                 <label class="label">
                     <span class="label-text">New Password </span>
                 </label>
-                <input v-model="inputPassword.newPassword" type="password" class="input input-bordered w-full" />
+                <input @blur="validatePassword()" v-model="inputPassword.newPassword" type="password" class="input input-bordered w-full" />
+                <span class="text-red-400" v-if="errorMsg_2.password">{{errorMsg_2.password}}</span>
 
                 <label class="label">
                     <span class="label-text">Confirm Password  </span>
                 </label>
-                <input v-model="inputPassword.confirmNewPassword" type="password"  class="input input-bordered w-full" />
+                <input @blur="validateCfmPassword()" v-model="inputPassword.confirmNewPassword" type="password" class="input input-bordered w-full" />
+                <span class="text-red-400" v-if="errorMsg_2.confirmPassword">{{errorMsg_2.confirmPassword}}</span>
+
+                <div v-show="isHidden_2" class="alert alert-error shadow-lg mt-4">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span>Error! Fields are either unchanged or incomplete</span>
+                    </div>
+                </div>
                 
                 <br>
                 <button  type="button" @click="updatePassword" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white mt-5 md:mt-5" > Confirm </button>
@@ -87,41 +103,64 @@ export default {
             this.$router.push('/forgotpassword')
         },
         async updateInfo(){
-            const auth = getAuth()
-            const db = getDatabase()
 
-            const credential = EmailAuthProvider.credential(
-                auth.currentUser.email,
-                this.input.password
-            )
-            //if empty string or invalid email reject
+            for(let msg in this.errorMsg){
+                if(this.errorMsg[msg] == ""){
+                    this.checkErrorArr = true
+                }
+                else{
+                    this.checkErrorArr = false
+                }
+            }
 
-            reauthenticateWithCredential(auth.currentUser, credential).then(() => {
-                updateProfile(auth.currentUser, {
-                    displayName: this.input.displayName
-                }).then(() => {
-                    updateEmail(auth.currentUser, this.input.email)
-                    .then(() => {
-                        let user_input = {
-                            email: this.input.email,
-                            displayName: this.input.displayName,
-                        }
-                        set(ref_database(db, 'userInfo/' + auth.currentUser.uid), user_input)
+            if(this.input.email != "" && this.input.displayName != "" && this.input.currentPassword != ""){
+                this.formIsValid = true
+            }
+
+            if(this.formIsValid && this.checkErrorArr){
+
+                //hide error box
+                this.isHidden = false
+
+                const auth = getAuth()
+                const db = getDatabase()
+
+                const credential = EmailAuthProvider.credential(
+                    auth.currentUser.email,
+                    this.input.password
+                )
+                //if empty string or invalid email reject
+
+                reauthenticateWithCredential(auth.currentUser, credential).then(() => {
+                    updateProfile(auth.currentUser, {
+                        displayName: this.input.displayName
+                    }).then(() => {
+                        updateEmail(auth.currentUser, this.input.email)
                         .then(() => {
-                            alert("Successfully updated details!")
-                            location.reload()
+                            let user_input = {
+                                email: this.input.email,
+                                displayName: this.input.displayName,
+                            }
+                            set(ref_database(db, 'userInfo/' + auth.currentUser.uid), user_input)
+                            .then(() => {
+                                alert("Successfully updated details!")
+                                location.reload()
+                            })
                         })
                     })
+                }).catch((error) => {
+                    console.log(error.code)
+                    console.log(error.message)
+                    console.log(error)
+                    alert("Incorrect password. Please try again.")
                 })
-            }).catch((error) => {
-                console.log(error.code)
-                console.log(error.message)
-                console.log(error)
-                alert("Incorrect password. Please try again.")
-            })
-
+            }else{
+                this.clicked = false
+                this.isHidden = true
+            }
         },
         updatePassword(){
+            
             if(this.inputPassword.newPassword == this.inputPassword.confirmNewPassword){
                 const auth = getAuth()
                 const credential = EmailAuthProvider.credential(
@@ -138,7 +177,7 @@ export default {
                     console.log(error.code)
                     console.log(error.message)
                     console.log(error)
-                    alert("Failed to update password. Please try again.")
+                    alert("Incorrect current password. Please try again.")
                 })
             } else {
                 alert("Passwords do not match. Please try again.")
@@ -227,7 +266,7 @@ export default {
                             console.log('File available at', downloadURL);
                     });
                 }
-            );      
+            );  
         },
 
         validateEmail() {
@@ -247,19 +286,28 @@ export default {
         },
         
         validatePassword() {
-            if (this.input.password.trim().length < 6) {
-                this.errorMsg['password'] = 'Password is too short';
-            } else if (this.input.password.trim().length > 20) {
-                this.errorMsg['password'] = 'Password is too long';
-            } else if (this.input.password.trim().search(/\d/) == -1) {
-                this.errorMsg['password'] = 'Password needs to contain at least 1 number';
-            } else if (this.input.password.trim().search(/[a-zA-Z]/) == -1) {
-                this.errorMsg['password'] = 'Password needs to contain at least 1 letter';
-            } else if (this.input.password.trim().search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
-                this.errorMsg['password'] = 'Special characters not allowed';
+            if (this.inputPassword.newPassword.trim().length < 6) {
+                this.errorMsg_2['password'] = 'Password is too short';
+            } else if (this.inputPassword.newPassword.trim().length > 20) {
+                this.errorMsg_2['password'] = 'Password is too long';
+            } else if (this.inputPassword.newPassword.trim().search(/\d/) == -1) {
+                this.errorMsg_2['password'] = 'Password needs to contain at least 1 number';
+            } else if (this.inputPassword.newPassword.trim().search(/[a-zA-Z]/) == -1) {
+                this.errorMsg_2['password'] = 'Password needs to contain at least 1 letter';
+            } else if (this.inputPassword.newPassword.trim().search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
+                this.errorMsg_2['password'] = 'Special characters not allowed';
             } else {
-                this.errorMsg['password'] = '';
+                this.errorMsg_2['password'] = '';
             }
+        },
+        
+        validateCfmPassword() {
+            if (this.inputPassword.newPassword != this.inputPassword.confirmNewPassword) {
+                this.errorMsg_2['confirmPassword'] = 'The password confirmation does not match';
+            } else {
+                this.errorMsg_2['confirmPassword'] = '';
+            }
+            console.log(this.errorMsg2)
         },
     },
     data () {
@@ -279,11 +327,18 @@ export default {
                 image : null,
                 imageUrl: null
             },
+
             errorMsg: [],
             checkErrorArr: false,
             formIsValid: false,
             isHidden: false,
             clicked: false,
+
+            errorMsg_2: [],
+            checkErrorArr_2: false,
+            formIsValid_2: false,
+            isHidden_2: false,
+            clicked_2: false,
         }
     },
     mounted() {
