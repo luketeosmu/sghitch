@@ -86,6 +86,7 @@ export default {
         },
         async updateInfo(){
             const auth = getAuth()
+            const db = getDatabase()
 
             const credential = EmailAuthProvider.credential(
                 auth.currentUser.email,
@@ -99,21 +100,14 @@ export default {
                 }).then(() => {
                     updateEmail(auth.currentUser, this.input.email)
                     .then(() => {
-                        const fs = getFirestore()
-                        const dbRef = doc(fs, "users", auth.currentUser.uid);
-                        updateDoc(dbRef, {
-                            displayName: this.input.displayName,
+                        let user_input = {
                             email: this.input.email,
-                        }).then(() => {
-                            let user_input = {
-                                email: this.input.email,
-                                displayName: this.input.displayName,
-                            }
-                            set(ref(db, 'userInfo/' + auth.currentUser.uid), user_input)
-                            .then(() => {
-                                alert("Successfully updated details!")
-                                location.reload()
-                            })
+                            displayName: this.input.displayName,
+                        }
+                        set(ref_database(db, 'userInfo/' + auth.currentUser.uid), user_input)
+                        .then(() => {
+                            alert("Successfully updated details!")
+                            location.reload()
                         })
                     })
                 })
