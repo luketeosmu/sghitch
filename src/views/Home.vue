@@ -4,7 +4,6 @@
         <div class="drawer-content flex flex-col ">
             <!-- Navbar -->
             <Nav :userType="this.user.type"/>
-            
             <!-- Page content here -->
             <div class="">
                 <div class="flex justify-center items-center text-center mt-10 mb-5 px-2 sm:px-0 w-[450px] sm:w-[570px] mx-auto">
@@ -110,7 +109,7 @@ export default {
                             lng: "103.785590",
                         },
                         s_address: "Tampines St 45 529498",
-                        datetime: "2022-11-13T00:36",
+                        datetime: "2022-11-13T03:06",
                         startNeighborhood: "Tampines",
                         pax: "3",
                         available: "1",
@@ -120,7 +119,8 @@ export default {
                         user: "luke",
                         vehiclePreference: "Car, Lorry & Van Only",
                         vehicleType: "Motorcycle",
-                        askingPrice: "10.00"
+                        askingPrice: "10.00",
+                        rid: "12345"
                     },
                     {
                         centerStart: {
@@ -142,7 +142,8 @@ export default {
                         user: "kim jong kook",
                         vehiclePreference: "Car only",
                         vehicleType: "Car",
-                        askingPrice: "10.00"
+                        askingPrice: "10.00",
+                        rid: "52321"
                     },
                     {
                         centerStart: {
@@ -405,7 +406,7 @@ export default {
             this.validReq = []
             // console.log("setvalidreq")
             //change to this.allRequests
-            for(let request of this.requests) {
+            for(let request of this.allRequests) {
                 // console.log(request.rid)
                 if(this.checkTime(request.datetime.split("T")[1]) && this.checkDate(request.datetime.split("T")[0])) {
                     // console.log(request.d_address)
@@ -508,24 +509,45 @@ export default {
         },
         retrieveAllReq(){
             const db = getDatabase();
-            const dbRef = ref(db, '/userReqs');
-
-            onValue(dbRef, (snapshot) => {
-                snapshot.forEach((childSnapshot) => {
-                    const childKey = childSnapshot.key; //request id
-                    const childData = childSnapshot.val(); //request details
-                    // let request = {}
-                    // request[childKey] = childData
-                    // console.log(childData)
-                    // this.allRequests.push(request) //add object to new allRequests array in data()
-                    // childData["rid"] = childKey         //add request ID to request object
-                    this.allRequests.push(childData)
-                    this.setValidReq()
-                    this.setValidNearbyReq()
+            if(this.user.type == 'driver') {
+                const dbRef = ref(db, '/hitcherReqs');
+                onValue(dbRef, (snapshot) => {
+                    snapshot.forEach((childSnapshot) => {
+                        const childKey = childSnapshot.key; //request id
+                        const childData = childSnapshot.val(); //request details
+                        // let request = {}
+                        // request[childKey] = childData
+                        // console.log(childData)
+                        // this.allRequests.push(request) //add object to new allRequests array in data()
+                        childData["rid"] = childKey         //add request ID to request object
+                        this.allRequests.push(childData)
+                        console.log(childData)
+                        this.setValidReq()
+                        this.setValidNearbyReq()
+                    });
+                }, {
+                    onlyOnce: true
                 });
-            }, {
-                onlyOnce: true
-            });
+            } else {
+                const dbRef = ref(db, '/driverReqs');
+                onValue(dbRef, (snapshot) => {
+                    snapshot.forEach((childSnapshot) => {
+                        const childKey = childSnapshot.key; //request id
+                        const childData = childSnapshot.val(); //request details
+                        // let request = {}
+                        // request[childKey] = childData
+                        // console.log(childData)
+                        // this.allRequests.push(request) //add object to new allRequests array in data()
+                        childData["rid"] = childKey         //add request ID to request object
+                        this.allRequests.push(childData)
+                        console.log(childData)
+                        this.setValidReq()
+                        this.setValidNearbyReq()
+                    });
+                }, {
+                    onlyOnce: true
+                });
+            }
         }
     },
     

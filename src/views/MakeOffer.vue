@@ -147,6 +147,7 @@ export default {
   props: {},
   data() {
     return {
+      requestId: this.$route.params.id,
       user: {
         type: ""
       },
@@ -217,12 +218,17 @@ export default {
       let month = today.getMonth() + 1
       let day = today.getDate()
       let mins = ""
-        if(today.getMinutes() < 10) {
-            mins = "0" + today.getMinutes()
-        } else {
-            mins = today.getMinutes()
+      let hour = ""
+      if(today.getMinutes() < 10) {
+          mins = "0" + today.getMinutes()
+      } else {
+          mins = today.getMinutes()
       }
-      let hour = today.getHours()
+      if(today.getHours() < 10) {
+        hour = "0" + today.getHours()
+      } else {
+        hour = today.getHours()
+      }
       let str = year + "-" + month + "-" + day + "T" + hour + ":" + mins
       // console.log(year + "-" + month + "-" + day + "T" + hour + ":" + mins)
       this.input.datetime = str
@@ -307,20 +313,41 @@ export default {
     },
     writeReqData () {
       //should check if all fields have been entered before setting and redirecting
-      //displayname
-      //datetime
-      //pax, amount
-      //uid
-      //start address
-      //dest address
-      //reqid
-      const db = getDatabase();
-      const postListRef = ref(db, 'driverOffers/' + request.uid);
-      const newPostRef = push(postListRef);
-      set(newPostRef, offer)
-      .then(() => {
-          this.$router.push('./')
-      })
+
+      const auth = getAuth()
+      let offer = {}
+      offer['datetime'] = this.input.datetime
+      offer['pax'] = this.input.pax
+      offer['uid'] = auth.currentUser.uid
+      offer['displayName'] = auth.currentUser.displayName
+      offer['askingPrice'] = this.askingPrice
+      offer['startAddress'] = this.input.s_address
+      offer['destAddress'] = this.input.d_address
+      offer['rid'] = this.requestId
+      offer['status'] = 'pending'
+      //retrieve
+      let request = null
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, `driverReqs/${this.requestId}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          // console.log(snapshot.val());
+          request = snapshot.val()
+          const db = getDatabase();
+          const postListRef = ref(db, 'driverOffers/' + request.uid);
+          const newPostRef = push(postListRef);
+          set(newPostRef, offer)
+          .then(() => {
+              this.$router.push('/')
+          })
+        } else {
+          // console.log("No data available");
+          alert("No data available!")
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+
+      
     },
     home() {
         this.$router.push('../')
