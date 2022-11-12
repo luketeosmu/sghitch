@@ -67,8 +67,8 @@
                 </label>
                 <input type="checkbox" :id="from + to + request.user" class="modal-toggle" />
                 <label :for="from + to + request.user" class="modal cursor-pointer">
-                <label class="modal-box relative w-auto min-w-[400px] bg-gray-800 text-white" for="">
-                    <ul class="text-lg mb-2 font-light">
+                <label class="modal-box relative w-auto sm:min-w-[400px] bg-gray-800 text-white overflow-x-hidden" for="">
+                    <ul class="text-sm sm:text-lg mb-2 font-light ml-3 mr-3">
                         <div v-if="this.userType == 'driver'" class="inline-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -83,19 +83,20 @@
                         <br>
                         <!-- <div class="font-bold text-2xl">Rating: {{ request.rating }}/5</div> -->
                         <div class="inline-flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-4 h-4 sm:w-6 sm:h-6 mr-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             {{ setTimeStr(request.datetime.split("T")[1]) }}
                         </div>
                         <br>
                         <div class="inline-flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-4 h-4 sm:w-6 sm:h-6 mr-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
                             </svg>
                             <span>
                                 {{ request.pax }} persons 
                             </span>
+                            <button v-if="this.userType == 'hitcher'" class="btn absolute bottom-5 right-5" @click="makeHitcherOffer()">Make Offer</button>
                         </div>
                         <br>
                         <div class="inline-flex" v-if="this.userType == 'driver'">
@@ -106,7 +107,7 @@
                         </div>
                         <br v-if="this.userType == 'driver'">
                         <div class="inline-flex" v-if="this.userType == 'driver'">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-4 h-4 sm:w-6 sm:h-6 mr-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                                 </svg>
@@ -115,15 +116,44 @@
                         {{ request.d_address }} 
                         </div>
                         <br v-if="this.userType == 'driver'">
-                        <div class="form-control mt-3 mr-5" v-if="this.userType == 'driver'">
+                        <div v-if="this.userType == 'driver'" class="grid sm:grid-cols-2 gap-x-2">
+                            <div class="flex form-control mt-3 sm:mt-0 ">
+                                <!-- <div class="tooltip " data-tip="This is the asking price you can provide to other users for them to gauge how much to offer you"> -->
+                                <label class="label">
+                                    <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg ">Vehicle Registration Number</span>
+                                </label>
+                                <!-- </div> -->
+                                <input v-model="vehicleNo" type="text" placeholder="e.g. SLPxxxxA" :className="invalidVehicleNo ? 'input input-bordered w-auto sm:w-full text-black bg-opacity-90 border-red-400 border-2' : 'input input-bordered text-black w-auto sm:w-full bg-opacity-90'" />
+                            </div>
+                            <div class="flex form-control mt-3 sm:mt-0">
+                                <div class="tooltip " data-tip="This is the asking price you can provide to other users for them to gauge how much to offer you">
+                                <label class="label">
+                                    <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Asking Price</span>
+                                </label>
+                                </div>
+                                <input v-model="offerPrice" type="number" placeholder="0.00" :className="invalidPrice ? 'input input-bordered w-auto sm:w-full bg-opacity-90 text-black border-red-400 border-2' : 'input input-bordered text-black w-auto sm:w-full bg-opacity-90'" />
+                            </div>
+                        </div>
+                        <!-- <div v-if="this.userType == 'hitcher'" class="form-control mt-3 mr-5">
                             <div class="input-group text-black">
                                 <input v-model="offerPrice" placeholder="$0.00" type="number" className="input input-bordered w-full bg-opacity-90 " />
-                                <button class="btn" @click="makeOffer(request)">Make Offer</button>
                             </div>
+                        </div> -->
+                        <!-- <div class="flex form-control mt-3 sm:mt-0">
+                            <div class="tooltip " data-tip="This is the asking price you can provide to other users for them to gauge how much to offer you">
+                                <label class="label">
+                                    <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Asking Price</span>
+                                </label>
+                            </div>
+                            <input v-model="offerPrice" type="number" placeholder="0.00" :className="invalidPrice ? 'input input-bordered w-auto sm:w-full bg-opacity-90 text-black border-red-400 border-2' : 'input input-bordered text-black w-auto sm:w-full bg-opacity-90'" />
+                        </div> -->
+                        <div class="flex items-end justify-end text-end">
+                            <!-- <button v-if="this.userType == 'hitcher'" @click='makeHitcherOffer()' type="button"  class="btn btn-ghost mt-5 block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold">Make Offer</button> -->
+                            <button v-if="this.userType == 'driver'"  class="btn btn-sm sm:btn mt-5" @click="makeOffer(request)">Make Offer</button>
+                            <!-- <button class="btn" @click="makeHitcherOffer()">Make Offer</button> -->
                         </div>
                         <button @click='view(request.uid)' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold mt-2">View Profile</button>
                     </ul>
-                    <button @click='makeHitcherOffer()' type="button" v-if="this.userType == 'hitcher'" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold absolute bottom-5 right-5">Make Offer</button>
                 </label>
                 </label>
             </div>
@@ -155,7 +185,10 @@ export default {
     data() {
         return {
             validReq: [],
-            offerPrice: "$0.00"
+            offerPrice: "",
+            vehicleNo: "",
+            invalidPrice: false,
+            invalidVehicleNo: false,
         }
     },
     mounted() {
@@ -185,15 +218,28 @@ export default {
             //time
             //vehicle registration number
             //amount
+            if(this.offerPrice == ""){
+                this.invalidPrice = true
+                return
+            } else {
+                this.invalidPrice = false
+            }
+            if(this.vehicleNo.length < 3){
+                this.invalidVehicleNo = true
+                return
+            } else {
+                this.invalidVehicleNo = false
+            }
             const auth = getAuth()
             let offer = {}
             offer['datetime'] = request.datetime
-            offer['vehicleNo'] = request.vehicleNo
+            offer['vehicleNo'] = this.vehicleNo
             offer['uid'] = auth.currentUser.uid
             offer['displayName'] = auth.currentUser.displayName
             offer['offerPrice'] = this.offerPrice
             offer['rid'] = request.rid
-            
+            console.log(offer)
+            console.log(request.uid)
             const db = getDatabase();
             const postListRef = ref(db, 'hitcherOffers/' + request.uid);
             const newPostRef = push(postListRef);
