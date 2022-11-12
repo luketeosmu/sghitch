@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="flex justify-center mb-4">
-            <button type="button" @click="browse()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white mr-6"> Browse </button>
+            <button type="button" @click="browse()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white"> Browse </button>
             <input style="display:none" ref="input" type="file" accept="image/*" @change="onChange" />
             <button type="button" @click="onUpload()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white"> Upload </button>
         </div> 
@@ -76,7 +76,8 @@
 <script>
 import { getAuth, EmailAuthProvider, reauthenticateWithCredential, updateProfile, updateEmail, updatePassword } from 'firebase/auth'
 import { doc, updateDoc, getFirestore } from "firebase/firestore";
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
+import { getStorage, ref as ref_storage, uploadBytesResumable, getDownloadURL } from "firebase/storage"
+import { getDatabase, ref as ref_database, set } from 'firebase/database'
 export default {
     name: "AccSettingsForm",
     methods: {
@@ -85,6 +86,7 @@ export default {
         },
         async updateInfo(){
             const auth = getAuth()
+
             const credential = EmailAuthProvider.credential(
                 auth.currentUser.email,
                 this.input.password
@@ -169,12 +171,10 @@ export default {
             // Create the file metadata
             /** @type {any} */
             const metadata = {
-            contentType: 'image/jpeg'
+                contentType: 'image/jpeg'
             };
-
-            // Upload file and metadata to the object 'images/mountains.jpg'
             
-            const imgRef = ref(storage, 'userImg/' + 'ProfileImg_' + userId);
+            const imgRef = ref_storage(storage, 'userImg/' + 'ProfileImg_' + userId);
             
             const uploadTask = uploadBytesResumable(imgRef, file, metadata);
 
@@ -211,16 +211,24 @@ export default {
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                         updateProfile(auth.currentUser, {
                         photoURL: downloadURL
-                        }).then(() => {
-                            alert("Successfully updated details!")
-                            location.reload()
-                        }).catch((error) => {
-                            console.log(error.code)
-                            console.log(error.message)
-                            console.log(error)
-                            alert("Failed to update details. Please try again.")    
-                        });
-                        console.log('File available at', downloadURL);
+                        }).then(() => { 
+                            const db = getDatabase()
+                            let user_input = {
+                            email: auth.currentUser.email,
+                            displayName: auth.currentUser.displayName,
+                            photoURL: downloadURL,
+                        }
+                        set(ref_database(db, 'userInfo/' + auth.currentUser.uid), user_input)
+                            }).then (() => {
+                                alert("Successfully updated details!")
+                                location.reload()
+                            }).catch((error) => {
+                                console.log(error.code)
+                                console.log(error.message)
+                                console.log(error)
+                                alert("Failed to update details. Please try again.")    
+                            });
+                            console.log('File available at', downloadURL);
                     });
                 }
             );      
