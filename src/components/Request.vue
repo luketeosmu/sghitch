@@ -114,7 +114,7 @@
                                 <button class="btn" @click="makeOffer()">Make Offer</button>
                             </div>
                         </div>
-                        <!-- <button @click='view(request.uid)' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold mt-2">View Profile</button> -->
+                        <button @click='view(request.uid)' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold mt-2">View Profile</button>
                     </ul>
                     <button @click='makeHitcherOffer()' type="button" v-if="this.userType == 'hitcher'" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold absolute bottom-5 right-5">Make Offer</button>
                 </label>
