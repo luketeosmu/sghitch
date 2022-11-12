@@ -297,6 +297,35 @@ export default {
                 } else {
                     this.user.type = "driver"
                 }
+                if(this.userType == "driver"){
+                    const db = getDatabase();
+                    const dbRef = ref(db, '/driverOffers/' + this.auth.currentUser.uid);
+
+                    onValue(dbRef, (snapshot) => {
+                    snapshot.forEach((childSnapshot) => {
+                        const childKey = childSnapshot.key; //offerId
+                        const childData = childSnapshot.val(); //offerAttributes
+                        //push into offers array
+                        this.offers.push(childData)
+                        console.log(this.offers)
+                    });
+                    }, {
+                    onlyOnce: true
+                    });
+                } else if(this.userType == "hitcher"){
+                    const db = getDatabase();
+                    const dbRef = ref(db, '/hitcherOffers/' + this.auth.currentUser.uid);
+
+                    onValue(dbRef, (snapshot) => {
+                    snapshot.forEach((childSnapshot) => {
+                        const childKey = childSnapshot.key; //offerId
+                        const childData = childSnapshot.val(); //offerAttributes
+                        //push into offers array
+                    });
+                    }, {
+                    onlyOnce: true
+                    });
+                }
             } else {
                 alert("Application encountered a severe issue. Please login again.")
                 this.logout()
@@ -309,35 +338,6 @@ export default {
         //     setInterval(this.displayFirst(), 1000)
         //     setInterval(this.displaySecond(), 2000)
         // }
-        if(this.userType == "driver"){
-            const db = getDatabase();
-            const dbRef = ref(db, '/driverOffers/' + this.auth.currentUser.uid);
-
-            onValue(dbRef, (snapshot) => {
-            snapshot.forEach((childSnapshot) => {
-                const childKey = childSnapshot.key; //offerId
-                const childData = childSnapshot.val(); //offerAttributes
-                //push into offers array
-                this.offers.push(childData)
-                console.log(this.offers)
-            });
-            }, {
-            onlyOnce: true
-            });
-        } else if(this.userType == "hitcher"){
-            const db = getDatabase();
-            const dbRef = ref(db, '/hitcherOffers/' + this.auth.currentUser.uid);
-
-            onValue(dbRef, (snapshot) => {
-            snapshot.forEach((childSnapshot) => {
-                const childKey = childSnapshot.key; //offerId
-                const childData = childSnapshot.val(); //offerAttributes
-                //push into offers array
-            });
-            }, {
-            onlyOnce: true
-            });
-        }
     },
     methods: {
         rideStart() {
