@@ -109,13 +109,13 @@
                         </div>
                         <div class="form-control mt-3" v-if="this.userType == 'driver'">
                             <div class="input-group text-black">
-                                <input v-model="offerPrice" type="number" placeholder="$0.00" className="input input-bordered w-1/3 bg-opacity-90 " />
-                                <button class="btn">Make Offer</button>
+                                <input v-model="offerPrice" placeholder="$0.00" type="number" className="input input-bordered w-1/3 bg-opacity-90 " />
+                                <button class="btn" @click="makeOffer()">Make Offer</button>
                             </div>
                         </div>
                         <!-- <button @click='view(request.uid)' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold mt-2">View Profile</button> -->
                     </ul>
-                    <button @click='chat()' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold absolute bottom-5 right-5">Make Offer</button>
+                    <button @click='chat()' type="button" v-if="this.userType == 'hitcher'" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold absolute bottom-5 right-5">Make Offer</button>
                 </label>
                 </label>
             </div>
@@ -147,7 +147,7 @@ export default {
     data() {
         return {
             validReq: [],
-            offerPrice: 0
+            offerPrice: "$0.00"
         }
     },
     mounted() {
@@ -156,26 +156,9 @@ export default {
         chat() {
             this.$router.push('/chat')
         },
-        // setTimeStr(time) {
-        //     console.log("REQUEST" + time)
-        //     let str = String(time)
-        //     let hours = str.split(":")[0]
-        //     let minutes = str.split(":")[1]
-        //     let ampm = hours >= 12 ? 'PM' : 'AM';
-        //     let timeStr = hours + ':' + minutes + ' ' + ampm;
-        //     return timeStr
-        // },
         setTimeStr(time) {
             let hours = ""
             let minutes = ""
-            // if(this.time == "") {
-            //     let date = new Date()
-            //     hours = date.getHours();
-            //     minutes = date.getMinutes();
-            //     minutes = minutes < 10 ? '0' + minutes : minutes;
-            // } else {
-            //     }
-            // let str = String(this.time)
             hours = time.split(":")[0]
             minutes = time.split(":")[1]
             let ampm = hours >= 12 ? 'PM' : 'AM';
@@ -186,6 +169,9 @@ export default {
         },
         view(uid){
             this.$router.push({name:'Profile', params: { uid }})
+        },
+        makeOffer() {
+            console.log(this.offerPrice)
         }
     }
 }
