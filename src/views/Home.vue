@@ -110,7 +110,7 @@ export default {
                             lng: "103.785590",
                         },
                         s_address: "Tampines St 45 529498",
-                        datetime: "2022-11-13T00:36",
+                        datetime: "2022-11-13T02:36",
                         startNeighborhood: "Tampines",
                         pax: "3",
                         available: "1",
@@ -120,7 +120,8 @@ export default {
                         user: "luke",
                         vehiclePreference: "Car, Lorry & Van Only",
                         vehicleType: "Motorcycle",
-                        askingPrice: "10.00"
+                        askingPrice: "10.00",
+                        rid: "12345"
                     },
                     {
                         centerStart: {
@@ -142,7 +143,8 @@ export default {
                         user: "kim jong kook",
                         vehiclePreference: "Car only",
                         vehicleType: "Car",
-                        askingPrice: "10.00"
+                        askingPrice: "10.00",
+                        rid: "52321"
                     },
                     {
                         centerStart: {
@@ -518,8 +520,9 @@ export default {
                     // request[childKey] = childData
                     // console.log(childData)
                     // this.allRequests.push(request) //add object to new allRequests array in data()
-                    // childData["rid"] = childKey         //add request ID to request object
+                    childData["rid"] = childKey         //add request ID to request object
                     this.allRequests.push(childData)
+                    console.log(childData)
                     this.setValidReq()
                     this.setValidNearbyReq()
                 });

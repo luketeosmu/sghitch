@@ -147,6 +147,7 @@ export default {
   props: {},
   data() {
     return {
+      requestId: this.$route.params.id,
       user: {
         type: ""
       },
@@ -217,12 +218,17 @@ export default {
       let month = today.getMonth() + 1
       let day = today.getDate()
       let mins = ""
-        if(today.getMinutes() < 10) {
-            mins = "0" + today.getMinutes()
-        } else {
-            mins = today.getMinutes()
+      let hour = ""
+      if(today.getMinutes() < 10) {
+          mins = "0" + today.getMinutes()
+      } else {
+          mins = today.getMinutes()
       }
-      let hour = today.getHours()
+      if(today.getHours() < 10) {
+        hour = "0" + today.getHours()
+      } else {
+        hour = today.getHours()
+      }
       let str = year + "-" + month + "-" + day + "T" + hour + ":" + mins
       // console.log(year + "-" + month + "-" + day + "T" + hour + ":" + mins)
       this.input.datetime = str

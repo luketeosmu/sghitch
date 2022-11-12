@@ -214,72 +214,72 @@ export default {
             },
             acceptedOffer: null,
             offers: [
-                {   
-                    status: "pending",
-                    centerStart: {
-                            lat: "1.360540",
-                            lng: "103.957380"
-                        },
-                        centerDest: {
-                            lat: "1.431630",
-                            lng: "103.785590",
-                        },
-                        s_address: "Tampines St 45 529498",
-                        datetime: "2022-11-12T12:40",
-                        startNeighborhood: "Tampines",
-                        pax: "3",
-                        available: "1",
-                        d_address: "Woodlands Ave 1 730308",
-                        destNeighborhood: "Woodlands",
-                        uid: "12345",
-                        user: "luke",
-                        carplateNo: "SFY16C",
-                        askingPrice: "10.00"
-                },
-                {
-                    status: "pending",
-                    centerStart: {
-                            lat: "1.360540",
-                            lng: "103.957380"
-                        },
-                        centerDest: {
-                            lat: "1.431630",
-                            lng: "103.785590",
-                        },
-                        s_address: "Geylang Prostitution",
-                        datetime: "2022-11-12T12:40",
-                        startNeighborhood: "Tampines",
-                        pax: "3",
-                        available: "1",
-                        d_address: "Woodlands Ave 1 730308",
-                        destNeighborhood: "Woodlands",
-                        uid: "12345",
-                        user: "john",
-                        carplateNo: "SFY16C",
-                        askingPrice: "10.00"
-                },
-                {
-                    status: "pending",
-                    centerStart: {
-                            lat: "1.360540",
-                            lng: "103.957380"
-                        },
-                        centerDest: {
-                            lat: "1.431630",
-                            lng: "103.785590",
-                        },
-                        s_address: "Singapore sports hub swimming complex",
-                        datetime: "2022-11-12T12:40",
-                        startNeighborhood: "Tampines",
-                        pax: "3",
-                        available: "1",
-                        d_address: "Woodlands Ave 1 730308",
-                        destNeighborhood: "Woodlands",
-                        uid: "12345",
-                        user: "lyegend",
-                        carplateNo: "SFY16C",
-                        askingPrice: "10.00"
-                },
+                // {   
+                //     status: "pending",
+                //     centerStart: {
+                //             lat: "1.360540",
+                //             lng: "103.957380"
+                //         },
+                //         centerDest: {
+                //             lat: "1.431630",
+                //             lng: "103.785590",
+                //         },
+                //         s_address: "Tampines St 45 529498",
+                //         datetime: "2022-11-12T12:40",
+                //         startNeighborhood: "Tampines",
+                //         pax: "3",
+                //         available: "1",
+                //         d_address: "Woodlands Ave 1 730308",
+                //         destNeighborhood: "Woodlands",
+                //         uid: "12345",
+                //         user: "luke",
+                //         carplateNo: "SFY16C",
+                //         askingPrice: "10.00"
+                // },
+                // {
+                //     status: "pending",
+                //     centerStart: {
+                //             lat: "1.360540",
+                //             lng: "103.957380"
+                //         },
+                //         centerDest: {
+                //             lat: "1.431630",
+                //             lng: "103.785590",
+                //         },
+                //         s_address: "Geylang Prostitution",
+                //         datetime: "2022-11-12T12:40",
+                //         startNeighborhood: "Tampines",
+                //         pax: "3",
+                //         available: "1",
+                //         d_address: "Woodlands Ave 1 730308",
+                //         destNeighborhood: "Woodlands",
+                //         uid: "12345",
+                //         user: "john",
+                //         carplateNo: "SFY16C",
+                //         askingPrice: "10.00"
+                // },
+                // {
+                //     status: "pending",
+                //     centerStart: {
+                //             lat: "1.360540",
+                //             lng: "103.957380"
+                //         },
+                //         centerDest: {
+                //             lat: "1.431630",
+                //             lng: "103.785590",
+                //         },
+                //         s_address: "Singapore sports hub swimming complex",
+                //         datetime: "2022-11-12T12:40",
+                //         startNeighborhood: "Tampines",
+                //         pax: "3",
+                //         available: "1",
+                //         d_address: "Woodlands Ave 1 730308",
+                //         destNeighborhood: "Woodlands",
+                //         uid: "12345",
+                //         user: "lyegend",
+                //         carplateNo: "SFY16C",
+                //         askingPrice: "10.00"
+                // },
             ]
         }
     },
@@ -316,8 +316,8 @@ export default {
                 const childKey = childSnapshot.key; //offerId
                 const childData = childSnapshot.val(); //offerAttributes
                 //push into offers array
-                // this.offers.push(childData)
-                console.log(childData)
+                this.offers.push(childData)
+                console.log(this.offers)
             });
             }, {
             onlyOnce: true

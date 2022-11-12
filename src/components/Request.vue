@@ -96,7 +96,7 @@
                             <span>
                                 {{ request.pax }} persons 
                             </span>
-                            <button v-if="this.userType == 'hitcher'" class="btn absolute bottom-5 right-5" @click="makeHitcherOffer()">Make Offer</button>
+                            <button v-if="this.userType == 'hitcher'" class="btn absolute bottom-5 right-5" @click="makeHitcherOffer(request.rid)">Make Offer</button>
                         </div>
                         <br>
                         <div class="inline-flex" v-if="this.userType == 'driver'">
@@ -194,8 +194,9 @@ export default {
     mounted() {
     },
     methods: {
-        makeHitcherOffer() {
-            this.$router.push('./makeOffer')
+        makeHitcherOffer(id) {
+            console.log(id)
+            this.$router.push('./makeOffer/' + id) 
         },
         setTimeStr(time) {
             let hours = ""

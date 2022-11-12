@@ -125,16 +125,16 @@ const routes = [
             requiresAuth: true
         }
     },
+    // {
+    //     path: '/showall/:id',
+    //     name: 'ShowAll',
+    //     component: ShowAll,
+    //     meta: {
+    //         requiresAuth: true
+    //     }
+    // },
     {
-        path: '/showall/:id',
-        name: 'ShowAll',
-        component: ShowAll,
-        meta: {
-            requiresAuth: true
-        }
-    },
-    {
-        path: '/makeOffer/',
+        path: '/makeOffer/:id',
         name: 'MakeOffer',
         component: MakeOffer,
         meta: {
