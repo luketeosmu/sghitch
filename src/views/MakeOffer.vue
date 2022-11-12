@@ -56,39 +56,11 @@
                   </div>
                   <div>
                     <div class="flex form-control mt-3 sm:mt-2" v-if="this.user.type == 'hitcher'">
-                    <!-- <div class="tooltip " data-tip="This is the asking price you can provide to other users for them to gauge how much to offer you"> -->
                       <label class="label">
                         <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Offer Price</span>
                       </label>
-                    <!-- </div> -->
                     <input v-model.lazy="askingPrice" type="number" placeholder="0.00" className="input input-bordered w-full bg-opacity-90" />
-                    <!-- <label class="input-group w-1/2">
-                      <span class="bg-slate-600 text-white">$</span>
-                      <input type="number" placeholder="0.00" class="input input-bordered" />
-                    </label> -->
                   </div>
-                    <!-- <div v-if="this.user.type == 'driver'" class="flex form-control mt-3 sm:mt-2">
-                        <label class="label">
-                          <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Vehicle Type</span>
-                        </label>
-                        <select class="select select-bordered bg-opacity-90" v-model.lazy="input.vehicleType">
-                          <option selected>Car</option>
-                          <option>Van</option>
-                          <option>Motorcycle</option>
-                          <option>Lorry</option>
-                        </select>
-                    </div>  
-                    <div v-else class="flex form-control mt-3 sm:mt-2">
-                        <label class="label">
-                            <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Preferred Vehicle Type</span>
-                        </label>
-                        <select class="select select-bordered bg-opacity-90" v-model.lazy="input.vehiclePreference">
-                            <option selected>All Vehicles</option>
-                            <option>Car Only</option>
-                            <option>Car, Lorry & Van Only</option>
-                            <option>Car & Motorcycle Only</option>
-                        </select>
-                    </div> -->
                   </div>
                 </div>
                 <div class="">
@@ -335,15 +307,20 @@ export default {
     },
     writeReqData () {
       //should check if all fields have been entered before setting and redirecting
-
-      set(ref(db, 'userReqs/' + this.auth.currentUser.uid), this.input);
+      //displayname
+      //datetime
+      //pax, amount
+      //uid
+      //start address
+      //dest address
+      //reqid
       const db = getDatabase();
-      const postListRef = ref(db, 'userReqs');
+      const postListRef = ref(db, 'driverOffers/' + request.uid);
       const newPostRef = push(postListRef);
-      set(newPostRef, this.input);
-      alert("Successfully submitted request!")
-      this.$router.push('/')
-      // console.log(this.input.datetime)
+      set(newPostRef, offer)
+      .then(() => {
+          this.$router.push('./')
+      })
     },
     home() {
         this.$router.push('../')
