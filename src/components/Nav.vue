@@ -290,26 +290,23 @@ export default {
         const auth = getAuth()
         this.item.imageUrl = auth.currentUser.photoURL
         this.dbRef = ref(getDatabase())
-        get(child(this.dbRef, `userTypes/${this.auth.currentUser.uid}`)).then((snapshot) => {
-            if (snapshot.exists()){
-                if(snapshot.val().type == "hitcher"){
-                    this.user.type = "hitcher"
-                } else {
-                    this.user.type = "driver"
-                }
-            } else {
-                alert("Application encountered a severe issue. Please login again.")
-                this.logout()
-            }
-        }).catch((error) => {
-            console.error(error)
-            this.logout()
-        })
-        // if(this.user.type == "driver") {
-        //     setInterval(this.displayFirst(), 1000)
-        //     setInterval(this.displaySecond(), 2000)
-        // }
+        // get(child(this.dbRef, `userTypes/${this.auth.currentUser.uid}`)).then((snapshot) => {
+        //     if (snapshot.exists()){
+        //         if(snapshot.val().type == "hitcher"){
+        //             this.user.type = "hitcher"
+        //         } else {
+        //             this.user.type = "driver"
+        //         }
+        //     } else {
+        //         alert("Application encountered a severe issue. Please login again.")
+        //         this.logout()
+        //     }
+        // }).catch((error) => {
+        //     console.error(error)
+        //     this.logout()
+        // })
         if(this.userType == "driver"){
+            console.log("hihi")
             const db = getDatabase();
             const dbRef = ref(db, '/driverOffers/' + this.auth.currentUser.uid);
 
@@ -319,7 +316,7 @@ export default {
                 const childData = childSnapshot.val(); //offerAttributes
                 //push into offers array
                 this.offers.push(childData)
-                console.log(this.offers)
+                console.log("offers: " + this.offers)
             });
             }, {
             onlyOnce: true

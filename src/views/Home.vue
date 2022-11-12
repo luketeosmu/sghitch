@@ -510,7 +510,7 @@ export default {
         retrieveAllReq(){
             const db = getDatabase();
             if(this.user.type == 'driver') {
-                const dbRef = ref(db, '/driverReqs');
+                const dbRef = ref(db, '/hitcherReqs');
                 onValue(dbRef, (snapshot) => {
                     snapshot.forEach((childSnapshot) => {
                         const childKey = childSnapshot.key; //request id
