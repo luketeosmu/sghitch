@@ -148,122 +148,122 @@ export default {
             validReq: [],
             validNearbyReq: [],
             allRequests: [],
-            requests: [
-                    {
-                        centerStart: {
-                            lat: "1.360540",
-                            lng: "103.957380"
-                        },
-                        centerDest: {
-                            lat: "1.431630",
-                            lng: "103.785590",
-                        },
-                        s_address: "Tampines St 45 529498",
-                        datetime: "2022-11-13T06:49",
-                        startNeighborhood: "Tampines",
-                        pax: "3",
-                        available: "1",
-                        d_address: "Woodlands Ave 1 730308",
-                        destNeighborhood: "Woodlands",
-                        uid: "12345",
-                        user: "luke",
-                        vehiclePreference: "Car, Lorry & Van Only",
-                        vehicleType: "Motorcycle",
-                        askingPrice: "10.00",
-                        rid: "12345"
-                    },
-                    {
-                        centerStart: {
-                            lat: "1.431630",
-                            lng: "103.785591",
-                        },
-                        centerDest: {
-                            lat: "1.360540",
-                            lng: "103.957380"
-                        },
-                        d_address: "Tampines St 45 529498",
-                        datetime: "2022-11-13T06:50",
-                        destNeighborhood: "Tampines",
-                        pax: "3",
-                        available: "2",
-                        s_address: "Marsiling Mrt",
-                        startNeighborhood: "Woodlands",
-                        uid: "12345",
-                        user: "kim jong kook",
-                        vehiclePreference: "Car only",
-                        vehicleType: "Car",
-                        askingPrice: "10.00",
-                        rid: "52321"
-                    },
-                    {
-                        centerStart: {
-                            lat: "1.360540",
-                            lon: "103.957380",
-                        },
-                        centerDest: {
-                            lat: "1.360540",
-                            lon: "103.957380"
-                        },
-                        d_address: "Tampines St 45 529498",
-                        datetime: "2022-11-12T20:00",
-                        destNeighborhood: "Tampines",
-                        pax: "3",
-                        available: "2",
-                        s_address: "Marsiling Mrt",
-                        startNeighborhood: "Woodlands",
-                        uid: "12345",
-                        user: "kim jong kook",
-                        vehiclePreference: "Car only",
-                        vehicleType: "Car",
-                        askingPrice: "10.00"
-                    },
-                    {
-                        centerStart: {
-                            lat: "1.439500",
-                            lon: "103.775630",
-                        },
-                        centerDest: {
-                            lat: "1.320610",
-                            lon: "103.886932"
-                        },
-                        d_address: "Geylang Shady Place",
-                        datetime: "2022-11-12T20:00",
-                        destNeighborhood: "Geylang",
-                        pax: "3",
-                        available: "2",
-                        s_address: "Woodlands Ave 1 730308",
-                        startNeighborhood: "Woodlands",
-                        uid: "12345",
-                        user: "john tao",
-                        vehiclePreference: "Car only",
-                        vehicleType: "Car",
-                        askingPrice: "10.00"
-                    },
-                    {
-                        centerStart: {
-                            lat: "1.289440",
-                            lon: "103.849983",
-                        },
-                        centerDest: {
-                            lat: "1.360540",
-                            lon: "103.957380"
-                        },
-                        d_address: "Tampines St 45 529498",
-                        datetime: "2022-11-12T22:25",
-                        destNeighborhood: "Tampines",
-                        vehicleNo: "ABC 123",
-                        pax: "3",
-                        available: "2",
-                        s_address: "SMU",
-                        startNeighborhood: "Museum",
-                        uid: "12345",
-                        user: "prof kyong",
-                        vehiclePreference: "Car only",
-                        vehicleType: "Car",
-                        askingPrice: "10.00",
-                        rid: "rid123"
-                    },
-            ],
+            // requests: [
+            //         {
+            //             centerStart: {
+            //                 lat: "1.360540",
+            //                 lng: "103.957380"
+            //             },
+            //             centerDest: {
+            //                 lat: "1.431630",
+            //                 lng: "103.785590",
+            //             },
+            //             s_address: "Tampines St 45 529498",
+            //             datetime: "2022-11-13T06:49",
+            //             startNeighborhood: "Tampines",
+            //             pax: "3",
+            //             available: "1",
+            //             d_address: "Woodlands Ave 1 730308",
+            //             destNeighborhood: "Woodlands",
+            //             uid: "12345",
+            //             user: "luke",
+            //             vehiclePreference: "Car, Lorry & Van Only",
+            //             vehicleType: "Motorcycle",
+            //             askingPrice: "10.00",
+            //             rid: "12345"
+            //         },
+            //         {
+            //             centerStart: {
+            //                 lat: "1.431630",
+            //                 lng: "103.785591",
+            //             },
+            //             centerDest: {
+            //                 lat: "1.360540",
+            //                 lng: "103.957380"
+            //             },
+            //             d_address: "Tampines St 45 529498",
+            //             datetime: "2022-11-13T06:50",
+            //             destNeighborhood: "Tampines",
+            //             pax: "3",
+            //             available: "2",
+            //             s_address: "Marsiling Mrt",
+            //             startNeighborhood: "Woodlands",
+            //             uid: "12345",
+            //             user: "kim jong kook",
+            //             vehiclePreference: "Car only",
+            //             vehicleType: "Car",
+            //             askingPrice: "10.00",
+            //             rid: "52321"
+            //         },
+            //         {
+            //             centerStart: {
+            //                 lat: "1.360540",
+            //                 lon: "103.957380",
+            //             },
+            //             centerDest: {
+            //                 lat: "1.360540",
+            //                 lon: "103.957380"
+            //             },
+            //             d_address: "Tampines St 45 529498",
+            //             datetime: "2022-11-12T20:00",
+            //             destNeighborhood: "Tampines",
+            //             pax: "3",
+            //             available: "2",
+            //             s_address: "Marsiling Mrt",
+            //             startNeighborhood: "Woodlands",
+            //             uid: "12345",
+            //             user: "kim jong kook",
+            //             vehiclePreference: "Car only",
+            //             vehicleType: "Car",
+            //             askingPrice: "10.00"
+            //         },
+            //         {
+            //             centerStart: {
+            //                 lat: "1.439500",
+            //                 lon: "103.775630",
+            //             },
+            //             centerDest: {
+            //                 lat: "1.320610",
+            //                 lon: "103.886932"
+            //             },
+            //             d_address: "Geylang Shady Place",
+            //             datetime: "2022-11-12T20:00",
+            //             destNeighborhood: "Geylang",
+            //             pax: "3",
+            //             available: "2",
+            //             s_address: "Woodlands Ave 1 730308",
+            //             startNeighborhood: "Woodlands",
+            //             uid: "12345",
+            //             user: "john tao",
+            //             vehiclePreference: "Car only",
+            //             vehicleType: "Car",
+            //             askingPrice: "10.00"
+            //         },
+            //         {
+            //             centerStart: {
+            //                 lat: "1.289440",
+            //                 lon: "103.849983",
+            //             },
+            //             centerDest: {
+            //                 lat: "1.360540",
+            //                 lon: "103.957380"
+            //             },
+            //             d_address: "Tampines St 45 529498",
+            //             datetime: "2022-11-12T22:25",
+            //             destNeighborhood: "Tampines",
+            //             vehicleNo: "ABC 123",
+            //             pax: "3",
+            //             available: "2",
+            //             s_address: "SMU",
+            //             startNeighborhood: "Museum",
+            //             uid: "12345",
+            //             user: "prof kyong",
+            //             vehiclePreference: "Car only",
+            //             vehicleType: "Car",
+            //             askingPrice: "10.00",
+            //             rid: "rid123"
+            //         },
+            // ],
             vehiclePreference: "All Vehicles"
         }
     },
@@ -277,6 +277,7 @@ export default {
                 } else {
                     this.user.type = "driver"
                 }
+                this.retrieveAllReq()
             } else {
                 alert("Application encountered a severe issue. Please login again.")
                 this.logout()
@@ -290,7 +291,6 @@ export default {
         this.setDateStr()
         this.setTimeStr()
         this.currentLocation()
-        this.retrieveAllReq()
         // this.
     },
     methods: {
@@ -459,9 +459,9 @@ export default {
             this.validReq = []
             // console.log("setvalidreq")
             //change to this.allRequests
-            for(let request of this.requests) {
+            for(let request of this.allRequests) {
                 // console.log(request.rid)
-                if(this.checkTime(request.datetime.split("T")[1]) && this.checkDate(request.datetime.split("T")[0])) {
+                if(request.uid != this.auth.currentUser.uid && this.checkTime(request.datetime.split("T")[1]) && this.checkDate(request.datetime.split("T")[0])) {
                     // console.log(request.d_address)
                     console.log("everything true, valid req")
                     this.validReq.push(request)
@@ -565,6 +565,7 @@ export default {
         retrieveAllReq(){
             const db = getDatabase();
             if(this.user.type == 'driver') {
+                console.log("hi i am driver")
                 const dbRef = ref(db, '/hitcherReqs');
                 onValue(dbRef, (snapshot) => {
                     snapshot.forEach((childSnapshot) => {
@@ -584,6 +585,7 @@ export default {
                     onlyOnce: true
                 });
             } else {
+                console.log("hi i am hitcher")
                 const dbRef = ref(db, '/driverReqs');
                 onValue(dbRef, (snapshot) => {
                     snapshot.forEach((childSnapshot) => {
