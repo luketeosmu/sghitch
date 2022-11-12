@@ -314,11 +314,6 @@ export default {
     writeReqData () {
       //should check if all fields have been entered before setting and redirecting
 
-      //pax, amount
-      //uid
-      //start address
-      //dest address
-      //reqid
       const auth = getAuth()
       let offer = {}
       offer['datetime'] = this.input.datetime
@@ -330,13 +325,29 @@ export default {
       offer['destAddress'] = this.input.d_address
       offer['rid'] = this.requestId
 
-      const db = getDatabase();
-      const postListRef = ref(db, 'driverOffers/' + request.uid);
-      const newPostRef = push(postListRef);
-      set(newPostRef, offer)
-      .then(() => {
-          this.$router.push('./')
-      })
+      //retrieve
+      let request = null
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, `driverReqs/${this.requestId}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          // console.log(snapshot.val());
+          request = snapshot.val()
+          const db = getDatabase();
+          const postListRef = ref(db, 'driverOffers/' + request.uid);
+          const newPostRef = push(postListRef);
+          set(newPostRef, offer)
+          .then(() => {
+              this.$router.push('/')
+          })
+        } else {
+          // console.log("No data available");
+          alert("No data available!")
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+
+      
     },
     home() {
         this.$router.push('../')

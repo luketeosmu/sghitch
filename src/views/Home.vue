@@ -529,7 +529,7 @@ export default {
                     onlyOnce: true
                 });
             } else {
-                const dbRef = ref(db, '/hitcherReqs');
+                const dbRef = ref(db, '/driverReqs');
                 onValue(dbRef, (snapshot) => {
                     snapshot.forEach((childSnapshot) => {
                         const childKey = childSnapshot.key; //request id
