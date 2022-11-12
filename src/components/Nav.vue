@@ -162,7 +162,8 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-x-5 mt-5" v-show="offer.status=='pending'">
-                    <button  @click='offer.status = "accepted", this.acceptedOffer = offer, this.offers = []' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold flex justify-center items-center text-center">Accept</button>
+                    <!-- <button  @click='offer.status = "accepted", this.acceptedOffer = offer, this.offers = []' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold flex justify-center items-center text-center">Accept</button> -->
+                    <button  @click='acceptOffer(offer)' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold flex justify-center items-center text-center">Accept</button>
                     <button  @click='offer.status = "rejected"' type="button" class="btn btn-ghost block bg-white hover:bg-slate-100 px-3 rounded-xl text-slate-600 font-semibold flex justify-center items-center text-center">Decline</button>
                 </div>
             </label>
@@ -173,7 +174,7 @@
 import Request from "../components/Request.vue"
 import Notifications from "./Notifications.vue";
 import { getAuth, signOut } from 'firebase/auth'
-import { getDatabase, ref, child, get, update } from 'firebase/database';
+import { getDatabase, ref, child, get, update, onValue, set } from 'firebase/database';
 export default {
     name: "Nav", 
     components: {
@@ -283,6 +284,33 @@ export default {
         //     setInterval(this.displayFirst(), 1000)
         //     setInterval(this.displaySecond(), 2000)
         // }
+        if(this.user.type == "driver"){
+            const db = getDatabase();
+            const dbRef = ref(db, '/driverOffers/' + this.auth.currentUser.uid);
+
+            onValue(dbRef, (snapshot) => {
+            snapshot.forEach((childSnapshot) => {
+                const childKey = childSnapshot.key; //offerId
+                const childData = childSnapshot.val(); //offerAttributes
+                //push into offers array
+            });
+            }, {
+            onlyOnce: true
+            });
+        } else if(this.user.type == "hitcher"){
+            const db = getDatabase();
+            const dbRef = ref(db, '/hitcherOffers/' + this.auth.currentUser.uid);
+
+            onValue(dbRef, (snapshot) => {
+            snapshot.forEach((childSnapshot) => {
+                const childKey = childSnapshot.key; //offerId
+                const childData = childSnapshot.val(); //offerAttributes
+                //push into offers array
+            });
+            }, {
+            onlyOnce: true
+            });
+        }
     },
     methods: {
         setTimeStr(time) {
@@ -296,9 +324,13 @@ export default {
             let timeStr = hours + ':' + minutes + ampm
             return timeStr
         },
-        acceptOffer() {
+        acceptOffer(offer) {
+            const db = getDatabase();
+            const auth = getAuth()
+            set(ref(db, 'userInfo/' + auth.currentUser.uid + '/acceptedOffer'), offer);
         },
-        declineOffer() {
+        declineOffer(offer) {
+
         },
         getPendingCount() {
             let count = 0
