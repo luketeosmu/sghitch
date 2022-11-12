@@ -160,27 +160,49 @@ export default {
             }
         },
         updatePassword(){
-            
-            if(this.inputPassword.newPassword == this.inputPassword.confirmNewPassword){
-                const auth = getAuth()
-                const credential = EmailAuthProvider.credential(
-                    auth.currentUser.email,
-                    this.inputPassword.currentPassword
-                )
-                reauthenticateWithCredential(auth.currentUser, credential).then(() => {
-                    updatePassword(auth.currentUser, this.inputPassword.newPassword)
-                    .then(() => {
-                        alert("Successfully updated password!")
-                        location.reload()
+
+            for(let msg in this.errorMsg_2){
+                if(this.errorMsg_2[msg] == ""){
+                    this.checkErrorArr_2 = true
+                }
+                else{
+                    this.checkErrorArr_2 = false
+                }
+            }
+
+            if(this.inputPassword.currentPassword != "" && this.inputPassword.newPassword != "" && this.inputPassword.confirmNewPassword != ""){
+                this.formIsValid_2 = true
+            }
+
+            if(this.formIsValid_2 && this.checkErrorArr_2){
+
+                //hide error box
+                this.isHidden_2 = false
+
+                if(this.inputPassword.newPassword == this.inputPassword.confirmNewPassword){
+                    const auth = getAuth()
+                    const credential = EmailAuthProvider.credential(
+                        auth.currentUser.email,
+                        this.inputPassword.currentPassword
+                    )
+                    reauthenticateWithCredential(auth.currentUser, credential).then(() => {
+                        updatePassword(auth.currentUser, this.inputPassword.newPassword)
+                        .then(() => {
+                            alert("Successfully updated password!")
+                            location.reload()
+                        })
+                    }).catch((error) => {
+                        console.log(error.code)
+                        console.log(error.message)
+                        console.log(error)
+                        alert("Incorrect current password. Please try again.")
                     })
-                }).catch((error) => {
-                    console.log(error.code)
-                    console.log(error.message)
-                    console.log(error)
-                    alert("Incorrect current password. Please try again.")
-                })
-            } else {
-                alert("Passwords do not match. Please try again.")
+                } else {
+                    alert("Passwords do not match. Please try again.")
+                }
+            }else{
+                this.clicked_2 = false
+                this.isHidden_2 = true
             }
         },
         
@@ -307,7 +329,6 @@ export default {
             } else {
                 this.errorMsg_2['confirmPassword'] = '';
             }
-            console.log(this.errorMsg2)
         },
     },
     data () {
