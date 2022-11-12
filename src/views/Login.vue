@@ -35,7 +35,9 @@
                 <div>
                     <p v-if="errMsg" className="mt-2 text-red-500">{{ errMsg }}</p>
                 </div>
-                <button @click='login()' type="button" class="block w-full bg-white bg-opacity-80 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Sign in</button>
+                <!-- <button @click='login()' type="button" class="block w-full bg-white bg-opacity-80 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Sign in</button> -->
+                <button v-if="!clicked" @click='login()' class="btn w-full bg-white hover:bg-gray-400 bg-opacity-80 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Sign in</button>
+                <button v-else class="btn loading w-full bg-white bg-opacity-80 text-black font-semibold rounded-2xl mt-4 mb-2 py-2">Loading</button>
                 <span @click='forgotPassword()' class="text-sm ml-2 hover:text-blue-300 cursor-pointer text-white">Forgot Password?</span><br><br>
                 <span @click='register()' class="text-sm ml-2  hover:text-blue-300 cursor-pointer text-white">Create an Account</span>
             </form>
@@ -69,7 +71,8 @@ export default {
                 email: "",
                 password: "",
             },
-            errMsg: ""
+            errMsg: "",
+            clicked: false,
         }
     },
     mounted(){
@@ -79,15 +82,18 @@ export default {
             // check minimum password characters
             // check valid email format
             // check matching passwords
+            this.clicked = true
             const db = getDatabase()
             signInWithEmailAndPassword(getAuth(), this.input.email, this.input.password)
             .then((data) => {
                 console.log("Successfully signed in!")
                 console.log(getAuth().currentUser.displayName)
                 // console.log(auth.currentUser)
+                this.clicked = true
                 this.$router.push('/loginAs')
             })
             .catch((error) => {
+                this.clicked = false
                 console.log(error.code)
                 switch (error.code) {
                     case "auth/invalid-email":
