@@ -110,7 +110,7 @@ export default {
                             lng: "103.785590",
                         },
                         s_address: "Tampines St 45 529498",
-                        datetime: "2022-11-12T19:45",
+                        datetime: "2022-11-13T00:36",
                         startNeighborhood: "Tampines",
                         pax: "3",
                         available: "1",
@@ -118,8 +118,8 @@ export default {
                         destNeighborhood: "Woodlands",
                         uid: "12345",
                         user: "luke",
-                        vehiclePreference: "Car only",
-                        vehicleType: "Car",
+                        vehiclePreference: "Car, Lorry & Van Only",
+                        vehicleType: "Motorcycle",
                         askingPrice: "10.00"
                     },
                     {
