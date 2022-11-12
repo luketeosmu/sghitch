@@ -92,13 +92,13 @@
                             </span>
                         </div>
                         <br>
-                        <div class="inline-flex" v-if="this.user.type == 'driver'">
+                        <div class="inline-flex" v-if="this.userType == 'driver'">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-6 h-6 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             ${{ request.askingPrice }}
                         </div>
-                        <div class="inline-flex" v-if="this.user.type == 'driver'">
+                        <div class="inline-flex" v-if="this.userType == 'driver'">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-4 h-4 sm:w-6 sm:h-6 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
@@ -107,7 +107,7 @@
                             <svg aria-hidden="true" class="mx-2 w-4 h-4 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         {{ request.d_address }} 
                         </div>
-                        <div class="form-control mt-3" v-if="this.user.type == 'driver'">
+                        <div class="form-control mt-3" v-if="this.userType == 'driver'">
                             <div class="input-group text-black">
                                 <input v-model="offerPrice" type="number" placeholder="$0.00" className="input input-bordered w-1/3 bg-opacity-90 " />
                                 <button class="btn">Make Offer</button>
@@ -146,9 +146,6 @@ export default {
     },
     data() {
         return {
-            user: {
-                type: ""
-            },
             validReq: [],
             offerPrice: 0
         }
@@ -156,74 +153,7 @@ export default {
     mounted() {
     },
     methods: {
-        async chat() {
-            const auth = getAuth();
-            const userId = auth.currentUser.uid
-            const userDisplayName = auth.currentUser.displayName
-            const theirId = 'L48yp0Q5IwT362xmHDPdgSMV0XQ2'
-            const theirDisplayName = 'Rick Tan'
-
-            // L48yp0Q5IwT362xmHDPdgSMV0XQ2
-            // ricktan@gmail.com
-            // const db = getDatabase()
-            // const input = {
-            //     members: {
-            //         myUser: userId,
-            //         theirUser: theirId
-            //     }
-            // }
-            // const chatRef = storageRef(db, 'chats')
-            // const newChatID = push(chatRef)
-            // set(newChatID, input)
-
-            // const temp = {
-            //     valid: true
-            // }
-
-            // // add chatUID retrieved to each userUID under userChats
-            // const userChatRef = storageRef(db, 'userChats/' + userId + '/' + newChatID.key)
-            // set(userChatRef, temp)
-
-            // const theirChatRef = storageRef(db, 'userChats/' + theirId + '/' + newChatID.key)
-            // set(theirChatRef, temp)
-            
-            // // once pushed, send an 'im interested!' with new messageUID to the chatUID retrieved from the above input, under chatMessages
-            // const messageRef = storageRef(db, 'chatMessages/' + newChatID.key)
-            // const newMessageID = push(messageRef)
-            // const messageInput = {
-            //     message: "I'm interested!",
-            //     sentBy: userId
-            // }
-            // set(newMessageID, messageInput);
-
-            const fs = getFirestore()
-
-            const combinedId = userId > theirId ? userId + theirId : theirId + userId
-            try {
-                const res = await getDoc(doc(fs, "chats", combinedId))
-                if(!res.exists()){
-                    await setDoc(doc(fs,"chats",combinedId),{messages: []})
-
-                    await updateDoc(doc(fs, "userChats", userId), {
-                        [combinedId+".userInfo"]: {
-                            uid:theirId,
-                            displayName:theirDisplayName
-                        },
-                        [combinedId+".date"]: serverTimestamp()
-                    })
-
-                    await updateDoc(doc(fs, "userChats", theirId), {
-                        [combinedId+".userInfo"]: {
-                            uid:userId,
-                            displayName:userDisplayName
-                        },
-                        [combinedId+".date"]: serverTimestamp()
-                    })
-                }
-            } catch (err) {
-
-            }
-
+        chat() {
             this.$router.push('/chat')
         },
         // setTimeStr(time) {
