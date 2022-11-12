@@ -187,9 +187,9 @@ export default {
 
         validateLastName() {
             if (!/^[A-Za-z]+$/.test(this.input.lastName) || this.input.lastName.trim().length < 2) {
-                this.errorMsg['firstName'] = 'Please enter a valid last name';
+                this.errorMsg['lastName'] = 'Please enter a valid last name';
             } else {
-                this.errorMsg['firstName'] = '';
+                this.errorMsg['lastName'] = '';
             }
         },
 
