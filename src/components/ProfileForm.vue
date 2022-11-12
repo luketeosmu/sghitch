@@ -19,12 +19,11 @@
 
                 <h1 class="text-center text-black text-3xl mb-4 pt-4"> Click the stars to give a rating! </h1>
                 <div class="rating rating-lg flex justify-center">
-                    <input v-model="item.reviewRating" v-bind:value="0" type="radio" name="rating-9" class="rating-hidden" />
-                    <input v-model="item.reviewRating" v-bind:value="1" type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
-                    <input v-model="item.reviewRating" v-bind:value="2" type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500"  checked />
-                    <input v-model="item.reviewRating" v-bind:value="3" type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
-                    <input v-model="item.reviewRating" v-bind:value="4" type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
-                    <input v-model="item.reviewRating" v-bind:value="5" type="radio" name="rating-9" class="mask mask-star-2 bg-yellow-500" />
+                    <input v-model="item.reviewRating" v-bind:value="1" type="radio" name="rating-0" class="mask mask-star-2 bg-yellow-500" checked/>
+                    <input v-model="item.reviewRating" v-bind:value="2" type="radio" name="rating-0" class="mask mask-star-2 bg-yellow-500" />
+                    <input v-model="item.reviewRating" v-bind:value="3" type="radio" name="rating-0" class="mask mask-star-2 bg-yellow-500" />
+                    <input v-model="item.reviewRating" v-bind:value="4" type="radio" name="rating-0" class="mask mask-star-2 bg-yellow-500" />
+                    <input v-model="item.reviewRating" v-bind:value="5" type="radio" name="rating-0" class="mask mask-star-2 bg-yellow-500" />
                 </div>
                 <label class="label">
                     <span class="label-text text-black text-xl ml-10 mr-10">Review</span>
@@ -36,31 +35,29 @@
             </div>
         </form>
         
-        <div class="overflow-x-auto md:ml-10 mr-10">
-            <table class="table w-full">
+        <div class="overflow-x-auto md:ml-10 mr-10 mb-10">
+            <table v-if="reviews.length != 0" class="table w-full">
                 <tbody>
                 <!-- row 1 -->
-                <tr>
+                <tr v-for="review in reviews">
                     <td>
                     <div class="flex items-center space-x-3">
                         <div class="avatar">
                             <div class="mask mask-squircle w-12 h-12">
-                                <!-- IMG --> Image
+                                <img :src="review.photoURL"/>
                             </div>
                         </div>
                         <div>
-                            <div class="font-bold">Display Name</div>
+                            <div class="font-bold">{{review.displayName}}</div>
                             <div class="text-sm opacity-50">
                                 <div class="rating rating-lg">
-                                    <input type="radio" name="rating-10" class="rating-hidden" checked/>
-                                    <input type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
-                                    <input type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
-                                    <input type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
-                                    <input type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
-                                    <input type="radio" name="rating-10" class="mask mask-star-2 bg-yellow-500" />
+                                    <template v-for="index in 5" :key="index">
+                                        <input v-if="review.rating == index" type="radio" :name="'rating-' + index" class="mask mask-star-2 bg-yellow-500" checked/>
+                                        <input v-else type="radio" :name="rating-{index}" class="mask mask-star-2 bg-yellow-500"/>
+                                    </template>
                                 </div>
                             </div>
-                            <div class="text-sm opacity-50">Review</div>
+                            <div class="text-sm opacity-50">{{review.reviewText}}</div>
                         </div>
                     </div>
                     </td>
@@ -72,7 +69,7 @@
 </template>
 <script>
 import { getAuth, updateProfile } from 'firebase/auth';
-import { getDatabase, ref, onValue, push, set} from "firebase/database";
+import { getDatabase, ref, onValue, push, set, get, child} from "firebase/database";
 // import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 export default {
     name: "ProfileForm",
@@ -91,6 +88,7 @@ export default {
                 reviewText: "",
                 profileUID: "",
             },
+            reviews: [],
             isHidden: false
         }
     },
@@ -100,7 +98,7 @@ export default {
             const auth = getAuth()
             const db = getDatabase()
 
-            let review = {photoURL: auth.currentUser.photoURL, rating: this.item.reviewRating, reviewText: this.item.reviewText, reviewId: auth.currentUser.uid}
+            let review = {photoURL: auth.currentUser.photoURL, displayName: auth.currentUser.displayName, rating: this.item.reviewRating, reviewText: this.item.reviewText, reviewId: auth.currentUser.uid}
 
             const postListRef = ref(db, 'userReviews/' + this.item.profileUID)
             const newUID = push(postListRef)
@@ -109,6 +107,9 @@ export default {
             this.reviews.push(review)
 
             this.item.reviewText = ""
+
+            alert("Thanks for the review!")
+            location.reload()
         },
         show(){
             if(this.isHidden){
@@ -119,9 +120,21 @@ export default {
         }
     },
     mounted() {
-        // const auth = getAuth()
-        // this.item.imageUrl = auth.currentUser.photoURL
-        // this.item.displayName = auth.currentUser.displayName
+        const dbRef = ref(getDatabase())
+        get(child(dbRef, `userReviews/${this.item.profileUID}`)).then((snapshot) => {
+            if(snapshot.exists()) {
+                snapshot.forEach((childSnapshot) => {
+                    let childData = childSnapshot.val();
+                    childData.key = childSnapshot.key
+                    this.reviews.push(childData)
+                    console.log(this.reviews)
+                });
+            } else {
+                console.log("No data available")
+            }
+        }).catch((error) => {
+            console.error(error)
+        })
     },
     created: function(){
         if (this.$route.params.uid) {
@@ -133,7 +146,7 @@ export default {
             const userObj = ref(db, 'userInfo/' + uid);
             onValue(userObj, (snapshot) => {
                 const data = snapshot.val();
-                this.item.imageUrl = data.email
+                this.item.imageUrl = data.photoURL
                 this.item.displayName = data.displayName
             });
         }
