@@ -84,9 +84,11 @@
             </div>
             </button> -->
             <div class="dropdown dropdown-end mr-3 hidden md:block">
-                <label tabindex="0" class="md:flex btn btn-ghost rounded-2xl font-semibold px-1 ml-3 text-white">
-                    <div class="overflow-hidden w-7 rounded-full ring ring-white ring-offset-base-100 ring-offset-1">
-                        <img :src="item.imageUrl" contain style="width:100%;height:100%;object-fit:cover"/>
+                <label tabindex="0" class="md:flex btn btn-ghost p-3 rounded-2xl font-semibold px-1 ml-3 text-white">
+                    <div class="avatar flex">
+                        <div class="overflow-hidden w-7 rounded-full ring ring-white ring-offset-base-100">
+                            <img :src="item.imageUrl" contain style="width:100%;height:100%;object-fit:cover"/>
+                        </div>
                     </div>
                     <!-- My Account &nbsp  -->
                     <!-- <i class="bi bi-caret-down-fill"></i> -->
