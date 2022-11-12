@@ -75,7 +75,7 @@
                             </svg> -->
                         
                             <div class="avatar mr-2">
-                                <div @click='view(request.uid)' class="w-20 rounded-full">
+                                <div @click='view(request.uid)' class="w-12 hover:w-16 hover:cursor-pointer rounded-full">
                                     <img :src="item.imageUrl" contain style="width:100%;height:100%;object-fit:cover"/>
                                 </div>
                             </div>
@@ -124,7 +124,7 @@
                         {{ request.d_address }} 
                         </div>
                         <br v-if="this.userType == 'driver'">
-                        <div v-if="this.userType == 'driver'" class="grid sm:grid-cols-2 gap-x-2">
+                        <div v-if="this.userType == 'driver'" class="grid sm:grid-cols-2 gap-x-3">
                             <div class="flex form-control mt-3 sm:mt-0 ">
                                 <!-- <div class="tooltip " data-tip="This is the asking price you can provide to other users for them to gauge how much to offer you"> -->
                                 <label class="label">
@@ -136,7 +136,7 @@
                             <div class="flex form-control mt-3 sm:mt-0">
                                 <div class="tooltip " data-tip="This is the asking price you can provide to other users for them to gauge how much to offer you">
                                 <label class="label">
-                                    <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Asking Price</span>
+                                    <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Offer Price</span>
                                 </label>
                                 </div>
                                 <input v-model="offerPrice" type="number" placeholder="0.00" :className="invalidPrice ? 'input input-bordered w-auto sm:w-full bg-opacity-90 text-black border-red-400 border-2' : 'input input-bordered text-black w-auto sm:w-full bg-opacity-90'" />

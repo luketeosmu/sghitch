@@ -1,6 +1,6 @@
 <template lang="">
     <div class=" justify-center items-center mb-5">
-        <div :class="{ 'xl:w-auto': this.user.type == 'hitcher', 'xl:w-5/6': this.user.type == 'driver' }" class="inline-block shadow-xl relative rounded-lg mx-4 px-3 pt-5 overflow-y-auto max-h-[650px] mt-3 border border-solid border-2 border-slate-600 bg-white bg-opacity-90">
+        <div :class="{ 'xl:w-[600px]': this.user.type == 'hitcher', 'xl:w-5/6': this.user.type == 'driver' }" class="inline-block shadow-xl relative min-w-[350px] sm:w-[600px] rounded-lg mx-2 px-3 pt-5 overflow-y-auto max-h-[650px] mt-3 border border-solid border-2 border-slate-600 bg-white bg-opacity-90">
             <div class="inline-flex">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 sm:w-10 sm:h-10">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
@@ -9,7 +9,7 @@
             </div>
 
             <div v-if='favourites.length != 0' v-for="favourite in favourites">
-                <div class="flex relative mb-5 px-12 sm:px-20 pt-12 pb-10 rounded-2xl justify-center items-center shadow-xl" >
+                <div class="flex relative mb-5 pt-12 pb-10 rounded-2xl justify-center items-center shadow-xl" >
                     <div class="absolute top-0 flex items-center justify-center">
                         <div>
                             <h3 class="font-bold text-xl sm:text-2xl font-roboto mt-3 text-black" id="favourite">{{ favourite.from }}</h3>
@@ -53,8 +53,8 @@
                     </div>
                 </div>
             </div>
-            <div v-else > 
-                <div class="flex relative mb-5 px-16 sm:px-20 py-1 justify-center" >
+            <div v-else> 
+                <div class="flex relative mb-5 py-1 justify-center " >
                     <div class="inline-flex">
                         <h3 class="text-center text-base sm:text-2xl px-2">No favourites to display</h3>
                         <button @click='addFavourite()' type="button" class="block bg-black bg-opacity-30 hover:bg-opacity-50 p-2 sm:p-3 ml-2 rounded-2xl text-white text-sm font-semibold">Add Favourite</button>

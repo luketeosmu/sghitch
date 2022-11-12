@@ -1,6 +1,6 @@
 <template lang="">
     <div class="flex justify-center xl:justify-end items-center">
-        <div class="relative inline-block shadow-xl rounded-lg px-16 sm:px-24 xl:w-5/6 py-5 overflow-y-auto overflow-x-hidden max-h-[650px] mt-3 border border-solid border-2 border-slate-600 bg-white bg-opacity-90">
+        <div class="relative inline-block shadow-xl rounded-lg min-w-[350px] sm:w-[600px] px-4 xl:w-5/6 py-5 overflow-y-auto overflow-x-hidden max-h-[650px] mt-3 border border-solid border-2 border-slate-600 bg-white bg-opacity-90">
             <div class="inline-flex absolute left-0 ml-2" >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 sm:w-10 sm:h-10">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -32,7 +32,7 @@
                     <!-- hamburger icon -->
                     <svg class="w-4 h-4 swap-on fill-current " xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"/></svg>
                 </label>
-                <div id="nearby" class="mt-10">
+                <div id="nearby" class="mt-0">
                     <Request :requests="requests" :showDest="true" :showFrom="true" :from="'nearby'" :to="null" :userType="userType"/>
                     <!-- <button @click='showAll()' type="button" class="btn-xs sm:btn-sm btn-ghost block bg-slate-600 hover:bg-slate-500 rounded-xl text-white font-semibold absolute right-5 bottom-5">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-5 sm:h-5">
