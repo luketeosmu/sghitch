@@ -39,7 +39,7 @@
                 <!-- <hr> -->
                 <div v-if="this.user.type != 'hitcher'" class="grid xl:grid-cols-2 xl:gap-10">
                     <div>
-                        <Nearby :requests="this.validNearbyReq" :userType="this.user.type"/>
+                        <Nearby :distance="store.distance" @change-foo="changeFoo" :requests="this.validNearbyReq" :userType="this.user.type"/>
                     </div>
                     <Favourite :requests="this.validReq" class="flex xl:inline-block"/>
                 </div>
@@ -47,6 +47,7 @@
                     <Favourite :requests="this.validReq" class="flex"/>
                 </div>
             </div>
+            
             <!-- Page content ends here -->
         </div> 
         <div class="drawer-side">
@@ -93,6 +94,8 @@ export default {
             date: "",
             currentLat: "",
             currentLng: "",
+            store: "store",
+            inputDistance: 5,
             validReq: [],
             validNearbyReq: [],
             allRequests: [],
@@ -107,7 +110,7 @@ export default {
                             lng: "103.785590",
                         },
                         s_address: "Tampines St 45 529498",
-                        datetime: "2022-11-12T15:10",
+                        datetime: "2022-11-12T19:45",
                         startNeighborhood: "Tampines",
                         pax: "3",
                         available: "1",
@@ -129,7 +132,7 @@ export default {
                             lon: "103.957380"
                         },
                         d_address: "Tampines St 45 529498",
-                        datetime: "2022-11-12T10:00",
+                        datetime: "2022-11-12T20:00",
                         destNeighborhood: "Tampines",
                         pax: "3",
                         available: "2",
@@ -151,7 +154,7 @@ export default {
                             lon: "103.957380"
                         },
                         d_address: "Tampines St 45 529498",
-                        datetime: "2022-11-12T10:00",
+                        datetime: "2022-11-12T20:00",
                         destNeighborhood: "Tampines",
                         pax: "3",
                         available: "2",
@@ -173,7 +176,7 @@ export default {
                             lon: "103.886932"
                         },
                         d_address: "Geylang Shady Place",
-                        datetime: "2022-11-12T10:00",
+                        datetime: "2022-11-12T20:00",
                         destNeighborhood: "Geylang",
                         pax: "3",
                         available: "2",
@@ -195,7 +198,7 @@ export default {
                             lon: "103.957380"
                         },
                         d_address: "Tampines St 45 529498",
-                        datetime: "2022-11-12T10:00",
+                        datetime: "2022-11-12T20:15",
                         destNeighborhood: "Tampines",
                         pax: "3",
                         available: "2",
@@ -238,6 +241,9 @@ export default {
         // this.
     },
     methods: {
+        changeFoo(foo){
+            this.inputDistance = foo
+        },
         change() {
             const db = getDatabase()
             if(this.user.type == "driver"){
@@ -444,7 +450,7 @@ export default {
                 console.log(this.currentLng)
                 console.log("distance is= " + this.getDistanceFromLatLonInKm(request.centerStart.lat, request.centerStart.lng, this.currentLat, this.currentLng))
                 console.log("END")
-                if(this.getDistanceFromLatLonInKm(request.centerStart.lat, request.centerStart.lng, this.currentLat, this.currentLng) <= 10 ) {
+                if(this.getDistanceFromLatLonInKm(request.centerStart.lat, request.centerStart.lng, this.currentLat, this.currentLng) <= this.inputDistance ) { //change this 
                     console.log(request.centerStart.lat + " " + request.centerStart.lng)
                     this.validNearbyReq.push(request)
                 }

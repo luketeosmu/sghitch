@@ -173,6 +173,10 @@ export default {
         },
         makeOffer() {
             console.log(this.offerPrice)
+            //request details via requestid
+            //offer price
+            //current uid
+            //current user displayname
         }
     }
 }

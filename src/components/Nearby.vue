@@ -6,7 +6,19 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                 </svg>
-                <h3 class="text-2xl sm:text-3xl font-bold font-roboto text-black"> Nearby <span class="text-base font-normal">(within 10km radius near you)</span></h3>
+                <!-- <h3 class="text-2xl sm:text-3xl font-bold font-roboto text-black"> Nearby <span class="text-base font-normal">(within 10km radius near you)</span></h3> -->
+                <h3 class="text-2xl sm:text-3xl font-bold font-roboto text-black"> Nearby </h3>
+                
+            </div>
+            <div class="mx-auto mt-16 ">
+                <input type="range" min="0" max="10" v-model="distanceVal" @change="changeFoo" class="range" step="2.5" />
+                    <div class="w-full flex justify-between text-xs px-2">
+                        <span>0km</span>
+                        <span>2.5km</span>
+                        <span>5km</span>
+                        <span>7.5km</span>
+                        <span>10km</span>
+                    </div>
             </div>
             <div v-if='requests.length > 0' class="flex justify-center mt-3" >
                 <label class="btn btn-circle btn-xs swap swap-rotate absolute top-8 right-5 xl:hidden">
@@ -31,7 +43,7 @@
                 <div id="hide" class="inline-flex w-80 sm:w-96 hidden">
                 </div>
             </div>
-            <div v-else class="flex justify-center text-center py-1 mx-auto mt-10 w-80 sm:w-96 "> 
+            <div v-else class="flex justify-center text-center py-1 mx-auto mt-8 w-80 sm:w-96 "> 
                 <div class="inline-flex">
                     <h3 class="sm:text-2xl">No hitchers to display</h3>
                     <button @click='newReq()' type="button" class="block bg-black hover:bg-opacity-50 bg-opacity-30 p-2 sm:p-3 ml-2 sm:ml-3 rounded-2xl text-white text-sm font-semibold">Add Request</button>
@@ -47,8 +59,10 @@ export default {
     name: "Nearby",
     props: {
         requests: Array,
-        userType: String
+        userType: String,
+        distance: Number
     },
+    emits: ["update:distance"],
     components: {
         Request,
     },
@@ -56,6 +70,9 @@ export default {
         console.log(this.requests.length)
     },
     methods: {
+        changeFoo(){
+            this.$emit('changeFoo', this.distanceVal)
+        },  
         newReq() {
             this.$router.push('/newReq')
         },
@@ -80,6 +97,7 @@ export default {
         return {
             date: "",
             time: "",
+            distanceVal: 5
             // requests: []
             
             
