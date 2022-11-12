@@ -324,7 +324,7 @@ export default {
       offer['startAddress'] = this.input.s_address
       offer['destAddress'] = this.input.d_address
       offer['rid'] = this.requestId
-
+      offer['status'] = 'pending'
       //retrieve
       let request = null
       const dbRef = ref(getDatabase());

@@ -308,7 +308,7 @@ export default {
                         const childKey = childSnapshot.key; //offerId
                         const childData = childSnapshot.val(); //offerAttributes
                         //push into offers array
-                        childData["status"] = "pending"
+                        // childData["status"] = "pending"
                         this.offers.push(childData)
                         // this.offers.push(childData)
                         console.log(childData)
