@@ -62,7 +62,7 @@
                     <span class="text-lg text-white font-bold font-roboto">Notifications</span>
                     <hr>
                     <li v-if="this.acceptedOffer != null">
-                        <label class="hover:bg-slate-500 active:bg-slate-500 text-white" :for="this.acceptedOffer.user + 'accepted'">
+                        <label class="hover:bg-slate-500 active:bg-slate-500 text-white" :for="this.acceptedOffer.displayName + 'accepted'">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                             </svg>
@@ -106,13 +106,13 @@
         </div>
     </div>
     <div v-if="this.acceptedOffer != null">
-    <input type="checkbox" :id="this.acceptedOffer.user + 'accepted'" class="modal-toggle" />
-            <label :for="this.acceptedOffer.user + 'accepted'" class="modal cursor-pointer">
+    <input type="checkbox" :id="this.acceptedOffer.displayName + 'accepted'" class="modal-toggle" />
+            <label :for="this.acceptedOffer.displayName + 'accepted'" class="modal cursor-pointer">
             <label class="modal-box relative w-auto min-w-[400px]  bg-gray-800 text-white font-light text-center" for="">
                 <span class="text-2xl">Begin ride?</span>
                 <div class="grid grid-cols-2 gap-x-5 mt-5">
-                    <label @click="rideStart()" type="button" :for="this.acceptedOffer.user + 'accepted'" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold flex justify-center items-center text-center">Yes</label>
-                    <label type="button" :for="this.acceptedOffer.user + 'accepted'" class="btn btn-ghost block bg-white hover:bg-slate-100 px-3 rounded-xl text-slate-600 font-semibold flex justify-center items-center text-center">Not Yet</label>
+                    <label @click="rideStart()" type="button" :for="this.acceptedOffer.displayName + 'accepted'" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold flex justify-center items-center text-center">Yes</label>
+                    <label type="button" :for="this.acceptedOffer.displayName + 'accepted'" class="btn btn-ghost block bg-white hover:bg-slate-100 px-3 rounded-xl text-slate-600 font-semibold flex justify-center items-center text-center">Not Yet</label>
                 </div>    
             </label>
             </label>
@@ -196,7 +196,7 @@
 <script>
 import Request from "../components/Request.vue"
 import { getAuth, signOut } from 'firebase/auth'
-import { getDatabase, ref, child, get, update, onValue, set } from 'firebase/database';
+import { getDatabase, ref, child, get, update, onValue, set, remove } from 'firebase/database';
 export default {
     name: "Nav", 
     components: {
@@ -307,6 +307,7 @@ export default {
                     snapshot.forEach((childSnapshot) => {
                         const childKey = childSnapshot.key; //offerId
                         const childData = childSnapshot.val(); //offerAttributes
+                        childData["oid"] = childKey
                         //push into offers array
                         // childData["status"] = "pending"
                         this.offers.push(childData)
@@ -327,8 +328,9 @@ export default {
                     snapshot.forEach((childSnapshot) => {
                         const childKey = childSnapshot.key; //offerId
                         const childData = childSnapshot.val(); //offerAttributes
+                        childData["oid"] = childKey
                         //push into offers array
-                        // this.offers.push(childData)
+                        this.offers.push(childData)
                     });
                     }, {
                     onlyOnce: true
@@ -346,10 +348,23 @@ export default {
         //     setInterval(this.displayFirst(), 1000)
         //     setInterval(this.displaySecond(), 2000)
         // }
+        const dbRef = ref(getDatabase());
+        get(child(dbRef, `userInfo/${auth.currentUser.uid}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+            this.acceptedOffer = snapshot.val().acceptedOffer
+        } else {
+            console.log("No data available");
+        }
+        }).catch((error) => {
+            console.error(error);
+        });
     },
     methods: {
         rideStart() {
-            this.acceptedOffer = null
+            // this.acceptedOffer = null
+            const db = getDatabase();
+            const auth = getAuth()
+            set(ref(db, 'userInfo/' + auth.currentUser.uid + '/acceptedOffer'), null);
         },
         setTimeStr(time) {
             let hours = ""
@@ -367,7 +382,7 @@ export default {
             const auth = getAuth()
             offer.status = "accepted"
             set(ref(db, 'userInfo/' + auth.currentUser.uid + '/acceptedOffer'), offer);
-            this.acceptedOffer = offer
+            // this.acceptedOffer = offer
 
             let request = null
             const dbRef = ref(getDatabase());
@@ -385,6 +400,8 @@ export default {
             });
             // Should delete all other offers from db too
             // console.log(this.acceptedOffer)
+            // console.log(offer.oid)
+            remove(ref(db, 'driverOffers/' + auth.currentUser.uid + '/' + offer.oid))
         },
         declineOffer(offer) {
 
