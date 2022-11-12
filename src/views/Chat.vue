@@ -10,7 +10,8 @@
                 Your Request
         	</span>
 			<div class="mx-auto">
-				<Request :requests="requests" :showDest="true" :showFrom="true" :userType="this.user.type"/>
+				<!-- <Request :requests="requests" :showDest="true" :showFrom="true" :userType="this.user.type"/> -->
+				<ShowRequest :request="request" :showDest="true" :showFrom="true" :userType="this.user.type"/>
 			</div>
             <!-- Page content ends here -->
         </div> 
@@ -87,7 +88,7 @@ export default {
             user: {
                 type: ""
             },
-			requests: [
+			request: 
 					{
                         centerStart: {
                             lat: "1.360540",
@@ -111,7 +112,6 @@ export default {
                         askingPrice: "10.00",
                         status: "pending"
                     }
-				],
         }
     },
 	mounted() {

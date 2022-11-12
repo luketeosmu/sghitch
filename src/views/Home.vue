@@ -3,7 +3,7 @@
         <input id="my-drawer-3" type="checkbox" class="drawer-toggle" /> 
         <div class="drawer-content flex flex-col ">
             <!-- Navbar -->
-            <Nav />
+            <Nav :userType="this.user.type"/>
             
             <!-- Page content here -->
             <div class="">
@@ -107,7 +107,7 @@ export default {
                             lng: "103.785590",
                         },
                         s_address: "Tampines St 45 529498",
-                        datetime: "2022-11-12T12:40",
+                        datetime: "2022-11-12T15:10",
                         startNeighborhood: "Tampines",
                         pax: "3",
                         available: "1",

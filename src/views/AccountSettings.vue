@@ -3,7 +3,7 @@
          <input id="my-drawer-3" type="checkbox" class="drawer-toggle" /> 
          <div class="drawer-content flex flex-col">
              <!-- Navbar -->
-             <Nav />
+             <Nav :userType="this.user.type"/>
              <!-- Page content here -->
              <AccSettingsForm />
              <!-- Page content ends here -->
