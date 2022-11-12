@@ -82,7 +82,13 @@
             </div>
             </button> -->
             <div class="dropdown dropdown-end mr-3 hidden md:block">
-                <label tabindex="0" class="md:flex btn btn-ghost p-3 rounded-2xl font-semibold px-1 ml-3 text-white">My Account &nbsp<i class="bi bi-caret-down-fill"></i></label>
+                <label tabindex="0" class="md:flex btn btn-ghost p-3 rounded-2xl font-semibold px-1 ml-3 text-white">
+                    <div class="overflow-hidden w-7 rounded-full ring ring-white ring-offset-base-100 ring-offset-2">
+                        <img :src="item.imageUrl" contain style="width:100%;height:100%;object-fit:cover"/>
+                    </div>
+                    <!-- My Account &nbsp  -->
+                    <!-- <i class="bi bi-caret-down-fill"></i> -->
+                </label>
                 <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 focus:bg-white active:bg-white">
                     <!-- to dynamically change -->
                     <li v-if="this.user.type == 'driver'"><a @click="change()" class="active:bg-slate-300 text-black">Switch to Hitcher</a></li> 
@@ -191,6 +197,9 @@ export default {
             user: {
                 type: ""
             },
+            item:{
+                imageUrl: null
+            },
             acceptedOffer: null,
             offers: [
                 {   
@@ -264,6 +273,8 @@ export default {
     },
     mounted(){
         this.auth = getAuth();
+        const auth = getAuth()
+        this.item.imageUrl = auth.currentUser.photoURL
         this.dbRef = ref(getDatabase())
         get(child(this.dbRef, `userTypes/${this.auth.currentUser.uid}`)).then((snapshot) => {
             if (snapshot.exists()){
