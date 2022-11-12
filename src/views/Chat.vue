@@ -1,51 +1,18 @@
 <template lang="">
-    <div class="drawer">
+    <div class="drawer bg-no-repeat bg-cover bg-center bg-merlion-background">
         <input id="my-drawer-3" type="checkbox" class="drawer-toggle" /> 
         <div class="drawer-content flex flex-col">
             <!-- Navbar -->
             <Nav />
             <!-- Page content here -->
-
-
-            <!-- <div class="grid grid-cols-2 h-full justify-center items-center">
-                <div class="text-center text-6xl font-bold bg-slate-300 h-full items-center justify-center">
-                    <h1 class="my-auto">View Existing Requests</h1>
-                </div>
-                
-                <div class="text-center text-6xl font-bold">Create new Request</div>
-            </div> -->
-            <div class="flex">
-                <div class="w-1/4">
-					<div class="bg-slate-200 p-5 text-xl font-semibold">
-						<!-- Welcome, {{ state.displayName }} -->
-					</div>
-                    <div v-for="chat in Object.entries(chats)" class="p-5 border-2 drop-shadow-sm" :key="chat[0]">
-                        <div class="font-semibold">{{ chat[1].userInfo.displayName }}</div>
-                        <div>{{ chat[1].userInfo.lastMessage?.text }}</div>
-                    </div>
-                </div>
-                <div class="w-3/4 view chat">
-                    <header>
-                        <!-- <h1>Welcome, {{ state.displayName }}</h1> -->
-                    </header>
-                    <section class="chat-box">
-                        <!-- <div v-for="message in state.messages" :key="message.key" :class="(message.displayName == state.displayName ? 'message current-user' : 'message')">
-                            <div class="message-inner">
-                                <div class="displayName">{{ message.displayName }}</div>
-                                <div class="content">{{ message.content }}</div>
-                            </div>
-                        </div> -->
-                    </section>
-                    <footer>
-                        <form @submit.prevent="SendMessage">
-                            <!-- <input type="text" v-model="inputMessage" placeholder="Write a message..."> -->
-							<input type="text" placeholder="Write a message...">
-                            <input type="submit" value="Send">
-                        </form>
-                    </footer>
-                </div>
-            </div>
-
+			<!-- <ShowRequest /> -->
+			<span class="mt-10 w-96 sm:w-[600px] mx-auto text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-60 rounded-lg py-1 px-2 mb-10 ">
+                Your Request
+        	</span>
+			<div class="mx-auto">
+				<!-- <Request :requests="requests" :showDest="true" :showFrom="true" :userType="this.user.type"/> -->
+				<ShowRequest :request="request" :showDest="true" :showFrom="true" :userType="this.user.type"/>
+			</div>
             <!-- Page content ends here -->
         </div> 
         <div class="drawer-side">
@@ -53,7 +20,8 @@
             <ul class="menu p-4 overflow-y-auto w-80 bg-base-100">
                 <li><a @click="home()">Home</a></li>
                 <li><a @click="favourite()">Favourite</a></li>
-                <li><a @click="change()">Switch to Hitcher</a></li>
+                <li v-if="this.user.type == 'driver'" ><a  @click="change()">Switch to Hitcher</a></li>
+                <li v-else><a @click="change()">Switch to Driver</a></li>
                 <li><a @click="chat()">Offers</a></li>
                 <li><a @click="settings()">Account Settings</a></li>
                 <hr/>
@@ -64,115 +32,35 @@
 </template>
 <script>
 import Nav from "../components/Nav.vue"
-import { getAuth } from 'firebase/auth'
-import { reactive, onMounted, ref } from 'vue';
-import { getDatabase, set, push, ref as storageRef, onValue} from "firebase/database";
-import { getFirestore, doc, onSnapshot } from 'firebase/firestore'
+import ShowRequest from "../components/ShowRequest.vue"
+import Request from "../components/Request.vue"
+import { getAuth, signOut } from 'firebase/auth'
+import { getDatabase, ref, child, get, update, onValue } from 'firebase/database';
 
 export default {
     name: "Chat",
     props: {},
     components: {
-        Nav
+        Nav,
+		ShowRequest,
+		Request
     },
-    setup () {
-		const fs = getFirestore()
-		const auth = getAuth();
-        const currentUser = auth.currentUser
-
-		const state = reactive({
-			displayName: "",
-			chats: [],
-			messages: []
-		})
-
-		onMounted(() => {
-			const unsub = onSnapshot(doc(fs, "userChats", currentUser.uid), (doc) => {
-				const data = doc.data()
-				let chats = []
-
-				Object.keys(data).forEach(key => {
-                    chats.push({
-                        id: key,
-                        displayName: data[key].displayName,
-                        content: data[key].content
-                    })
-                })
-			})
-		})
-		
-		return {
-			state,
-		}
-        // const auth = getAuth();
-        // const user = auth.currentUser
-
-        // const inputMessage = ref("")
-
-        // const state = reactive({
-        //     displayName: "",
-        //     messages: []
-        // })
-        // if (user != null){
-        //     state.displayName = user.displayName
-        // }
-
-        // const db = getDatabase()
-
-        // const SendMessage = () => {
-        //     const messagesRef = storageRef(db, 'messages')
-        //     if(inputMessage.value === "" || inputMessage.value === null){
-        //         return
-        //     }
-
-        //     const message = {
-        //         displayName: state.displayName,
-        //         content: inputMessage.value
-        //     }
-
-        //     const newMessageRef = push(messagesRef)
-        //     set(newMessageRef, message)
-        //     inputMessage.value = ""
-        // }
-
-        // onMounted(() => {
-        //     const messagesRef = storageRef(db, 'messages')
-        //     onValue(messagesRef, (snapshot) => {
-        //         const data = snapshot.val()
-        //         let messages = []
-
-                // Object.keys(data).forEach(key => {
-                //     messages.push({
-                //         id: key,
-                //         displayName: data[key].displayName,
-                //         content: data[key].content
-                //     })
-                // })
-
-        //         state.messages = messages;
-        //     })
-        // })
-
-        // return {
-        //     state,
-		// 	inputMessage,
-		// 	SendMessage
-        // }
-
-
-    },
-    // beforeRouteLeave(to, from, next) {
-    //     state.username = ""
-    //     next()
-    // },
     methods: {
-        change() {
-            if(this.user.type == "driver") {
+		change() {
+            const db = getDatabase()
+			let auth = getAuth();
+            if(this.user.type == "driver"){
                 this.user.type = "hitcher"
-            } else [
+                update(ref(db, 'userTypes/' + auth.currentUser.uid), {
+                    type: this.user.type
+                })
+            } else {
                 this.user.type = "driver"
-            ]
-            console.log(this.user.type)
+                update(ref(db, 'userTypes/' + auth.currentUser.uid), {
+                    type: this.user.type
+                })
+            }
+            location.reload()
         },
         home() {
             window.location.reload()
@@ -190,31 +78,61 @@ export default {
             this.$router.push('/accountsettings')
         },
         logout(){
-            this.$router.push('/login')
-        }
+            signOut(this.auth).then(() => {
+                this.$router.push('/login')
+            })
+        },
     },
     data() {
         return {
             user: {
-                type: "driver"
+                type: ""
             },
-            // chats: [
-            //     {
-            //         displayName: "john",
-            //         latestMsg: "amazing experience!"
-            //     },
-            //     {
-            //         displayName: "anson",
-            //         latestMsg: "wow what a shit deal"
-            //     },
-            //     {
-            //         displayName: "rock",
-            //         latestMsg: "zzz"
-            //     },
-            // ]
-			chats: []
+			request: 
+					{
+                        centerStart: {
+                            lat: "1.360540",
+                            lng: "103.957380"
+                        },
+                        centerDest: {
+                            lat: "1.431630",
+                            lng: "103.785590",
+                        },
+                        s_address: "Tampines St 45 529498",
+                        datetime: "2022-11-12T00:40",
+                        startNeighborhood: "Tampines",
+                        pax: "3",
+                        available: "1",
+                        d_address: "Woodlands Ave 1 730308",
+                        destNeighborhood: "Woodlands",
+                        uid: "12345",
+                        user: "luke",
+                        vehiclePreference: "Car only",
+                        vehicleType: "Car",
+                        askingPrice: "10.00",
+                        status: "pending"
+                    }
         }
-    }
+    },
+	mounted() {
+        let auth = getAuth();
+        let dbRef = ref(getDatabase())
+        get(child(dbRef, `userTypes/${auth.currentUser.uid}`)).then((snapshot) => {
+            if (snapshot.exists()){
+                if(snapshot.val().type == "hitcher"){
+                    this.user.type = "hitcher"
+                } else {
+                    this.user.type = "driver"
+                }
+            } else {
+                alert("Application encountered a severe issue. Please login again.")
+                this.logout()
+            }
+        }).catch((error) => {
+            console.error(error)
+            this.logout()
+        })
+	}
 }
 </script>
 <style lang="scss">

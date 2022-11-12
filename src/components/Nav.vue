@@ -47,6 +47,20 @@
         </div>
         <div class="navbar-end">
             <button @click='newReq()' type="button" class="btn btn-ghost block p-1 md:p-3 rounded-2xl font-semibold text-white" to="newReq">New Request</button>
+            <div class="dropdown dropdown-end mr-3 hidden md:block indicator" >
+                <label tabindex="0" class="md:flex btn btn-ghost p-3 rounded-2xl font-semibold px-1 ml-3 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                        </svg>
+                        <span class="indicator-item badge badge-sm badge-secondary mt-2">{{ this.offers.length }}</span> 
+                </label>
+                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-slate-600 rounded-box w-96 h-[600px]">
+                    <!-- to dynamically change -->
+                    <li v-for="offer of this.offers">
+                        <label :for="offer.user" class="hover:bg-slate-500 active:bg-slate-500 text-white">{{ offer.user }} made an offer of ${{ offer.askingPrice }}</label>
+                    </li> 
+                </ul>
+            </div>
             <!-- <button class="btn btn-ghost btn-circle">
             <div class="indicator">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
@@ -67,18 +81,83 @@
             </div>
         </div>
     </div>
+    <div v-for="offer of this.offers">
+        <input type="checkbox" :id="offer.user" class="modal-toggle" />
+            <label :for="offer.user" class="modal cursor-pointer">
+            <label class="modal-box relative w-auto min-w-[400px] bg-gray-800 text-white font-light" for="">
+                <div v-if="this.userType == 'driver'" class="inline-flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    {{ offer.user }}
+                </div>
+                <div v-else class="inline-flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    {{ offer.user }}</div>
+                <br>
+                <!-- <div class="font-bold text-2xl">Rating: {{ request.rating }}/5</div> -->
+                <div class="inline-flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-4 h-4 sm:w-6 sm:h-6 mr-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {{ setTimeStr(offer.datetime.split("T")[1]) }}
+                </div>
+                <br>
+                <div class="inline-flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-4 h-4 sm:w-6 sm:h-6 mr-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                    </svg>
+                    <span>
+                        {{ offer.pax }} persons 
+                    </span>
+                </div>
+                <br>
+                <div class="inline-flex" v-if="this.userType == 'driver'">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    ${{ offer.askingPrice }}
+                </div>
+                <br>
+                <div class="inline-flex" v-if="this.userType == 'driver'">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-4 h-4 sm:w-6 sm:h-6 mr-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                        </svg>
+                    {{ offer.s_address }} 
+                    <svg aria-hidden="true" class="mx-2 w-4 h-4 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                {{ offer.d_address }} 
+                </div>
+                <br>
+                <!-- <div class="form-control mt-3" v-if="this.userType == 'driver'">
+                    <div class="input-group text-black">
+                        <input v-model="offerPrice" placeholder="$0.00" type="number" className="input input-bordered w-1/3 bg-opacity-90 " />
+                        <button class="btn" @click="makeOffer()">Accept Offer</button>
+                    </div>
+                </div> -->
+                <div class="grid grid-cols-2 gap-x-5 mt-5">
+                    <button @click='acceptOffer()' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold">Accept</button>
+                    <button @click='declineOffer()' type="button" class="btn btn-ghost block bg-white hover:bg-slate-100 px-3 rounded-xl text-slate-600 font-semibold">Decline</button>
+                </div>
+            </label>
+        </label>
+    </div>
 </template>
 <script>
 import Request from "../components/Request.vue"
+import Notifications from "./Notifications.vue";
 import { getAuth, signOut } from 'firebase/auth'
 import { getDatabase, ref, child, get, update } from 'firebase/database';
 export default {
     name: "Nav", 
     components: {
         Request,
+        Notifications
     },
     props: {
-        
+        userType: String,
     },
     data() {
         return {
@@ -87,71 +166,76 @@ export default {
             user: {
                 type: ""
             },
-            requests: [
-                    {
-                        hitcher: "Luke Teo",
-                        rating: 5,
-                        time: "08:00",
-                        pax: 2,
-                        from: "730308",
-                        to: "529498"
-                    },
-                    {
-                        hitcher: "Shaun Ting",
-                        rating: 5,
-                        time: "10:00",
-                        pax: 3,
-                        from: "730308",
-                        to: "529498"
-                    },
-                    {
-                        hitcher: "Ali baba",
-                        rating: 5,
-                        time: "12:00",
-                        pax: 4,
-                        from: "730308",
-                        to: "529498"
-                    },
-                    {
-                        hitcher: "John Wick",
-                        rating: 5,
-                        time: "12:00",
-                        pax: 4,
-                        from: "730308",
-                        to: "529498"
-                    },
-                    {
-                        hitcher: "Jennie Kim",
-                        rating: 5,
-                        time: "12:00",
-                        pax: 4,
-                        from: "730308",
-                        to: "529498"
-                    },
-                    {
-                        hitcher: "KIm Jong Kook",
-                        rating: 5,
-                        time: "12:00",
-                        pax: 4,
-                        from: "730308",
-                        to: "529498"
-                    },
-                    {
-                        hitcher: "Kimchi Jigae",
-                        rating: 5,
-                        time: "12:00",
-                        pax: 4,
-                        from: "730308",
-                        to: "529498"
-                    },
-                    {
-                        hitcher: "Buddae Jigae",
-                        rating: 5,
-                        time: "12:00",
-                        pax: 4,
-                        from: "730308",
-                        to: "529498"
-                    },
+            offers: [
+                {   
+                    status: "pending",
+                    centerStart: {
+                            lat: "1.360540",
+                            lng: "103.957380"
+                        },
+                        centerDest: {
+                            lat: "1.431630",
+                            lng: "103.785590",
+                        },
+                        s_address: "Tampines St 45 529498",
+                        datetime: "2022-11-12T12:40",
+                        startNeighborhood: "Tampines",
+                        pax: "3",
+                        available: "1",
+                        d_address: "Woodlands Ave 1 730308",
+                        destNeighborhood: "Woodlands",
+                        uid: "12345",
+                        user: "luke",
+                        vehiclePreference: "Car only",
+                        vehicleType: "Car",
+                        askingPrice: "10.00"
+                },
+                {
+                    status: "pending",
+                    centerStart: {
+                            lat: "1.360540",
+                            lng: "103.957380"
+                        },
+                        centerDest: {
+                            lat: "1.431630",
+                            lng: "103.785590",
+                        },
+                        s_address: "Geylang Prostitution",
+                        datetime: "2022-11-12T12:40",
+                        startNeighborhood: "Tampines",
+                        pax: "3",
+                        available: "1",
+                        d_address: "Woodlands Ave 1 730308",
+                        destNeighborhood: "Woodlands",
+                        uid: "12345",
+                        user: "john",
+                        vehiclePreference: "Car only",
+                        vehicleType: "Car",
+                        askingPrice: "10.00"
+                },
+                {
+                    status: "pending",
+                    centerStart: {
+                            lat: "1.360540",
+                            lng: "103.957380"
+                        },
+                        centerDest: {
+                            lat: "1.431630",
+                            lng: "103.785590",
+                        },
+                        s_address: "Singapore sports hub swimming complex",
+                        datetime: "2022-11-12T12:40",
+                        startNeighborhood: "Tampines",
+                        pax: "3",
+                        available: "1",
+                        d_address: "Woodlands Ave 1 730308",
+                        destNeighborhood: "Woodlands",
+                        uid: "12345",
+                        user: "lyegend",
+                        vehiclePreference: "Car only",
+                        vehicleType: "Car",
+                        askingPrice: "10.00"
+                },
             ]
         }
     },
@@ -179,15 +263,17 @@ export default {
         // }
     },
     methods: {
-        // displayFirst() {
-        //     console.log("hi")
-        //     document.getElementById("first").style.display = "block"
-        //     document.getElementById("second").style.display = "none"
-        // },
-        // displaySecond() {
-        //     document.getElementById("first").style.display = "none"
-        //     document.getElementById("second").style.display = "block"
-        // },
+        setTimeStr(time) {
+            let hours = ""
+            let minutes = ""
+            hours = time.split(":")[0]
+            minutes = time.split(":")[1]
+            let ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            let timeStr = hours + ':' + minutes + ampm
+            return timeStr
+        },
         newReq() {
             this.$router.push('/newReq')
         },

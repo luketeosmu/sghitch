@@ -8,33 +8,22 @@
         <Nav :userType="this.user.type"/>
         <!-- Page content here -->
         <span class="mt-10 w-96 sm:w-[600px] mx-auto text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-60 rounded-lg py-1 px-2 mb-10 ">
-                New Request
+                Make Offer
         </span>
         <div class=" inline-block mx-auto shadow-xl rounded-lg w-96 sm:w-[600px]  px-3 py-5 relative mt-3 border bg-white bg-opacity-95 ">
             <!-- query autocomplete api, maps sdk api -->
             <form>
               <div class="grid grid-rows-8 form-control px-2 sm:px-0 items-center mx-auto mb-5">
                 <!-- <span class="text-3xl rounded-lg py-2 text-black font-bold mb-5">Add Request</span> -->
-                <div class="grid sm:grid-cols-2">
-                  <div :class="{ 'sm:mr-5': this.user.type == 'hitcher', 'col-span-2': this.user.type == 'driver' }" class="flex form-control">
+                <div class="">
+                  <div class="flex form-control">
                     <label class="label">
                       <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Date & Time of Request</span>
                     </label> 
                     <input v-model.lazy="input.datetime" type="datetime-local" placeholder="Date and Time" className="input input-bordered w-full bg-opacity-90" />
                   </div>
 
-                  <div class="flex form-control mt-3 sm:mt-0" v-if="this.user.type == 'hitcher'">
-                    <div class="tooltip " data-tip="This is the asking price you can provide to other users for them to gauge how much to offer you">
-                      <label class="label">
-                        <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Asking Price</span>
-                      </label>
-                    </div>
-                    <input v-model.lazy="askingPrice" type="number" placeholder="0.00" className="input input-bordered w-full bg-opacity-90" />
-                    <!-- <label class="input-group w-1/2">
-                      <span class="bg-slate-600 text-white">$</span>
-                      <input type="number" placeholder="0.00" class="input input-bordered" />
-                    </label> -->
-                  </div>
+                  
                 </div>
                     <!-- <div class="">
                         <input v-model.lazy="input.pax" type="number" placeholder="No. of Pax" className="input input-bordered input-warning w-full max-w-xs sm:max-w-md mt-5" />
@@ -66,7 +55,19 @@
                       </select>
                   </div>
                   <div>
-                    <div v-if="this.user.type == 'driver'" class="flex form-control mt-3 sm:mt-2">
+                    <div class="flex form-control mt-3 sm:mt-2" v-if="this.user.type == 'hitcher'">
+                    <!-- <div class="tooltip " data-tip="This is the asking price you can provide to other users for them to gauge how much to offer you"> -->
+                      <label class="label">
+                        <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Offer Price</span>
+                      </label>
+                    <!-- </div> -->
+                    <input v-model.lazy="askingPrice" type="number" placeholder="0.00" className="input input-bordered w-full bg-opacity-90" />
+                    <!-- <label class="input-group w-1/2">
+                      <span class="bg-slate-600 text-white">$</span>
+                      <input type="number" placeholder="0.00" class="input input-bordered" />
+                    </label> -->
+                  </div>
+                    <!-- <div v-if="this.user.type == 'driver'" class="flex form-control mt-3 sm:mt-2">
                         <label class="label">
                           <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Vehicle Type</span>
                         </label>
@@ -87,7 +88,7 @@
                             <option>Car, Lorry & Van Only</option>
                             <option>Car & Motorcycle Only</option>
                         </select>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                 <div class="">
@@ -166,7 +167,7 @@ import { getDatabase, ref, child, set, get, update, push } from 'firebase/databa
 // import './maps.css'
 
 export default {
-  name: "NewReq",
+  name: "MakeOffer",
   components: {
     MapsService,
     Nav,

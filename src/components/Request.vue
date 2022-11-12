@@ -61,45 +61,45 @@
                 </label>
                 <input type="checkbox" :id="from + to + request.user" class="modal-toggle" />
                 <label :for="from + to + request.user" class="modal cursor-pointer">
-                <label class="modal-box relative w-auto bg-gray-800 text-white" for="">
+                <label class="modal-box relative w-auto min-w-[400px] bg-gray-800 text-white" for="">
                     <ul class="text-lg mb-2 font-light">
                         <div v-if="this.userType == 'driver'" class="inline-flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-6 h-6 mr-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
                             {{ request.user }}
                         </div>
                         <div v-else class="inline-flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-6 h-6 mr-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
                             {{ request.user }}</div>
                         <br>
                         <!-- <div class="font-bold text-2xl">Rating: {{ request.rating }}/5</div> -->
                         <div class="inline-flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-4 h-4 sm:w-6 sm:h-6 mr-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-4 h-4 sm:w-6 sm:h-6 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             {{ setTimeStr(request.datetime.split("T")[1]) }}
                         </div>
                         <br>
-                        <div v-if="this.userType != 'hitcher'" class="inline-flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-4 h-4 sm:w-6 sm:h-6 mr-1">
+                        <div class="inline-flex">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-4 h-4 sm:w-6 sm:h-6 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
                             </svg>
-
-                            {{ request.pax }} persons
+                            <span>
+                                {{ request.pax }} persons 
+                            </span>
                         </div>
-                        <div v-else><b>Available seats:</b> {{ request.available }} persons</div>
                         <br>
-                        <div class="inline-flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-6 h-6 mr-1">
+                        <div class="inline-flex" v-if="this.userType == 'driver'">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             ${{ request.askingPrice }}
                         </div>
-                        <div class="inline-flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-4 h-4 sm:w-6 sm:h-6 mr-1">
+                        <div class="inline-flex" v-if="this.userType == 'driver'">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-4 h-4 sm:w-6 sm:h-6 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                                 </svg>
@@ -107,15 +107,16 @@
                             <svg aria-hidden="true" class="mx-2 w-4 h-4 mt-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         {{ request.d_address }} 
                         </div>
-                        <div class="form-control mt-3">
+                        <br>
+                        <div class="form-control mt-3 mr-5" v-if="this.userType == 'driver'">
                             <div class="input-group text-black">
-                                <input v-model="offerPrice" type="number" placeholder="$0.00" className="input input-bordered w-1/3 bg-opacity-90 " />
-                                <button class="btn">Make Offer</button>
+                                <input v-model="offerPrice" placeholder="$0.00" type="number" className="input input-bordered w-full bg-opacity-90 " />
+                                <button class="btn" @click="makeOffer()">Make Offer</button>
                             </div>
                         </div>
                         <!-- <button @click='view(request.uid)' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold mt-2">View Profile</button> -->
                     </ul>
-                    <!-- <button @click='chat()' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold">Make Offer</button> -->
+                    <button @click='makeHitcherOffer()' type="button" v-if="this.userType == 'hitcher'" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold absolute bottom-5 right-5">Make Offer</button>
                 </label>
                 </label>
             </div>
@@ -146,106 +147,19 @@ export default {
     },
     data() {
         return {
-            user: {
-                type: ""
-            },
             validReq: [],
-            offerPrice: 0
+            offerPrice: "$0.00"
         }
     },
     mounted() {
     },
     methods: {
-        async chat() {
-            const auth = getAuth();
-            const userId = auth.currentUser.uid
-            const userDisplayName = auth.currentUser.displayName
-            const theirId = 'L48yp0Q5IwT362xmHDPdgSMV0XQ2'
-            const theirDisplayName = 'Rick Tan'
-
-            // L48yp0Q5IwT362xmHDPdgSMV0XQ2
-            // ricktan@gmail.com
-            // const db = getDatabase()
-            // const input = {
-            //     members: {
-            //         myUser: userId,
-            //         theirUser: theirId
-            //     }
-            // }
-            // const chatRef = storageRef(db, 'chats')
-            // const newChatID = push(chatRef)
-            // set(newChatID, input)
-
-            // const temp = {
-            //     valid: true
-            // }
-
-            // // add chatUID retrieved to each userUID under userChats
-            // const userChatRef = storageRef(db, 'userChats/' + userId + '/' + newChatID.key)
-            // set(userChatRef, temp)
-
-            // const theirChatRef = storageRef(db, 'userChats/' + theirId + '/' + newChatID.key)
-            // set(theirChatRef, temp)
-            
-            // // once pushed, send an 'im interested!' with new messageUID to the chatUID retrieved from the above input, under chatMessages
-            // const messageRef = storageRef(db, 'chatMessages/' + newChatID.key)
-            // const newMessageID = push(messageRef)
-            // const messageInput = {
-            //     message: "I'm interested!",
-            //     sentBy: userId
-            // }
-            // set(newMessageID, messageInput);
-
-            const fs = getFirestore()
-
-            const combinedId = userId > theirId ? userId + theirId : theirId + userId
-            try {
-                const res = await getDoc(doc(fs, "chats", combinedId))
-                if(!res.exists()){
-                    await setDoc(doc(fs,"chats",combinedId),{messages: []})
-
-                    await updateDoc(doc(fs, "userChats", userId), {
-                        [combinedId+".userInfo"]: {
-                            uid:theirId,
-                            displayName:theirDisplayName
-                        },
-                        [combinedId+".date"]: serverTimestamp()
-                    })
-
-                    await updateDoc(doc(fs, "userChats", theirId), {
-                        [combinedId+".userInfo"]: {
-                            uid:userId,
-                            displayName:userDisplayName
-                        },
-                        [combinedId+".date"]: serverTimestamp()
-                    })
-                }
-            } catch (err) {
-
-            }
-
-            this.$router.push('/chat')
+        makeHitcherOffer() {
+            this.$router.push('./makeOffer')
         },
-        // setTimeStr(time) {
-        //     console.log("REQUEST" + time)
-        //     let str = String(time)
-        //     let hours = str.split(":")[0]
-        //     let minutes = str.split(":")[1]
-        //     let ampm = hours >= 12 ? 'PM' : 'AM';
-        //     let timeStr = hours + ':' + minutes + ' ' + ampm;
-        //     return timeStr
-        // },
         setTimeStr(time) {
             let hours = ""
             let minutes = ""
-            // if(this.time == "") {
-            //     let date = new Date()
-            //     hours = date.getHours();
-            //     minutes = date.getMinutes();
-            //     minutes = minutes < 10 ? '0' + minutes : minutes;
-            // } else {
-            //     }
-            // let str = String(this.time)
             hours = time.split(":")[0]
             minutes = time.split(":")[1]
             let ampm = hours >= 12 ? 'PM' : 'AM';
@@ -256,6 +170,9 @@ export default {
         },
         view(uid){
             this.$router.push({name:'Profile', params: { uid }})
+        },
+        makeOffer() {
+            console.log(this.offerPrice)
         }
     }
 }
