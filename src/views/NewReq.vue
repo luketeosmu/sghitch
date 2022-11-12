@@ -100,7 +100,7 @@
                 </div>
                 <div class="">
                   <div className="inline-flex mt-3 sm:mt-5 sm:w-full">
-                    <input v-model.lazy="input.s_address" type="text" placeholder="Starting Point Address" :className="invalidStartNhood ? 'input input-bordered sm:w-full bg-opacity-90 border-red-400 border-2' : 'input input-bordered sm:w-full bg-opacity-90'"/>
+                    <input v-on:keyup.enter="queryMapsStart()" v-model="input.s_address" type="text" placeholder="Starting Point Address" :className="invalidStartNhood ? 'input input-bordered sm:w-full bg-opacity-90 border-red-400 border-2' : 'input input-bordered sm:w-full bg-opacity-90'"/>
                     <button type="button" @click='queryMapsStart()' class="btn btn-ghost hover:bg-slate-700 bg-slate-600 text-white ml-4 bg-opacity-90">Search</button>
                   </div>
                   <div v-if="invalidStartAddress" class="text-red-400">
@@ -124,7 +124,7 @@
                 </div>
                 <div class="grid grid-cols-1">
                   <div class="inline-flex mt-3 sm:mt-5 sm:w-full">
-                      <input v-model.lazy="input.d_address" type="text" placeholder="Destination Point Address" :className="invalidDestNhood ? 'input input-bordered sm:w-full bg-opacity-90 border-red-400 border-2' : 'input input-bordered sm:w-full bg-opacity-90'" />
+                      <input v-on:keyup.enter="queryMapsDest()" v-model="input.d_address" type="text" placeholder="Destination Point Address" :className="invalidDestNhood ? 'input input-bordered sm:w-full bg-opacity-90 border-red-400 border-2' : 'input input-bordered sm:w-full bg-opacity-90'" />
                       <button type="button" @click='queryMapsDest()' class="btn btn-ghost hover:bg-slate-700 bg-slate-600 text-white ml-4 bg-opacity-90">Search</button>
                   </div>
                   <div v-if="invalidDestAddress" class="text-red-400">
