@@ -8,7 +8,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="black">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
                     </svg>
-                    <input @keyup.enter='register()' @blur="validateEmail()" v-model.lazy="input.email" class="pl-2 outline-none border-none bg-inherit text-white font-medium" type="email" name="" placeholder="Email Address" required/>
+                    <input @keyup.enter='register()' @blur="validateEmail()" v-model.lazy="input.email" class="pl-2 outline-none border-none bg-inherit text-white font-medium" type="email" name="email" placeholder="Email Address" required/>
                 </div>
                 <span class="floating-placeholder text-red-400" v-if="errorMsg.email">{{errorMsg.email}}</span>
 
@@ -16,7 +16,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
                     <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
                     </svg>
-                    <input @keyup.enter='register()' @blur="validateFirstName()" v-model.lazy="input.firstName" class="pl-2 outline-none border-none bg-inherit text-white font-medium" type="text" name="" placeholder="First Name" required/>
+                    <input @keyup.enter='register()' @blur="validateFirstName()" v-model.lazy="input.firstName" class="pl-2 outline-none border-none bg-inherit text-white font-medium" type="text" name="firstname" placeholder="First Name" required/>
                 </div>
                 <span class="text-red-400" v-if="errorMsg.firstName">{{errorMsg.firstName}}</span>
 
@@ -24,7 +24,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" class="bi bi-person-lines-fill" viewBox="0 0 16 16">
                     <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
                     </svg>
-                    <input @keyup.enter='register()' @blur="validateLastName()" v-model.lazy="input.lastName" class="pl-2 outline-none border-none bg-inherit text-white font-medium" type="text" name="" placeholder="Last Name" required/>
+                    <input @keyup.enter='register()' @blur="validateLastName()" v-model.lazy="input.lastName" class="pl-2 outline-none border-none bg-inherit text-white font-medium" type="text" name="lastname" placeholder="Last Name" required/>
                 </div>
                 <span class="text-red-400" v-if="errorMsg.lastName">{{errorMsg.lastName}}</span>
 
