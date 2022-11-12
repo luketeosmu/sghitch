@@ -111,7 +111,7 @@
                         <div class="form-control mt-3 mr-5" v-if="this.userType == 'driver'">
                             <div class="input-group text-black">
                                 <input v-model="offerPrice" placeholder="$0.00" type="number" className="input input-bordered w-full bg-opacity-90 " />
-                                <button class="btn" @click="makeOffer()">Make Offer</button>
+                                <button class="btn" @click="makeOffer(request)">Make Offer</button>
                             </div>
                         </div>
                         <button @click='view(request.uid)' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold mt-2">View Profile</button>
@@ -171,12 +171,29 @@ export default {
         view(uid){
             this.$router.push({name:'Profile', params: { uid }})
         },
-        makeOffer() {
+        makeOffer(request) {
             console.log(this.offerPrice)
-            //request details via requestid
-            //offer price
             //current uid
             //current user displayname
+            //time
+            //vehicle registration number
+            //amount
+            const auth = getAuth()
+            let offer = {}
+            offer['datetime'] = request.datetime
+            offer['vehicleNo'] = request.vehicleNo
+            offer['uid'] = auth.currentUser.uid
+            offer['displayName'] = auth.currentUser.displayName
+            offer['offerPrice'] = this.offerPrice
+            offer['rid'] = request.rid
+            
+            const db = getDatabase();
+            const postListRef = ref(db, 'hitcherOffers/' + request.uid);
+            const newPostRef = push(postListRef);
+            set(newPostRef, offer)
+            .then(() => {
+                this.$router.push('./')
+            })
         }
     }
 }

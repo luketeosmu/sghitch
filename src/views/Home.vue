@@ -198,8 +198,9 @@ export default {
                             lon: "103.957380"
                         },
                         d_address: "Tampines St 45 529498",
-                        datetime: "2022-11-12T20:15",
+                        datetime: "2022-11-12T22:25",
                         destNeighborhood: "Tampines",
+                        vehicleNo: "ABC 123",
                         pax: "3",
                         available: "2",
                         s_address: "SMU",
@@ -208,7 +209,8 @@ export default {
                         user: "prof kyong",
                         vehiclePreference: "Car only",
                         vehicleType: "Car",
-                        askingPrice: "10.00"
+                        askingPrice: "10.00",
+                        rid: "rid123"
                     },
             ],
             vehiclePreference: "All Vehicles"
