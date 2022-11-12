@@ -1,7 +1,7 @@
 <template>
     <div class="h-screen flex grid grid-cols-1 sm:grid-cols-2">
         <div class="relative z-30 flex justify-center items-end sm:items-center bg-white-100/20">
-            <div v-if="!readMore" class="animate__bounceIn">
+            <div v-if="!readMore" class="transition duration-300 delay-150">
                 <h1 class=" text-white font-bold text-4xl mt-6 sm:text-6xl font-sans mb-4 ml-4">Welcome to Hitch</h1>
                 <div class="grid grid-cols-2 sm:grid-cols-1">
                     <div class="text-white mt-1 ml-4">Book your ride now!</div>
@@ -10,7 +10,7 @@
                     </div>
                 </div>
             </div>
-            <div v-else class="animate__bounceIn">
+            <div v-else class="transition duration-300 delay-150">
                 <h1 class=" text-white font-bold text-4xl mt-1 sm:text-6xl font-sans mb-4">Who are we?</h1>
                 <p class="text-black mt-1 bg-yellow-50 p-2 rounded-2xl mb-4 border-gray-500 font-sans sm:bg-inherit sm:text-white">We serve as a platform to connect hitchers and drivers.<br> We aim to provide you a cheap ride to your destinations <br> and also to help drivers to save cost on their fuel</p>
                 <button @click="toggleReadMore()" type="submit" class="block w-28 bg-white bg-opacity-60 mt-4 py-2 rounded-2xl font-bold mb-2">Back</button>

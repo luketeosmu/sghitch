@@ -1,6 +1,6 @@
 <template>
-    <div class="h-screen flex grid grid-cols-1 sm:grid-cols-2 bg-no-repeat bg-cover bg-bottom bg-home-background">
-        <div class="absolute z-30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  ">
+    <div class="h-screen flex grid grid-cols-1 sm:grid-cols-2 bg-no-repeat bg-cover bg-bottom bg-home-background ">
+        <div class="absolute z-30 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ">
             <div class="card w-96 p-12 bg-slate-700 bg-opacity-95">
             <form>
                 <h1 class="text-white font-bold font-sans text-3xl mb-7 text-center">Register</h1>
@@ -50,14 +50,16 @@
                     </svg>
                     <input @keyup.enter='register()' v-model.lazy="input.mobileNumber" class="pl-2 outline-none border-none bg-inherit" pattern="[0-9]{8}" type="tel" name="" placeholder="Mobile Number" />
                 </div> -->
-                <button @click='register()' type="button" class="block w-full bg-white bg-opacity-80 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Sign up</button>
+                <!-- <button @click='register()' type="button" class="block w-full bg-white bg-opacity-80 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Sign up</button> -->
                 <div v-show="isHidden" class="alert alert-error shadow-lg mt-4">
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                         <span>Error! There are still fields that are incomplete</span>
                     </div>
                 </div>
-                <span @click='login()' class="text-sm ml-2 hover:text-blue-300 cursor-pointer text-white">Already have an account? Login here </span> <br><br>
+                <button v-if="!clicked" @click='register()' type="button" class="btn w-full hover:bg-gray-400 bg-white bg-opacity-80 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Sign up</button>
+                <button v-else type="button" class="btn loading w-full bg-white bg-opacity-80 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Loading</button>
+                <span @click='login()' class="text-sm ml-2 hover:text-blue-300 cursor-pointer text-white">Already have an account? Login here! </span> <br><br>
             </form>
             <p class="text-center mt-4 text-sm text-white">By clicking on "Sign up" you agree to <br>
                 <a class="underline text-white visited:text-indigo-300" href="#">Terms of Service</a> | <a class="underline text-white visited:text-indigo-300" href="#"> Privacy Policy </a>
@@ -94,7 +96,8 @@ export default {
             },
             errorMsg: [],
             formIsValid: false,
-            isHidden: false
+            isHidden: false,
+            clicked: false,
         }
     },
     mounted(){
@@ -107,6 +110,7 @@ export default {
             // check minimum password characters
             // check valid email format
             // check matching passwords
+            this.clicked = true
             for(let msg in this.errorMsg){
                 if(this.errorMsg[msg] == ""){
                     this.formIsValid = true
@@ -133,18 +137,6 @@ export default {
                         set(ref(db, 'userTypes/' + auth.currentUser.uid), {
                             type: "hitcher"
                         })
-                        // const fs = getFirestore()
-                        // setDoc(doc(fs, "users", auth.currentUser.uid), {
-                        //     uid: auth.currentUser.uid,
-                        //     displayName: displayName,
-                        //     email: this.input.email,
-                        // }).then(() => {
-                        //     setDoc(doc(fs, "userChats", auth.currentUser.uid), {})
-                        //     .then(() => {
-                        //         this.$router.push('/login')
-                            
-                        //     })
-                        // })
                         let user_input = {
                             email: this.input.email,
                             displayName: displayName,
@@ -152,15 +144,18 @@ export default {
                         }
                         set(ref(db, 'userInfo/' + auth.currentUser.uid), user_input)
                         .then(() => {
+                            this.clicked = false
                             this.$router.push('/login')
                         })
                     })
                 })
                 .catch((error) => {
+                    this.clicked = false
                     console.log(error.code)
-                    alert(error.message)
+                    // alert(error.message)
                 })
-            }else{
+            } else {
+                this.clicked = false
                 this.isHidden = true
             }
         },
@@ -203,7 +198,7 @@ export default {
             } else if (this.input.password.trim().search(/[a-zA-Z]/) == -1) {
                 this.errorMsg['password'] = 'Password needs to contain at least 1 letter';
             } else if (this.input.password.trim().search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
-                this.errorMsg['password'] = 'Special character not allowed';
+                this.errorMsg['password'] = 'Special characters not allowed';
             } else {
                 this.errorMsg['password'] = '';
             }
