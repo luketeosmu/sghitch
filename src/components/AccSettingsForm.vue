@@ -8,7 +8,8 @@
         <div class="flex justify-center mb-4">
             <button type="button" @click="browse()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white mr-4"> Browse </button>
             <input style="display:none" ref="input" type="file" accept="image/*" @change="onChange" />
-            <button type="button" @click="onUpload()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white"> Save </button>
+            <button v-if="!loading" type="button" @click="onUpload()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white"> Save </button>
+            <button v-else type="button" class="btn loading bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white"> Saving... </button>
         </div> 
         <div class="form-control flex justify-center items-center mb-5 mt-5 mx-5">
             <span class="text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-90 rounded-lg py-1 px-2 mb-5 max-w-lg w-full">
@@ -217,7 +218,7 @@ export default {
         },
 
         onUpload(){
-
+            this.loading = true
             const auth = getAuth()
             const storage = getStorage()
             const userId = auth.currentUser.uid
@@ -277,9 +278,11 @@ export default {
                         }
                         set(ref_database(db, 'userInfo/' + auth.currentUser.uid), user_input)
                             }).then (() => {
+                                this.loading = false
                                 alert("Successfully updated details!")
                                 location.reload()
                             }).catch((error) => {
+                                this.loading = false
                                 console.log(error.code)
                                 console.log(error.message)
                                 console.log(error)
@@ -360,6 +363,8 @@ export default {
             formIsValid_2: false,
             isHidden_2: false,
             clicked_2: false,
+
+            loading: false,
         }
     },
     mounted() {
