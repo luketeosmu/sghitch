@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="flex justify-center mb-4">
-            <button type="button" @click="browse()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white"> Browse </button>
+            <button type="button" @click="browse()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white mr-4"> Browse </button>
             <input style="display:none" ref="input" type="file" accept="image/*" @change="onChange" />
             <button type="button" @click="onUpload()" class="btn bg-slate-600 btn btn-ghost hover:bg-slate-700 bg-opacity-90 text-white"> Save </button>
         </div> 
