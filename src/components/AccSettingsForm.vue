@@ -126,7 +126,7 @@ export default {
                 const auth = getAuth()
                 const credential = EmailAuthProvider.credential(
                     auth.currentUser.email,
-                    this.input.password
+                    this.inputPassword.currentPassword
                 )
                 reauthenticateWithCredential(auth.currentUser, credential).then(() => {
                     updatePassword(auth.currentUser, this.inputPassword.newPassword)
