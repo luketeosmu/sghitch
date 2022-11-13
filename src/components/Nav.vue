@@ -581,7 +581,7 @@ export default {
             remove(ref(db, 'hitcherOffers/' + offer.requesterId + '/' + offer.oid)).catch((error)=> {
                 console.log(error)
             })
-            offer["cancelled"] = false
+            // offer["cancelled"] = false
             set(ref(db, 'userInfo/' + offer.uid + '/rejectedOffer'), offer);
         },
         getPendingCount() {
