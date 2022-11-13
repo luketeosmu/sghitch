@@ -141,6 +141,7 @@ export default {
                             let user_input = {
                                 email: this.input.email,
                                 displayName: this.input.displayName,
+                                photoURL: auth.currentUser.photoURL
                             }
                             set(ref_database(db, 'userInfo/' + auth.currentUser.uid), user_input)
                             .then(() => {
