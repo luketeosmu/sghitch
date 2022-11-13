@@ -35,7 +35,7 @@
             </div>
         </form>
         
-        <div class="overflow-x-auto md:ml-10 mr-10 mb-10">
+        <div class="overflow-x-auto ml-10 mr-10 mb-10">
             <table v-if="reviews.length != 0" class="table w-full">
                 <tbody>
                 <!-- row 1 -->

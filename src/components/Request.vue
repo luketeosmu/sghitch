@@ -2,7 +2,7 @@
     <div>
         <div v-if="requests.length != 0" class="grid grid-rows-8">
             <div  v-for="request in requests">
-                <label :for="from + to + request.user" class="relative inline-flex w-80 sm:w-96 p-2 my-3 bg-gray-800 text-white rounded-md border border-slate-700 shadow-md hover:bg-slate-500 cursor-pointer text-center">
+                <label :for="from + to + request.rid" class="relative inline-flex w-80 sm:w-96 p-2 my-3 bg-gray-800 text-white rounded-md border border-slate-700 shadow-md hover:bg-slate-500 cursor-pointer text-center">
                     <div class="flex flex-col text-xs sm:text-base font-light mb-2">
                         <div class="inline-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 sm:w-6 sm:h-6 mt-1 mx-1">
@@ -65,8 +65,8 @@
                         </button> -->
                     </div>
                 </label>
-                <input type="checkbox" :id="from + to + request.user" class="modal-toggle" />
-                <label :for="from + to + request.user" class="modal cursor-pointer">
+                <input type="checkbox" :id="from + to + request.rid" class="modal-toggle" />
+                <label :for="from + to + request.rid" class="modal cursor-pointer">
                 <label class="modal-box relative w-auto sm:min-w-[400px] bg-gray-800 text-white overflow-x-hidden" for="">
                     <ul class="text-sm sm:text-lg mb-2 font-light ml-3 mr-3">
                         <div v-if="this.userType == 'driver'" class="inline-flex">
@@ -75,7 +75,7 @@
                             </svg> -->
                         
                             <div class="avatar mr-2">
-                                <div @click='view(request.uid)' class="w-20 rounded-full">
+                                <div @click='view(request.uid)' class="w-12 hover:w-16 hover:cursor-pointer rounded-full">
                                     <img :src="item.imageUrl" contain style="width:100%;height:100%;object-fit:cover"/>
                                 </div>
                             </div>
@@ -124,7 +124,7 @@
                         {{ request.d_address }} 
                         </div>
                         <br v-if="this.userType == 'driver'">
-                        <div v-if="this.userType == 'driver'" class="grid sm:grid-cols-2 gap-x-2">
+                        <div v-if="this.userType == 'driver'" class="grid sm:grid-cols-2 gap-x-3">
                             <div class="flex form-control mt-3 sm:mt-0 ">
                                 <!-- <div class="tooltip " data-tip="This is the asking price you can provide to other users for them to gauge how much to offer you"> -->
                                 <label class="label">
@@ -136,7 +136,7 @@
                             <div class="flex form-control mt-3 sm:mt-0">
                                 <div class="tooltip " data-tip="This is the asking price you can provide to other users for them to gauge how much to offer you">
                                 <label class="label">
-                                    <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Asking Price</span>
+                                    <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Offer Price</span>
                                 </label>
                                 </div>
                                 <input v-model="offerPrice" type="number" placeholder="0.00" :className="invalidPrice ? 'input input-bordered w-auto sm:w-full bg-opacity-90 text-black border-red-400 border-2' : 'input input-bordered text-black w-auto sm:w-full bg-opacity-90'" />
@@ -249,16 +249,21 @@ export default {
             offer['vehicleNo'] = this.vehicleNo
             offer['uid'] = auth.currentUser.uid
             offer['displayName'] = auth.currentUser.displayName
-            offer['offerPrice'] = this.offerPrice
+            offer['askingPrice'] = this.offerPrice
             offer['rid'] = request.rid
+            offer['status'] = 'pending'
+            offer['requesterId'] = request.uid
+
             console.log(offer)
             console.log(request.uid)
             const db = getDatabase();
-            const postListRef = ref(db, 'hitcherOffers/' + request.uid);
+            const postListRef = storageRef(db, 'hitcherOffers/' + request.uid);
+            console.log(postListRef)
             const newPostRef = push(postListRef);
+            console.log(newPostRef)
             set(newPostRef, offer)
             .then(() => {
-                this.$router.push('./')
+                this.$router.push('/')
             })
         }
     }
