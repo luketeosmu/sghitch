@@ -136,7 +136,7 @@ export default {
                 createUserWithEmailAndPassword(getAuth(), this.input.email, this.input.password)
                 .then((res) => {
                     updateProfile(auth.currentUser, {
-                        displayName: displayName, photoURL: "gs://hitcher-9ae90.appspot.com/userImg/hitcher.png"
+                        displayName: displayName, photoURL: "https://firebasestorage.googleapis.com/v0/b/hitcher-9ae90.appspot.com/o/userImg%2Fhitcher.png?alt=media&token=e95fe14f-0c0c-434a-a686-30540beb0487"
                     }).then((res) => {
                         const db = getDatabase()
                         set(ref(db, 'userTypes/' + auth.currentUser.uid), {
@@ -145,7 +145,7 @@ export default {
                         let user_input = {
                             email: this.input.email,
                             displayName: displayName,
-                            photoURL: "gs://hitcher-9ae90.appspot.com/userImg/hitcher.png",
+                            photoURL: "https://firebasestorage.googleapis.com/v0/b/hitcher-9ae90.appspot.com/o/userImg%2Fhitcher.png?alt=media&token=e95fe14f-0c0c-434a-a686-30540beb0487",
                         }
                         set(ref(db, 'userInfo/' + auth.currentUser.uid), user_input)
                         .then(() => {
