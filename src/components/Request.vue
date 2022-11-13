@@ -253,7 +253,7 @@ export default {
             offer['rid'] = request.rid
             offer['status'] = 'pending'
             offer['requesterId'] = request.uid
-            offer['hitcherName'] = request.user
+            offer['driverName'] = request.user
             // offer['driverName'] = auth.currentUser.displayName
 
             console.log(offer)
