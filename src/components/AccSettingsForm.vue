@@ -145,7 +145,6 @@ export default {
                             }
                             set(ref_database(db, 'userInfo/' + auth.currentUser.uid), user_input)
                             .then(() => {
-                                alert("Successfully updated details!")
                                 location.reload()
                             })
                         })
@@ -154,7 +153,6 @@ export default {
                     console.log(error.code)
                     console.log(error.message)
                     console.log(error)
-                    alert("Incorrect password. Please try again.")
                 })
             }else{
                 this.clicked = false
@@ -190,17 +188,14 @@ export default {
                     reauthenticateWithCredential(auth.currentUser, credential).then(() => {
                         updatePassword(auth.currentUser, this.inputPassword.newPassword)
                         .then(() => {
-                            alert("Successfully updated password!")
                             location.reload()
                         })
                     }).catch((error) => {
                         console.log(error.code)
                         console.log(error.message)
                         console.log(error)
-                        alert("Incorrect current password. Please try again.")
                     })
                 } else {
-                    alert("Passwords do not match. Please try again.")
                 }
             }else{
                 this.clicked_2 = false
@@ -280,14 +275,12 @@ export default {
                         set(ref_database(db, 'userInfo/' + auth.currentUser.uid), user_input)
                             }).then (() => {
                                 this.loading = false
-                                alert("Successfully updated details!")
                                 location.reload()
                             }).catch((error) => {
                                 this.loading = false
                                 console.log(error.code)
                                 console.log(error.message)
-                                console.log(error)
-                                alert("Failed to update details. Please try again.")    
+                                console.log(error)  
                             });
                             console.log('File available at', downloadURL);
                     });
