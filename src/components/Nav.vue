@@ -508,6 +508,7 @@ export default {
             const auth = getAuth()
             set(ref(db, 'userInfo/' + auth.currentUser.uid + '/rejectedOffer'), null);
             this.rejectedOffer = null
+            location.reload()
         },
         rideStart(offer) {
             // this.acceptedOffer = null
@@ -529,6 +530,7 @@ export default {
             remove(ref(db, 'hitcherOffers/' + auth.currentUser.uid)).catch((error)=> {
                 console.log(error)
             })
+            location.reload()
         },
         setTimeStr(time) {
             let hours = ""
