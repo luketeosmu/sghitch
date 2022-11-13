@@ -59,14 +59,11 @@ export default {
     },
     methods: {
         removeFav() {
-            // console.log(value)
             let value = this.selectedFav
             let locations = value.split("-")
             for(var i = 0; i < this.favourites.length; i++) {
                 var favourite = this.favourites[i]
                 if(favourite.from == locations[0] && favourite.to == locations[1]) {
-                    console.log(value)
-                    console.log(i)
                     this.favourites.splice(i, 1)
                     const auth = getAuth()
                     const db = getDatabase()
@@ -74,7 +71,6 @@ export default {
                     .then(() => {
                         location.reload()
                     })
-                    // remove()
                 }
             }
         },
