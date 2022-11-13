@@ -145,7 +145,7 @@ export default {
                         let user_input = {
                             email: this.input.email,
                             displayName: displayName,
-                            photoURL: "../hitcher.png",
+                            photoURL: "gs://hitcher-9ae90.appspot.com/userImg/hitcher.png",
                         }
                         set(ref(db, 'userInfo/' + auth.currentUser.uid), user_input)
                         .then(() => {
