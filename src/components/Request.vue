@@ -253,6 +253,7 @@ export default {
             offer['rid'] = request.rid
             offer['status'] = 'pending'
             offer['requesterId'] = request.uid
+            offer['requesterName'] = request.user
 
             console.log(offer)
             console.log(request.uid)
