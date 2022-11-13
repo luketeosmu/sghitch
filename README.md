@@ -27,5 +27,9 @@ npm run dev
 npm run build
 ```
 
-## Start your Journey with Us!
+### Running locally?
+
+Access the application in your browser via http://localhost:5173/
+
+## Ready? Start your Journey with Us!
 Create an account and verify your email to get started.
