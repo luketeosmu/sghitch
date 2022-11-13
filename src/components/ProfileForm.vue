@@ -127,10 +127,9 @@ export default {
                     let childData = childSnapshot.val();
                     childData.key = childSnapshot.key
                     this.reviews.push(childData)
-                    console.log(this.reviews)
                 });
             } else {
-                console.log("No data available")
+                
             }
         }).catch((error) => {
             console.error(error)
@@ -140,7 +139,6 @@ export default {
         if (this.$route.params.uid) {
             const uid = this.$route.params.uid
             this.item.profileUID = uid
-            console.log(uid)
 
             const db = getDatabase();
             const userObj = ref(db, 'userInfo/' + uid);

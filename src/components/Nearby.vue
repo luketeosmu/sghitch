@@ -67,7 +67,6 @@ export default {
         Request,
     },
     mounted() {
-        console.log(this.requests.length)
     },
     methods: {
         changeFoo(){
