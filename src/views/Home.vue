@@ -296,6 +296,7 @@ export default {
     methods: {
         changeFoo(foo){
             this.inputDistance = foo
+            this.setValidNearbyReq()
         },
         change() {
             const db = getDatabase()

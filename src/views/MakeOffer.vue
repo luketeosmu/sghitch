@@ -434,7 +434,8 @@ export default {
           // console.log(snapshot.val());
           request = snapshot.val()
           offer['requesterId'] = request.uid
-          offer['requesterName'] = request.user
+          offer['driverName'] = request.user
+          offer['hitcherName'] = auth.currentUser.displayName
           const db = getDatabase();
           const postListRef = ref(db, 'driverOffers/' + request.uid);
           const newPostRef = push(postListRef);

@@ -1,6 +1,7 @@
 <template lang="">
     <!-- <div class="navbar sticky top-0 z-10 absolute bg-opacity-90" :class="[this.user.type == 'driver' ? 'bg-slate-700':'bg-slate-200']"> -->
-    <div class="navbar sticky top-0 z-10 absolute bg-opacity-100 bg-slate-700">
+        
+        <div class="navbar sticky top-0 z-10 absolute bg-opacity-100 bg-slate-700">
         <div class="navbar-start">
             <!-- <div class="dropdown">
                 <label tabindex="0" class="btn btn-ghost btn-circle md:hidden">
@@ -62,7 +63,7 @@
                     <!-- to dynamically change -->
                     <span class="text-lg text-white font-light font-roboto">Notifications</span>
                     <hr>
-                    <div v-if="this.acceptedOffer == null && this.offers.length == 0" class="text-lg text-gray-200 font-roboto font-bold text-center my-auto">
+                    <div v-if="this.acceptedOffer == null && this.rejectedOffer == null && this.offers.length == 0" class="text-lg text-gray-200 font-roboto font-bold text-center my-auto">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-24 h-24 mx-auto mb-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                         </svg>
@@ -70,18 +71,62 @@
                         <span class="text-sm font-light">Add a new request or make an offer to other users. <br>You will get notified here when there are responses!</span>
                     </div>
                     <li v-if="this.acceptedOffer != null">
-                        <label  class="hover:bg-slate-500 active:bg-slate-500 text-white" :for="this.acceptedOffer.oid + 'accepted'">
+                        <label v-if="this.auth.currentUser.displayName == this.acceptedOffer.displayName" class="hover:bg-slate-500 active:bg-slate-500 text-white" :for="this.acceptedOffer.oid + 'accepted'">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                             </svg>
-                            Ride with {{ acceptedOffer.requesterName }} is about to commence!
+                            Ride with {{ acceptedOffer.driverName }} is about to commence!
+                            <label for="cancel">
+                                <!-- <button class="btn btn-xs btn-error" >cancel</button> -->
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </label>
                         </label>
-                        <!-- <div v-else class="hover:bg-slate-500 active:bg-slate-500 text-white">
+                        <label v-else class="hover:bg-slate-500 active:bg-slate-500 text-white" :for="this.acceptedOffer.oid + 'accepted'">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                             </svg>
                             Ride with {{ acceptedOffer.displayName }} is about to commence!
-                        </div> -->
+                            <label for="cancel">
+                                <!-- <button class="btn btn-xs btn-error" >cancel</button> -->
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </label>
+                        </label>
+                    </li>
+                    <li v-if="this.rejectedOffer != null && this.rejectedOffer.cancelled">
+                        <div v-if="this.auth.currentUser.displayName == this.rejectedOffer.displayName" class="hover:bg-slate-500 active:bg-slate-500 text-white" >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                            </svg>
+                            Ride with {{ rejectedOffer.driverName }} is cancelled
+                            <button @click="removeRejected()">delete</button>
+                        </div>
+                        <div v-else class="hover:bg-slate-500 active:bg-slate-500 text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                            </svg>
+                            Ride with {{ rejectedOffer.displayName }} is cancelled
+                            <button @click="removeRejected()">delete</button>
+                        </div>
+                    </li>
+                    <li v-if="this.rejectedOffer != null && this.rejectedOffer.cancelled == false">
+                        <label v-if="this.auth.currentUser.displayName == this.rejectedOffer.displayName" class="hover:bg-slate-500 active:bg-slate-500 text-white" >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                            </svg>
+                            Ride with {{ rejectedOffer.driverName }} is rejected
+                            <button @click="removeRejected()">delete</button>
+                        </label>
+                        <div v-else class="hover:bg-slate-500 active:bg-slate-500 text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                            </svg>
+                            Ride with {{ rejectedOffer.displayName }} is rejected
+                            <button @click="removeRejected()">delete</button>
+                        </div>
                     </li>
                     <li v-if="this.offers.length != 0 && this.acceptedOffer == null" v-for="offer of this.offers">
                         <label v-if="offer.status == 'pending'" :for="offer.oid" class="hover:bg-slate-500 active:bg-slate-500 text-white"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -152,12 +197,13 @@
             <label class="modal-box relative w-auto min-w-[400px]  bg-gray-800 text-white font-light text-center" for="">
                 <span class="text-2xl">Begin ride?</span>
                 <div class="grid grid-cols-2 gap-x-5 mt-5">
-                    <label @click="rideStart(acceptedOffer)" type="button" :for="this.acceptedOffer.displayName + 'accepted'" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold flex justify-center items-center text-center">Yes</label>
-                    <label type="button" :for="this.acceptedOffer.displayName + 'accepted'" class="btn btn-ghost block bg-white hover:bg-slate-100 px-3 rounded-xl text-slate-600 font-semibold flex justify-center items-center text-center">Not Yet</label>
-                </div>    
+                    <label @click="rideStart(acceptedOffer)" type="button" :for="this.acceptedOffer.oid + 'accepted'" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold flex justify-center items-center text-center">Yes</label>
+                    <label type="button" :for="this.acceptedOffer.oid + 'accepted'" class="btn btn-ghost block bg-white hover:bg-slate-100 px-3 rounded-xl text-slate-600 font-semibold flex justify-center items-center text-center">Not Yet</label>
+                </div>
             </label>
             </label>
     </div>
+    
     <div v-for="offer of this.offers">
         <input type="checkbox" :id="offer.oid" class="modal-toggle" />
             <label :for="offer.oid" class="modal cursor-pointer">
@@ -215,7 +261,7 @@
                 <div v-if="offer.status == 'accepted'" class="alert alert-success shadow-lg mt-2 h-[20px] flex justify-center items-center text-center">
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        <span>Your have accepted the offer!</span>
+                        <span>You have accepted the offer!</span>
                     </div>
                 </div>
                 <div v-if="offer.status == 'rejected'" class="alert alert-success shadow-lg mt-2 h-[20px] flex justify-center items-center text-center">
@@ -227,12 +273,22 @@
                 <div class="grid grid-cols-2 gap-x-5 mt-5" v-show="offer.status=='pending'">
                     <!-- <button  @click='offer.status = "accepted", this.acceptedOffer = offer, this.offers = []' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold flex justify-center items-center text-center">Accept</button> -->
                     <button  @click='acceptOffer(offer), offer.status = "accepted"' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold flex justify-center items-center text-center">Accept</button>
-                    <button  @click='offer.status = "rejected"' type="button" class="btn btn-ghost block bg-white hover:bg-slate-100 px-3 rounded-xl text-slate-600 font-semibold flex justify-center items-center text-center">Decline</button>
+                    <button  @click='declineOffer(offer), offer.status = "rejected"' type="button" class="btn btn-ghost block bg-white hover:bg-slate-100 px-3 rounded-xl text-slate-600 font-semibold flex justify-center items-center text-center">Decline</button>
                 </div>
             </label>
         </label>
         <!-- {{ this.offers[0] }} -->
     </div>
+    <input type="checkbox" id="cancel" className="modal-toggle" />
+        <label for="cancel" className="modal">
+            <div className="modal-box relative text-center py-16" for="cancel">
+                <label for="cancel" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                <h3 className="text-lg font-bold mb-4">Are you sure you want to delete?</h3>
+                <div className="modal-action flex justify-center">
+                    <button className="btn btn-error" @click="cancel()">Confirm</button>
+                </div>
+            </div>
+        </label>
 </template>
 <script>
 import Request from "../components/Request.vue"
@@ -257,6 +313,7 @@ export default {
                 imageUrl: null
             },
             acceptedOffer: null,
+            rejectedOffer: null,
             driverOffers: [],
             hitcherOffers: [],
             offers: [
@@ -352,13 +409,15 @@ export default {
                         const childKey = childSnapshot.key; //offerId
                         const childData = childSnapshot.val(); //offerAttributes
                         childData["oid"] = childKey
-                        // childData["driverName"] = this.auth.currentUser.displayName
+                        childData["driverName"] = this.auth.currentUser.displayName
+                        console.log("DRIOVERRRRR")
+                        console.log(childData)
+
                         //push into offers array
                         // childData["status"] = "pending"
                         this.offers.push(childData)
-                        this.driverOffers.push(childData)
+                        // this.driverOffers.push(childData)
                         // this.offers.push(childData)
-                        console.log(childData)
                         // console.log("offers: " + this.offers)
                     });
                 }, {
@@ -376,10 +435,13 @@ export default {
                         const childKey = childSnapshot.key; //offerId
                         const childData = childSnapshot.val(); //offerAttributes
                         childData["oid"] = childKey
+                        // childData["driverName"] = this.auth.currentUser.displayName
                         // childData["hitcherName"] = this.auth.currentUser.displayName
-                        //push into offers array
+                        //push into offers array\
+                        console.log("HITCVHERRRR")
+                        console.log(childData)
                         this.offers.push(childData)
-                        this.hitcherOffers.push(childData)
+                        // this.hitcherOffers.push(childData)
                     });
                     }, {
                     onlyOnce: true
@@ -407,8 +469,46 @@ export default {
         }).catch((error) => {
             console.error(error);
         });
+        get(child(dbRef, `userInfo/${auth.currentUser.uid}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+            this.rejectedOffer = snapshot.val().rejectedOffer
+        } else {
+            console.log("No data available");
+        }
+        }).catch((error) => {
+            console.error(error);
+        });
     },
     methods: {
+        cancel() {
+            const db = getDatabase();
+            const auth = getAuth()
+            set(ref(db, 'userInfo/' + auth.currentUser.uid + '/acceptedOffer'), null);
+            //remove requesters accepted offer too using offer.uid? idk need test
+            console.log(this.acceptedOffer.uid)
+            set(ref(db, 'userInfo/' + this.acceptedOffer.requesterId + '/acceptedOffer'), null);
+            remove(ref(db, 'driverOffers/' + auth.currentUser.uid)).catch((error)=> {
+                console.log(error)
+            })
+            remove(ref(db, 'hitcherOffers/' + this.acceptedOffer.requesterId)).catch((error)=> {
+                console.log(error)
+            })
+            remove(ref(db, 'driverOffers/' + this.acceptedOffer.requesterId)).catch((error)=> {
+                console.log(error)
+            })
+            remove(ref(db, 'hitcherOffers/' + auth.currentUser.uid)).catch((error)=> {
+                console.log(error)
+            })
+            let offer = this.acceptedOffer
+            offer["cancelled"] = true
+            set(ref(db, 'userInfo/' + offer.uid + '/rejectedOffer'), offer);
+        },
+        removeRejected() {
+            const db = getDatabase();
+            const auth = getAuth()
+            set(ref(db, 'userInfo/' + auth.currentUser.uid + '/rejectedOffer'), null);
+            this.rejectedOffer = null
+        },
         rideStart(offer) {
             // this.acceptedOffer = null
             const db = getDatabase();
@@ -421,6 +521,12 @@ export default {
                 console.log(error)
             })
             remove(ref(db, 'hitcherOffers/' + offer.requesterId)).catch((error)=> {
+                console.log(error)
+            })
+            remove(ref(db, 'driverOffers/' + offer.requesterId)).catch((error)=> {
+                console.log(error)
+            })
+            remove(ref(db, 'hitcherOffers/' + auth.currentUser.uid)).catch((error)=> {
                 console.log(error)
             })
         },
@@ -439,11 +545,13 @@ export default {
             const db = getDatabase();
             const auth = getAuth()
             offer.status = "accepted"
+            offer["type"] ="accepter"
             set(ref(db, 'userInfo/' + auth.currentUser.uid + '/acceptedOffer'), offer);
             // this.acceptedOffer = offer
             let request = null
             const dbRef = ref(getDatabase());
             // console.log("HIIIIIIIIIIIIIIIII")
+            offer.type = "offerer"
             set(ref(db, 'userInfo/' + offer.uid + '/acceptedOffer'), offer);
             // get(child(dbRef, `driverReqs/${offer.rid}`)).then((snapshot) => {
             //     if (snapshot.exists()) {
@@ -463,7 +571,16 @@ export default {
             // console.log(offer.oid)
         },
         declineOffer(offer) {
-
+            const db = getDatabase()
+            const auth = getAuth()
+            remove(ref(db, 'driverOffers/' + auth.currentUser.uid + '/' + offer.oid)).catch((error)=> {
+                console.log(error)
+            })
+            remove(ref(db, 'hitcherOffers/' + offer.requesterId + '/' + offer.oid)).catch((error)=> {
+                console.log(error)
+            })
+            // offer["cancelled"] = true
+            set(ref(db, 'userInfo/' + offer.uid + '/rejectedOffer'), offer);
         },
         getPendingCount() {
             let count = 0
