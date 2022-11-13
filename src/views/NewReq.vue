@@ -352,7 +352,7 @@ export default {
                   this.user.type = "driver"
               }
           } else {
-              alert("Application encountered a severe issue. Please login again.")
+              // alert("Application encountered a severe issue. Please login again.")
               this.logout()
           }
       }).catch((error) => {
@@ -367,7 +367,7 @@ export default {
             // console.log(value)
         let req = this.selectedReq
         const db = getDatabase()
-        console.log(req)
+        // console.log(req)
         // for(var i = 0; i < this.favourites.length; i++) {
         //     var favourite = this.favourites[i]
         //     if(favourite.from == locations[0] && favourite.to == locations[1]) {
@@ -383,7 +383,7 @@ export default {
         //         // remove()
         //     }
         // }
-        console.log(req.rid)
+        // console.log(req.rid)
         if(this.user.type == 'driver') {
           remove(ref(db, 'driverReqs/' + req.rid))
           .then(() => {
@@ -402,15 +402,15 @@ export default {
     retrieveMyRequest(){
         const db = getDatabase();
         if(this.user.type == 'driver') {
-            console.log("hi i am driver")
+            // console.log("hi i am driver")
             const dbRef = ref(db, '/driverReqs');
             onValue(dbRef, (snapshot) => {
                 snapshot.forEach((childSnapshot) => {
                     const childKey = childSnapshot.key; //request id
                     const childData = childSnapshot.val(); //request details
                     if(childData.uid == this.auth.currentUser.uid) {
-                      console.log("my request")
-                      console.log(childData)
+                      // console.log("my request")
+                      // console.log(childData)
                       let request = childData
                       request["rid"] = childKey
                       this.myRequest.push(request)
@@ -420,15 +420,15 @@ export default {
                 onlyOnce: true
             });
         } else {
-            console.log("hi i am hitcher")
+            // console.log("hi i am hitcher")
             const dbRef = ref(db, '/hitcherReqs');
             onValue(dbRef, (snapshot) => {
                 snapshot.forEach((childSnapshot) => {
                     const childKey = childSnapshot.key; //request id
                     const childData = childSnapshot.val(); //request details
                     if(childData.uid == this.auth.currentUser.uid) {
-                      console.log("my request")
-                      console.log(childData)
+                      // console.log("my request")
+                      // console.log(childData)
                       let request = childData
                       request["rid"] = childKey
                       this.myRequest.push(request)
@@ -511,7 +511,7 @@ export default {
               this.invalidDestAddress = true
             } else {
               // this.$router.push('/')
-              console.log(res.data.results[0].geometry.location);
+              // console.log(res.data.results[0].geometry.location);
               let address = res.data.results[0].address_components;
               let dNeighborhood = "";
               for (let component of address) {
@@ -531,8 +531,8 @@ export default {
                 this.input.destNeighborhood = dNeighborhood
                 this.seenDest = true
 
-                console.log(this.input.destNeighborhood)
-                console.log(this.input.datetime)
+                // console.log(this.input.destNeighborhood)
+                // console.log(this.input.datetime)
               } else {
                 this.input.d_address = "";
                 // alert("Invalid address (no neighborhood), please try again.");
