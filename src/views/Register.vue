@@ -136,7 +136,7 @@ export default {
                 createUserWithEmailAndPassword(getAuth(), this.input.email, this.input.password)
                 .then((res) => {
                     updateProfile(auth.currentUser, {
-                        displayName: displayName, photoURL: "../hitcher.png"
+                        displayName: displayName, photoURL: "gs://hitcher-9ae90.appspot.com/userImg/hitcher.png"
                     }).then((res) => {
                         const db = getDatabase()
                         set(ref(db, 'userTypes/' + auth.currentUser.uid), {
