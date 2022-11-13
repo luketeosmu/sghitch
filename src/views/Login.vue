@@ -87,6 +87,7 @@ export default {
             const db = getDatabase()
             signInWithEmailAndPassword(getAuth(), this.input.email, this.input.password)
             .then((data) => {
+                this.clicked = true
                 if(!getAuth().currentUser.emailVerified){
                     this.errMsg = "Please verify your account upon first login."
                     return
@@ -95,7 +96,6 @@ export default {
                 console.log("Successfully signed in!")
                 console.log(getAuth().currentUser.displayName)
                 // console.log(auth.currentUser)
-                this.clicked = true
                 this.$router.push('/loginAs')
             })
             .catch((error) => {
