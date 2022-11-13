@@ -349,7 +349,7 @@ export default {
                         const childKey = childSnapshot.key; //offerId
                         const childData = childSnapshot.val(); //offerAttributes
                         childData["oid"] = childKey
-                        childData["driverName"] = this.auth.currentUser.displayName
+                        childData["displayName"] = this.auth.currentUser.displayName
                         //push into offers array
                         // childData["status"] = "pending"
                         this.offers.push(childData)
@@ -409,8 +409,14 @@ export default {
             const auth = getAuth()
             set(ref(db, 'userInfo/' + auth.currentUser.uid + '/acceptedOffer'), null);
             //remove requesters accepted offer too using offer.uid? idk need test
-            set(ref(db, 'userInfo/' + offer.uid + '/acceptedOffer'), null);
-            remove(ref(db, 'driverOffers/' + auth.currentUser.uid + '/' + offer.oid))
+            console.log(offer.uid)
+            set(ref(db, 'userInfo/' + offer.requesterId + '/acceptedOffer'), null);
+            remove(ref(db, 'driverOffers/' + auth.currentUser.uid)).catch((error)=> {
+                console.log(error)
+            })
+            remove(ref(db, 'hitcherOffers/' + offer.requesterId)).catch((error)=> {
+                console.log(error)
+            })
         },
         setTimeStr(time) {
             let hours = ""
