@@ -138,7 +138,6 @@ export default {
                     'Tampines'
                 ],
                 north: [
-                    'Central Water Catchment',
                     'Lim Chu Kang',
                     'Mandai',
                     'Sembawang',
@@ -150,7 +149,6 @@ export default {
                 northeast: [
                     'Ang Mo Kio',
                     'Hougang',
-                    'North-Eastern Islands',
                     'Punggol',
                     'Seletar',
                     'Sengkang',
@@ -167,8 +165,6 @@ export default {
                     'Pioneer',
                     'Tengah',
                     'Tuas',
-                    'Western Islands',
-                    'Western Water Catchment'
                 ]
             },
         }

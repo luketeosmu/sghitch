@@ -261,7 +261,7 @@ export default {
             const auth = getAuth()
             let offer = {}
             offer['datetime'] = request.datetime
-            offer['vehicleNo'] = this.vehicleNo
+            offer['vehicleNo'] = this.vehicleNo.toUpperCase()
             offer['uid'] = auth.currentUser.uid
             offer['displayName'] = auth.currentUser.displayName
             offer['askingPrice'] = this.offerPrice

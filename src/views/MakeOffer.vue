@@ -1,16 +1,19 @@
 <template lang="">
     <!-- starting point should be taken from google maps - should return a longitude/latitude -->
     <!-- when searching for requests, sort by distance away from starting point -->
-    <div class="drawer bg-no-repeat bg-cover bg-center bg-merlion-background">
+    <div class="drawer bg-no-repeat bg-cover bg-center bg-garden-background">
     <input id="my-drawer-3" type="checkbox" class="drawer-toggle" /> 
-    <div class="drawer-content flex flex-col ">
+    <div class="drawer-content flex flex-col pb-10">
         <!-- Navbar -->
         <Nav :userType="this.user.type"/>
         <!-- Page content here -->
-        <span class="mt-10 w-[350px] sm:w-[600px] mx-auto text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-60 rounded-lg py-1 px-2 mb-10 ">
+        <span v-if="this.user.type == 'hitcher'" class="mt-10 w-[350px] sm:w-[600px] mx-auto text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-60 rounded-lg py-1 px-2 mb-10 ">
                 Make Offer
         </span>
-        <div class=" inline-block mx-auto shadow-xl rounded-lg w-[350px] sm:w-[600px] px-3 py-5 relative mt-3 border bg-white bg-opacity-95 ">
+        <span v-else class="mt-10 w-[350px] sm:w-[600px] mx-auto text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-60 rounded-lg py-1 px-2 mb-10 ">
+                Error 404: Not Found<br>
+        </span>
+        <div v-if="this.user.type == 'hitcher'" class=" inline-block mx-auto shadow-xl rounded-lg w-[350px] sm:w-[600px] px-3 py-5 relative mt-3 border bg-white bg-opacity-95 ">
             <!-- query autocomplete api, maps sdk api -->
             <form>
               <div class="grid grid-rows-8 form-control px-2 sm:px-0 items-center mx-auto mb-5">
@@ -64,9 +67,10 @@
                   </div>
                 </div>
                 <div class="">
-                  <div className="inline-flex mt-3 sm:mt-5 sm:w-full">
+                  <div class="mt-3 sm:mt-5">Driver's start: <b>{{ rStartNeighborhood }}</b></div>
+                  <div className="inline-flex mt-1 sm:w-full">
                     <input v-on:keyup.enter="queryMapsStart()" v-model="input.s_address" type="text" placeholder="Starting Point Address" :className="invalidStartNhood ? 'input input-bordered sm:w-full bg-opacity-90 border-red-400 border-2' : 'input input-bordered sm:w-full bg-opacity-90'"/>
-                    <button type="button" @click='queryMapsStart()' class="btn btn-ghost hover:bg-slate-700 bg-slate-500 text-white ml-4 bg-opacity-90">Search</button>
+                    <button type="button" @click='queryMapsStart()' class="btn btn-ghost hover:bg-slate-700 bg-slate-600 text-white ml-4 bg-opacity-90">Search</button>
                   </div>
                   <div v-if="invalidStartAddress" class="text-red-400">
                     <small>Invalid Starting Address. Please try again.</small>
@@ -88,7 +92,8 @@
                   </div>
                 </div>
                 <div class="grid grid-cols-1">
-                      <div class="inline-flex mt-3 sm:mt-5 sm:w-full">
+                  <div class="mt-3 sm:mt-5">Driver's destination: <b>{{ rDestNeighborhood }}</b></div>
+                      <div class="inline-flex mt-1 sm:w-full">
                           <input v-on:keyup.enter="queryMapsDest()" v-model="input.d_address" type="text" placeholder="Destination Point Address" :className="invalidDestNhood ? 'input input-bordered sm:w-full bg-opacity-90 border-red-400 border-2' : 'input input-bordered sm:w-full bg-opacity-90'" />
                           <button type="button" @click='queryMapsDest()' class="btn btn-ghost hover:bg-slate-700 bg-slate-600 text-white ml-4 bg-opacity-90">Search</button>
                       </div>
@@ -96,7 +101,7 @@
                     <small>Invalid Destination Address. Please try again.</small>
                   </div>
                   <div v-if="seenDest" className="mt-3">
-                    <p>{{ input.destNeighborhood }}</p>
+                    <p class="text-center mb-3">Vicinity: <b>{{ input.destNeighborhood }}</b></p>
                       <GMapMap
                           :center="input.centerDest"
                           :zoom="18"
@@ -206,10 +211,13 @@ export default {
   data() {
     return {
       requestId: this.$route.params.id,
+      errorMsg: "",
       user: {
         type: ""
       },
       auth: null,
+      rStartNeighborhood: "",
+      rDestNeighborhood: "",
       input: {
         s_address: "",
         d_address: "",
@@ -275,9 +283,29 @@ export default {
           console.error(error)
           this.logout()
       })
+
+      this.showNeighborhoods()
+
       this.setDateTime()
   },
   methods: {
+    showNeighborhoods(){
+      const auth = getAuth()
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, `driverReqs/${this.requestId}`)).then((snapshot) => {
+        if (snapshot.exists()) {
+          // console.log(snapshot.val());
+          let request = snapshot.val()
+          this.rStartNeighborhood = request.startNeighborhood
+          this.rDestNeighborhood = request.destNeighborhood
+        } else {
+          console.log("No data available");
+          // alert("No data available!")
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
+    },
     setDateTime() {
       let today = new Date()
       let year = today.getFullYear()
@@ -390,6 +418,7 @@ export default {
     writeReqData () {
       //should check if all fields have been entered before setting and redirecting
 
+      this.invalidPrice = false
       if(this.askingPrice == "" || this.input.startNeighborhood == "" || this.input.destNeighborhood == ""){
         this.invalidInput = true
         if(this.askingPrice == ""){
@@ -433,6 +462,26 @@ export default {
         if (snapshot.exists()) {
           // console.log(snapshot.val());
           request = snapshot.val()
+
+          //validation
+          // if(this.input.startNeighborhood != request.startNeighborhood){
+          //   this.invalidStartNhood = true
+          //   this.invalidInput = true
+          //   return
+          // } else {
+          //   this.invalidInput = false
+          //   this.invalidStartNhood = false
+          // }
+
+          // if(this.input.destNeighborhood != request.destNeighborhood){
+          //   this.invalidDestNhood = true
+          //   this.invalidInput = true
+          //   return
+          // } else {
+          //   this.invalidInput = false
+          //   this.invalidDestNhood = false
+          // }
+
           offer['requesterId'] = request.uid
           offer['driverName'] = request.user
           offer['hitcherName'] = auth.currentUser.displayName

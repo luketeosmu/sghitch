@@ -612,14 +612,17 @@ export default {
         this.loading = true
         let temp = this.input
         temp['vehicleType'] = this.vehicleType
-        temp['vehicleNo'] = this.vehicleNo
+        temp['vehicleNo'] = this.vehicleNo.toUpperCase()
         // set(ref(db, 'driverReqs/' + this.auth.currentUser.uid), temp);
         const db = getDatabase();
         const postListRef = ref(db, 'driverReqs');
         const newPostRef = push(postListRef);
-        set(newPostRef, temp);
-        alert("Successfully submitted request!") //change to modal
-        this.$router.push('/')
+        set(newPostRef, temp).then(() => {
+          this.loading = false
+          this.$router.push('/')
+        })
+        // alert("Successfully submitted request!") //change to modal
+        
         // console.log(this.input.datetime)
       }
     },
