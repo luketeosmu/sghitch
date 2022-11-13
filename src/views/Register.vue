@@ -230,7 +230,7 @@ export default {
             } else {
                 this.errorMsg['confirmPassword'] = '';
             }
-            console.log(this.errorMsg)
+            // console.log(this.errorMsg)
         },
     }
 }
