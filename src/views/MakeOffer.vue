@@ -379,7 +379,7 @@ export default {
               this.invalidDestAddress = true
             } else {
               // this.$router.push('/')
-              console.log(res.data.results[0].geometry.location);
+              // console.log(res.data.results[0].geometry.location);
               let address = res.data.results[0].address_components;
               let dNeighborhood = "";
               for (let component of address) {
