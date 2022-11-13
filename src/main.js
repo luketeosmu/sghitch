@@ -10,7 +10,6 @@ import MapsService from './services/MapsService'
 import Home from './views/Home.vue'
 import ForgotPassword from './views/ForgotPassword.vue'
 import LoginAs from './views/LoginAs.vue'
-import ShowAll from './views/ShowAll.vue'
 import Chat from './views/Chat.vue'
 import AccountSettings from './views/AccountSettings.vue'
 import MakeOffer from './views/MakeOffer.vue'
@@ -113,14 +112,6 @@ const routes = [
             requiresAuth: true
         }
     },
-    // {
-    //     path: '/showall/:id',
-    //     name: 'ShowAll',
-    //     component: ShowAll,
-    //     meta: {
-    //         requiresAuth: true
-    //     }
-    // },
     {
         path: '/makeOffer/:id',
         name: 'MakeOffer',
