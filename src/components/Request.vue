@@ -1,7 +1,7 @@
 <template lang="">
     <div>
         <div v-if="requests.length != 0" class="grid grid-rows-8">
-            <div  v-for="request in requests">
+            <div v-for="request in requests">
                 <label :for="from + to + request.rid" class="relative inline-flex w-80 sm:w-96 p-2 my-3 bg-gray-800 text-white rounded-md border border-slate-700 shadow-md hover:bg-slate-500 cursor-pointer text-center">
                     <div class="flex flex-col text-xs sm:text-base font-light mb-2">
                         <div class="inline-flex">
@@ -76,17 +76,25 @@
                         
                             <div class="avatar mr-2">
                                 <div @click='view(request.uid)' class="w-12 hover:w-16 hover:cursor-pointer rounded-full">
-                                    <img :src="item.imageUrl" contain style="width:100%;height:100%;object-fit:cover"/>
+                                    <!-- <img :src="item.imageUrl" contain style="width:100%;height:100%;object-fit:cover"/> -->
+                                    <img :src="requestImg(request.uid)" contain style="width:100%;height:100%;object-fit:cover"/>
                                 </div>
                             </div>
                             <span style="display: flex; align-items: center;">{{ request.user }}</span>
                             
                         </div>
                         <div v-else class="inline-flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
+                            <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="lightgray" class="w-6 h-6 mr-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            {{ request.user }} </div>
+                            </svg> -->
+                            <div class="avatar mr-2">
+                                <div @click='view(request.uid)' class="w-12 hover:w-16 hover:cursor-pointer rounded-full">
+                                    <!-- <img :src="item.imageUrl" contain style="width:100%;height:100%;object-fit:cover"/> -->
+                                    <img :src="requestImg(request.uid)" contain style="width:100%;height:100%;object-fit:cover"/>
+                                </div>
+                            </div>
+                            <span style="display: flex; align-items: center;">{{ request.user }}</span>
+                        </div>
                             
                         <br>
                         <!-- <div class="font-bold text-2xl">Rating: {{ request.rating }}/5</div> -->
@@ -202,10 +210,17 @@ export default {
         }
     },
     mounted() {
-        const auth = getAuth()
-        this.item.imageUrl = auth.currentUser.photoURL
     },
     methods: {
+        requestImg(uid){
+            const db = getDatabase();
+            const userObj = storageRef(db, 'userInfo/' + uid);
+            onValue(userObj, (snapshot) => {
+                const data = snapshot.val();
+                this.item.imageUrl = data.photoURL
+            });
+            return this.item.imageUrl
+        },
         makeHitcherOffer(id) {
             console.log(id)
             this.$router.push('./makeOffer/' + id) 
@@ -253,8 +268,6 @@ export default {
             offer['rid'] = request.rid
             offer['status'] = 'pending'
             offer['requesterId'] = request.uid
-            offer['driverName'] = request.user
-            // offer['driverName'] = auth.currentUser.displayName
 
             console.log(offer)
             console.log(request.uid)
