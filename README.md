@@ -1,14 +1,13 @@
-# is216-frontend
+# Hitch
 
-This template should help get you started developing with Vue 3 in Vite.
+Welcome to Hitch!
+We serve as a platform to connect hitchers and drivers.
+We aim to provide you an affordable ride to your destinations
+and to also help drivers save on fuel costs.
 
-## Recommended IDE Setup
+## Details
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Hitch was developed in [Vue.js](https://vuejs.org/guide/introduction.html) as a [Vite](https://vitejs.dev/guide/) Project. Styled with [TailwindCSS](https://tailwindcss.com/docs/installation) and [DaisyUI](https://daisyui.com/docs/install/).
 
 ## Project Setup
 
@@ -27,3 +26,6 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Start your Journey with Us!
+Create an account and verify your email to get started.
