@@ -464,8 +464,8 @@ export default {
         const postListRef = ref(db, 'hitcherReqs');
         const newPostRef = push(postListRef);
         set(newPostRef, temp);
-        alert("Successfully submitted request!") //change to modal
-        // this.$router.push('/chat')
+        // alert("Successfully submitted request!") //change to modal
+        this.$router.push('/')
         // console.log(this.input.datetime)
       } else {
         if(this.vehicleNo.length < 3 || this.input.startNeighborhood == "" || this.input.destNeighborhood == "" || this.input.datetime == ""){

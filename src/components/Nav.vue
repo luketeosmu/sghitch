@@ -501,7 +501,7 @@ export default {
             })
             let offer = this.acceptedOffer
             offer["cancelled"] = true
-            set(ref(db, 'userInfo/' + offer.uid + '/rejectedOffer'), offer);
+            set(ref(db, 'userInfo/' + offer.uid + '/rejectedOffer'), offer).then(() => {location.reload()})
         },
         removeRejected() {
             const db = getDatabase();
