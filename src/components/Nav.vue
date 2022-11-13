@@ -70,18 +70,18 @@
                         <span class="text-sm font-light">Add a new request or make an offer to other users. <br>You will get notified here when there are responses!</span>
                     </div>
                     <li v-if="this.acceptedOffer != null">
-                        <label v-if="this.user.type == 'driver'" class="hover:bg-slate-500 active:bg-slate-500 text-white" :for="this.acceptedOffer.displayName + 'accepted'">
+                        <label  class="hover:bg-slate-500 active:bg-slate-500 text-white" :for="this.acceptedOffer.oid + 'accepted'">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                             </svg>
-                            Ride with {{ acceptedOffer.driverName }} is about to commence!
+                            Ride with {{ acceptedOffer.requesterName }} is about to commence!
                         </label>
-                        <div v-else class="hover:bg-slate-500 active:bg-slate-500 text-white">
+                        <!-- <div v-else class="hover:bg-slate-500 active:bg-slate-500 text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                             </svg>
                             Ride with {{ acceptedOffer.displayName }} is about to commence!
-                        </div>
+                        </div> -->
                     </li>
                     <li v-if="this.offers.length != 0 && this.acceptedOffer == null" v-for="offer of this.offers">
                         <label v-if="offer.status == 'pending'" :for="offer.oid" class="hover:bg-slate-500 active:bg-slate-500 text-white"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -147,8 +147,8 @@
         </div>
     </div>
     <div v-if="this.acceptedOffer != null">
-    <input type="checkbox" :id="this.acceptedOffer.displayName + 'accepted'" class="modal-toggle" />
-            <label :for="this.acceptedOffer.displayName + 'accepted'" class="modal cursor-pointer">
+    <input type="checkbox" :id="this.acceptedOffer.oid + 'accepted'" class="modal-toggle" />
+            <label :for="this.acceptedOffer.oid + 'accepted'" class="modal cursor-pointer">
             <label class="modal-box relative w-auto min-w-[400px]  bg-gray-800 text-white font-light text-center" for="">
                 <span class="text-2xl">Begin ride?</span>
                 <div class="grid grid-cols-2 gap-x-5 mt-5">
@@ -257,6 +257,8 @@ export default {
                 imageUrl: null
             },
             acceptedOffer: null,
+            driverOffers: [],
+            hitcherOffers: [],
             offers: [
                 // {   
                 //     status: "pending",
@@ -343,16 +345,18 @@ export default {
                     const db = getDatabase();
                     const dbRef = ref(db, '/driverOffers/' + this.auth.currentUser.uid);
                     console.log("im a driver")
-                    // this.offers = []
+                    this.driverOffers = []
+                    this.hitcherOffers = []
                     onValue(dbRef, (snapshot) => {
                     snapshot.forEach((childSnapshot) => {
                         const childKey = childSnapshot.key; //offerId
                         const childData = childSnapshot.val(); //offerAttributes
                         childData["oid"] = childKey
-                        childData["displayName"] = this.auth.currentUser.displayName
+                        // childData["driverName"] = this.auth.currentUser.displayName
                         //push into offers array
                         // childData["status"] = "pending"
                         this.offers.push(childData)
+                        this.driverOffers.push(childData)
                         // this.offers.push(childData)
                         console.log(childData)
                         // console.log("offers: " + this.offers)
@@ -363,17 +367,19 @@ export default {
                 // this.offers = temp
                 } else if(this.user.type == "hitcher"){
                     console.log("im a hitcher")
+                    this.driverOffers = []
+                    this.hitcherOffers = []
                     const db = getDatabase();
                     const dbRef = ref(db, '/hitcherOffers/' + this.auth.currentUser.uid);
-
                     onValue(dbRef, (snapshot) => {
                     snapshot.forEach((childSnapshot) => {
                         const childKey = childSnapshot.key; //offerId
                         const childData = childSnapshot.val(); //offerAttributes
                         childData["oid"] = childKey
-                        childData["driverName"] = this.auth.currentUser.displayName
+                        // childData["hitcherName"] = this.auth.currentUser.displayName
                         //push into offers array
                         this.offers.push(childData)
+                        this.hitcherOffers.push(childData)
                     });
                     }, {
                     onlyOnce: true
