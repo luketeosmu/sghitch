@@ -128,7 +128,7 @@
                     <small>Invalid Destination Address. Please try again.</small>
                   </div>
                   <div v-if="seenDest" className="mt-3">
-                    <p>{{ input.destNeighborhood }}</p>
+                    <p class="text-center mb-3">Vicinity: <b>{{ input.destNeighborhood }}</b></p>
                       <GMapMap
                           :center="input.centerDest"
                           :zoom="18"
@@ -428,6 +428,7 @@ export default {
       if(this.user.type == 'hitcher'){
         // set(ref(db, 'hitcherReqs/' + this.auth.currentUser.uid), this.input);
         if(this.askingPrice == "" || this.input.startNeighborhood == "" || this.input.destNeighborhood == "" || this.input.datetime == ""){
+          this.invalidInput = true
           if(this.askingPrice == ""){
             this.invalidPrice = true
           } else {
@@ -452,6 +453,8 @@ export default {
             this.invalidDateTime = false
           }
           return
+        } else {
+          this.invalidInput = false
         }
         this.loading = true
         let temp = this.input

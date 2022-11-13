@@ -59,17 +59,20 @@
                       <label class="label">
                         <span class="label-text text-black bg-slate-300 bg-opacity-80 px-2 rounded-lg">Offer Price</span>
                       </label>
-                    <input v-model.lazy="askingPrice" type="number" placeholder="0.00" className="input input-bordered w-full bg-opacity-90" />
+                    <input v-model.lazy="askingPrice" type="number" placeholder="0.00" :className="invalidPrice ? 'input input-bordered w-full bg-opacity-90 border-red-400 border-2' : 'input input-bordered w-full bg-opacity-90'"/>
                   </div>
                   </div>
                 </div>
                 <div class="">
                   <div className="inline-flex mt-3 sm:mt-5 sm:w-full">
-                    <input v-model.lazy="input.s_address" type="text" placeholder="Starting Point Address" className="input input-bordered sm:w-full bg-opacity-90"/>
+                    <input v-on:keyup.enter="queryMapsStart()" v-model="input.s_address" type="text" placeholder="Starting Point Address" :className="invalidStartNhood ? 'input input-bordered sm:w-full bg-opacity-90 border-red-400 border-2' : 'input input-bordered sm:w-full bg-opacity-90'"/>
                     <button type="button" @click='queryMapsStart()' class="btn btn-ghost hover:bg-slate-700 bg-slate-500 text-white ml-4 bg-opacity-90">Search</button>
                   </div>
+                  <div v-if="invalidStartAddress" class="text-red-400">
+                    <small>Invalid Starting Address. Please try again.</small>
+                  </div>
                   <div v-if="seenStart" className="mt-3">
-                      <p>{{ input.startNeighborhood }}</p>
+                    <p class="text-center mb-3">Vicinity: <b>{{ input.startNeighborhood }}</b></p>
                         <GMapMap
                             :center="input.centerStart"
                             :zoom="18"  
@@ -86,10 +89,12 @@
                 </div>
                 <div class="grid grid-cols-1">
                       <div class="inline-flex mt-3 sm:mt-5 sm:w-full">
-                          <input v-model.lazy="input.d_address" type="text" placeholder="Destination Point Address" className="input input-bordered sm:w-full bg-opacity-90" />
+                          <input v-on:keyup.enter="queryMapsDest()" v-model="input.d_address" type="text" placeholder="Destination Point Address" :className="invalidDestNhood ? 'input input-bordered sm:w-full bg-opacity-90 border-red-400 border-2' : 'input input-bordered sm:w-full bg-opacity-90'" />
                           <button type="button" @click='queryMapsDest()' class="btn btn-ghost hover:bg-slate-700 bg-slate-600 text-white ml-4 bg-opacity-90">Search</button>
                       </div>
-                
+                  <div v-if="invalidDestAddress" class="text-red-400">
+                    <small>Invalid Destination Address. Please try again.</small>
+                  </div>
                   <div v-if="seenDest" className="mt-3">
                     <p>{{ input.destNeighborhood }}</p>
                       <GMapMap
@@ -106,6 +111,9 @@
                       </GMapMap>
                   </div>
                 </div>
+              </div>
+              <div class="text-center text-red-400" v-if="invalidInput">
+                <small class="mb-2">Failed to submit request. Please rectify errors and try again.</small>
               </div>
                       <div class="text-center mt-5 ">
                           <button type="button" @click="writeReqData" class="btn btn-ghost hover:bg-slate-700 bg-slate-600 text-white ml-5 bg-opacity-90">Submit</button>
@@ -237,6 +245,14 @@ export default {
       ],
       seenStart: false,
       seenDest: false,
+
+      invalidInput: false,
+      invalidPrice: false,
+      invalidStartNhood: false,
+      invalidDestNhood: false,
+
+      invalidStartAddress: false,
+      invalidDestAddress: false,
     };
   },
   mounted(){
@@ -288,7 +304,8 @@ export default {
         if (this.input.s_address != "") {
           MapsService.queryMaps(this.input.s_address).then((res) => {
             if (res.data.status == "ZERO_RESULTS") {
-              alert("Unable to locate, please try again.");
+              // alert("Unable to locate, please try again.");
+              this.invalidStartAddress = true
             } else {
               // this.$router.push('/')
               console.log(res.data.results[0].geometry.location);
@@ -302,6 +319,8 @@ export default {
               }
               if (sNeighborhood != "") {
                 //display map
+                this.invalidStartAddress = false
+                this.invalidStartNhood = false
                 this.input.s_address = res.data.results[0].formatted_address
                 this.input.centerStart.lat = res.data.results[0].geometry.location.lat
                 this.input.centerStart.lng = res.data.results[0].geometry.location.lng
@@ -311,13 +330,15 @@ export default {
                 this.seenStart = true
               } else {
                 this.input.s_address = "";
-                alert("Invalid address (no neighborhood), please try again.");
+                // alert("Invalid address (no neighborhood), please try again.");
+                this.invalidStartAddress = true
               }
               // this.initMap()
             }
           });
         } else {
-          alert("Please enter a valid location.");
+          // alert("Please enter a valid location.");
+          this.invalidStartAddress = true
         }
       } catch (error) {}
     },
@@ -326,7 +347,8 @@ export default {
         if (this.input.d_address != "") {
           MapsService.queryMaps(this.input.d_address).then((res) => {
             if (res.data.status == "ZERO_RESULTS") {
-              alert("Unable to locate, please try again.");
+              // alert("Unable to locate, please try again.");
+              this.invalidDestAddress = true
             } else {
               // this.$router.push('/')
               console.log(res.data.results[0].geometry.location);
@@ -339,6 +361,8 @@ export default {
                 }
               }
               if (dNeighborhood != "") {
+                this.invalidDestAddress = false
+                this.invalidDestNhood = false
                 this.input.d_address = res.data.results[0].formatted_address
                 this.input.centerDest.lat = res.data.results[0].geometry.location.lat
                 this.input.centerDest.lng = res.data.results[0].geometry.location.lng
@@ -351,18 +375,45 @@ export default {
                 console.log(this.input.datetime)
               } else {
                 this.input.d_address = "";
-                alert("Invalid address (no neighborhood), please try again.");
+                // alert("Invalid address (no neighborhood), please try again.");
+                this.invalidDestAddress = true
               }
               // this.initMap()
             }
           });
         } else {
-          alert("Please enter a valid location.");
+          // alert("Please enter a valid location.");
+          this.invalidDestAddress = true
         }
       } catch (error) {}
     },
     writeReqData () {
       //should check if all fields have been entered before setting and redirecting
+
+      if(this.askingPrice == "" || this.input.startNeighborhood == "" || this.input.destNeighborhood == ""){
+        this.invalidInput = true
+        if(this.askingPrice == ""){
+          this.invalidPrice = true
+        } else {
+          this.invalidPrice = false
+        }
+
+        if(this.input.startNeighborhood == ""){
+          this.invalidStartNhood = true
+        } else {
+          this.invalidStartNhood = false
+        }
+
+        if(this.input.destNeighborhood == ""){
+          this.invalidDestNhood = true
+        } else {
+          this.invalidDestNhood = false
+        }
+
+        return
+      } else {
+          this.invalidInput = false
+      }
 
       const auth = getAuth()
       let offer = {}
@@ -390,8 +441,8 @@ export default {
               this.$router.push('/')
           })
         } else {
-          // console.log("No data available");
-          alert("No data available!")
+          console.log("No data available");
+          // alert("No data available!")
         }
       }).catch((error) => {
         console.error(error);
