@@ -54,7 +54,7 @@
           </div>
         <!-- Page content here -->
         <!-- text-center text-3xl text-black font-roboto font-semibold  bg-white bg-opacity-80 rounded-lg py-1 px-2 mb-5 max-w-lg w-full -->
-        <span class="mt-10 w-[350px] sm:w-[600px] mx-auto text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-60 rounded-lg py-1 px-2 mb-10 ">
+        <span class="mt-10 w-[350px] sm:w-[600px] mx-auto text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-80 rounded-lg py-1 px-2 mb-6 ">
                 New Request
         </span>
         <div class=" inline-block mx-auto shadow-xl rounded-lg w-[350px] sm:w-[600px]  px-3 py-5 relative mt-3 border bg-white bg-opacity-95 ">
@@ -271,7 +271,7 @@ import Nav from "../components/Nav.vue";
 // import { getAuth } from 'firebase/auth'
 // import { getDatabase, ref, set } from 'firebase/database'
 import { getAuth, signOut } from 'firebase/auth'
-import { getDatabase, ref, child, set, get, update, push, onValue } from 'firebase/database';
+import { getDatabase, ref, child, set, get, update, push, onValue, remove } from 'firebase/database';
 // import './maps.css'
 
 export default {
@@ -363,69 +363,82 @@ export default {
       this.retrieveMyRequest()
   },
   methods: {
-    removeReq() {
+    removeRequest() {
             // console.log(value)
-            let value = this.selectedFav
-            let locations = value.split("-")
-            for(var i = 0; i < this.favourites.length; i++) {
-                var favourite = this.favourites[i]
-                if(favourite.from == locations[0] && favourite.to == locations[1]) {
-                    console.log(value)
-                    console.log(i)
-                    this.favourites.splice(i, 1)
-                    const auth = getAuth()
-                    const db = getDatabase()
-                    remove(ref(db, 'userFavs/' + auth.currentUser.uid + '/' + favourite.key))
-                    .then(() => {
-                        location.reload()
-                    })
-                    // remove()
-                }
-            }
-        },
-        selectReq(request){
-            this.selectedReq = request
-        },
+        let req = this.selectedReq
+        const db = getDatabase()
+        console.log(req)
+        // for(var i = 0; i < this.favourites.length; i++) {
+        //     var favourite = this.favourites[i]
+        //     if(favourite.from == locations[0] && favourite.to == locations[1]) {
+        //         console.log(value)
+        //         console.log(i)
+        //         this.favourites.splice(i, 1)
+        //         const auth = getAuth()
+        //         const db = getDatabase()
+        //         remove(ref(db, 'userFavs/' + auth.currentUser.uid + '/' + favourite.key))
+                // .then(() => {
+                //     location.reload()
+                // })
+        //         // remove()
+        //     }
+        // }
+        console.log(req.rid)
+        if(this.user.type == 'driver') {
+          remove(ref(db, 'driverReqs/' + req.rid))
+          .then(() => {
+              location.reload()
+          })
+        } else {
+          remove(ref(db, 'hitcherReqs/' + req.rid))
+          .then(() => {
+              location.reload()
+          })
+        }
+    },
+    selectReq(request){
+        this.selectedReq = request
+    },
     retrieveMyRequest(){
-            const db = getDatabase();
-            if(this.user.type == 'driver') {
-                console.log("hi i am driver")
-                const dbRef = ref(db, '/hitcherReqs');
-                onValue(dbRef, (snapshot) => {
-                    snapshot.forEach((childSnapshot) => {
-                        const childKey = childSnapshot.key; //request id
-                        const childData = childSnapshot.val(); //request details
-                        if(childData.uid == this.auth.currentUser.uid) {
-                          console.log("my request")
-                          console.log(childData)
-                          let request = childData
-                          request["rid"] = childKey
-                          this.myRequest.push(request)
-                        }
-                    });
-                }, {
-                    onlyOnce: true
+        const db = getDatabase();
+        if(this.user.type == 'driver') {
+            console.log("hi i am driver")
+            const dbRef = ref(db, '/driverReqs');
+            onValue(dbRef, (snapshot) => {
+                snapshot.forEach((childSnapshot) => {
+                    const childKey = childSnapshot.key; //request id
+                    const childData = childSnapshot.val(); //request details
+                    if(childData.uid == this.auth.currentUser.uid) {
+                      console.log("my request")
+                      console.log(childData)
+                      let request = childData
+                      request["rid"] = childKey
+                      this.myRequest.push(request)
+                    }
                 });
-            } else {
-                console.log("hi i am hitcher")
-                const dbRef = ref(db, '/driverReqs');
-                onValue(dbRef, (snapshot) => {
-                    snapshot.forEach((childSnapshot) => {
-                        const childKey = childSnapshot.key; //request id
-                        const childData = childSnapshot.val(); //request details
-                        if(childData.uid == this.auth.currentUser.uid) {
-                          console.log("my request")
-                          console.log(childData)
-                          let request = childData
-                          request["rid"] = childKey
-                          this.myRequest.push(request)
-                        }
-                    });
-                }, {
-                    onlyOnce: true
+            }, {
+                onlyOnce: true
+            });
+        } else {
+            console.log("hi i am hitcher")
+            const dbRef = ref(db, '/hitcherReqs');
+            onValue(dbRef, (snapshot) => {
+                snapshot.forEach((childSnapshot) => {
+                    const childKey = childSnapshot.key; //request id
+                    const childData = childSnapshot.val(); //request details
+                    if(childData.uid == this.auth.currentUser.uid) {
+                      console.log("my request")
+                      console.log(childData)
+                      let request = childData
+                      request["rid"] = childKey
+                      this.myRequest.push(request)
+                    }
                 });
-            }
-        },
+            }, {
+                onlyOnce: true
+            });
+        }
+    },
     setDateTime() {
       let today = new Date()
       let year = today.getFullYear()

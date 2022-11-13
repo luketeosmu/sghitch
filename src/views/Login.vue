@@ -87,6 +87,11 @@ export default {
             const db = getDatabase()
             signInWithEmailAndPassword(getAuth(), this.input.email, this.input.password)
             .then((data) => {
+                if(!getAuth().currentUser.emailVerified){
+                    this.errMsg = "Please verify your account upon first login."
+                    return
+                }
+                getAuth().currentUser.emailVerified = true
                 console.log("Successfully signed in!")
                 console.log(getAuth().currentUser.displayName)
                 // console.log(auth.currentUser)
