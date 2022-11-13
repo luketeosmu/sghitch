@@ -47,7 +47,7 @@
                         <div :id="favourite.from + favourite.to + 'hide'" class="px-1 w-80 sm:w-96 hidden">
                         </div>
                     </div>
-                    <div v-else class="flex justify-center items-center w-80 sm:w-96 ">
+                    <div v-else class="flex justify-center items-center w-80 sm:w-96 pt-2">
                         <h3 class="text-center text-base sm:text-2xl">No rides to display</h3>
                         <button @click='newReq()' type="button" class="block bg-black bg-opacity-30 hover:bg-opacity-50 p-2 sm:p-3 ml-2 rounded-2xl text-white text-sm font-semibold">Add Request</button>
                     </div>
