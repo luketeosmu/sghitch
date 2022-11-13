@@ -278,7 +278,8 @@ export default {
             console.log(newPostRef)
             set(newPostRef, offer)
             .then(() => {
-                this.$router.push('/')
+                // this.$router.push('/')
+                location.reload()
             })
         }
     }

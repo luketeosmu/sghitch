@@ -191,7 +191,7 @@
             </div>
         </div>
     </div>
-    <div v-if="this.acceptedOffer != null">
+    <div v-if="this.acceptedOffer != null && this.user.type == 'driver'">
     <input type="checkbox" :id="this.acceptedOffer.oid + 'accepted'" class="modal-toggle" />
             <label :for="this.acceptedOffer.oid + 'accepted'" class="modal cursor-pointer">
             <label class="modal-box relative w-auto min-w-[400px]  bg-gray-800 text-white font-light text-center" for="">
@@ -483,7 +483,7 @@ export default {
         cancel() {
             const db = getDatabase();
             const auth = getAuth()
-            set(ref(db, 'userInfo/' + auth.currentUser.uid + '/acceptedOffer'), null);
+            set(ref(db, 'userInfo/' + this.acceptedOffer.uid + '/acceptedOffer'), null);
             //remove requesters accepted offer too using offer.uid? idk need test
             console.log(this.acceptedOffer.uid)
             set(ref(db, 'userInfo/' + this.acceptedOffer.requesterId + '/acceptedOffer'), null);
@@ -508,12 +508,13 @@ export default {
             const auth = getAuth()
             set(ref(db, 'userInfo/' + auth.currentUser.uid + '/rejectedOffer'), null);
             this.rejectedOffer = null
+            location.reload()
         },
         rideStart(offer) {
             // this.acceptedOffer = null
             const db = getDatabase();
             const auth = getAuth()
-            set(ref(db, 'userInfo/' + auth.currentUser.uid + '/acceptedOffer'), null);
+            set(ref(db, 'userInfo/' + offer.uid + '/acceptedOffer'), null);
             //remove requesters accepted offer too using offer.uid? idk need test
             console.log(offer.uid)
             set(ref(db, 'userInfo/' + offer.requesterId + '/acceptedOffer'), null);
@@ -529,6 +530,7 @@ export default {
             remove(ref(db, 'hitcherOffers/' + auth.currentUser.uid)).catch((error)=> {
                 console.log(error)
             })
+            location.reload()
         },
         setTimeStr(time) {
             let hours = ""
