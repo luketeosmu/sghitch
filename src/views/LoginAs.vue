@@ -6,7 +6,7 @@
             <div @click="setUserType('hitcher')" class="grid block w-72 h-24 card text-3xl text-slate-700 font-semibold bg-white bg-opacity-70 hover:bg-white hover:text-black hover:bg-opacity-80 hover:cursor-pointer rounded-box place-items-center">Sign in as Hitcher</div>
         </div>
         <div class="video-docker absolute top-0 left-0 w-full h-full overflow-hidden">
-            <video class="min-w-full min-h-full absolute object-cover" src="../vid1.mp4" type="video/mp4" autoplay muted loop></video>
+            <video class="min-w-full min-h-full absolute object-cover" src="../vid2.mp4" type="video/mp4" autoplay muted loop></video>
         </div>
       </div>
 </template>

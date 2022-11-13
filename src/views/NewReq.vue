@@ -636,7 +636,7 @@ export default {
         const newPostRef = push(postListRef);
         set(newPostRef, temp).then(() => {
           this.loading = false
-          this.$router.push('/')
+          location.reload()
         })
         // alert("Successfully submitted request!") //change to modal
         
