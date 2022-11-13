@@ -17,14 +17,14 @@
               </div>
           </label>
         <div class="flex justify-center items-center text-center mt-10 mb-5 px-2 sm:px-0">
-            <span v-if="myRequest.length != 0" class="text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-80 rounded-lg py-1 px-2 max-w-lg w-full">
+            <span v-if="myRequest.length != 0" class="mt-10 w-[350px] sm:w-[600px] mx-auto text-center text-3xl text-black font-roboto font-semibold bg-white bg-opacity-80 rounded-lg py-1 px-2 mb-6 ">
                 Current Requests
             </span>
         </div>
         <!-- <span class="justify-center items-center font-bold text-3xl font-sans mt-5 pb-5 px-3 pb-3 bg-white text-center text-black"> Current Favourites </span> -->
           <div class="flex items-center justify-center text-xs sm:text-base w-[350px] sm:w-[600px] mx-auto sm:px-0">
               
-              <table v-if="myRequest.length != 0" class="table table-compact sm:table z-0 ">
+              <table v-if="myRequest.length != 0" class="table table-compact sm:table-normal sm:w-full z-0 ">
                   <thead>
                   <tr >
                       <th class="bg-slate-300 bg-opacity-95">Datetime</th>
