@@ -107,16 +107,39 @@ export default {
         this.$router.push('/login')
       },
       newReq() {
-            this.$router.push('/newReq')
-        },
+          this.$router.push('/newReq')
+      },
     },
     data() {
         return {
             reviews: [
             ],
+            user: {
+              type: ""
+            }
             
         }
     },
+    mounted() {
+        this.auth = getAuth();
+        this.dbRef = ref(getDatabase())
+        get(child(this.dbRef, `userTypes/${this.auth.currentUser.uid}`)).then((snapshot) => {
+            if (snapshot.exists()){
+                if(snapshot.val().type == "hitcher"){
+                    this.user.type = "hitcher"
+                } else {
+                    this.user.type = "driver"
+                }
+                this.retrieveAllReq()
+            } else {
+                alert("Application encountered a severe issue. Please login again.")
+                this.logout()
+            }
+        }).catch((error) => {
+            console.error(error)
+            this.logout()
+        })
+    }
 }
 </script>
 
