@@ -222,7 +222,7 @@ export default {
             return this.item.imageUrl
         },
         makeHitcherOffer(id) {
-            console.log(id)
+            // console.log(id)
             this.$router.push('./makeOffer/' + id) 
         },
         setTimeStr(time) {
@@ -240,7 +240,7 @@ export default {
             this.$router.push({name:'Profile', params: { uid }})
         },
         makeOffer(request) {
-            console.log(this.offerPrice)
+            // console.log(this.offerPrice)
             //current uid
             //current user displayname
             //time
@@ -270,13 +270,13 @@ export default {
             offer['requesterId'] = request.uid
             offer['driverName'] = request.user
 
-            console.log(offer)
-            console.log(request.uid)
+            // console.log(offer)
+            // console.log(request.uid)
             const db = getDatabase();
             const postListRef = storageRef(db, 'hitcherOffers/' + request.uid);
-            console.log(postListRef)
+            // console.log(postListRef)
             const newPostRef = push(postListRef);
-            console.log(newPostRef)
+            // console.log(newPostRef)
             set(newPostRef, offer)
             .then(() => {
                 // this.$router.push('/')
