@@ -93,8 +93,6 @@ export default {
                     return
                 }
                 getAuth().currentUser.emailVerified = true
-                console.log("Successfully signed in!")
-                console.log(getAuth().currentUser.displayName)
                 // console.log(auth.currentUser)
                 this.$router.push('/loginAs')
             })
