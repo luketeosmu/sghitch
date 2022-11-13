@@ -248,11 +248,11 @@ export default {
             offer['datetime'] = request.datetime
             offer['vehicleNo'] = this.vehicleNo
             offer['uid'] = auth.currentUser.uid
-            offer['driverName'] = auth.currentUser.displayName
+            offer['displayName'] = auth.currentUser.displayName
             offer['askingPrice'] = this.offerPrice
             offer['rid'] = request.rid
             offer['status'] = 'pending'
-            
+
             console.log(offer)
             console.log(request.uid)
             const db = getDatabase();
