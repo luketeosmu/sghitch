@@ -55,7 +55,10 @@ export default {
       },
       logout(){
         this.$router.push('/login')
-      }
+      },
+      newReq() {
+            this.$router.push('/newReq')
+        },
     },
     data() {
         return {

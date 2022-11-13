@@ -522,6 +522,9 @@ export default {
             this.$router.push('/login')
         })
     },
+    newReq() {
+            this.$router.push('/newReq')
+    },
     change() {
         const db = getDatabase()
         if(this.user.type == "driver"){

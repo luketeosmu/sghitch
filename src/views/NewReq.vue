@@ -22,9 +22,9 @@
             </span>
         </div>
         <!-- <span class="justify-center items-center font-bold text-3xl font-sans mt-5 pb-5 px-3 pb-3 bg-white text-center text-black"> Current Favourites </span> -->
-          <div class="flex w-[350px] sm:w-[600px]  mx-auto justify-center items-center px-2 sm:px-0">
+          <div class="flex items-center justify-center text-xs sm:text-base w-[350px] sm:w-[600px] mx-auto sm:px-0">
               
-              <table v-if="myRequest.length != 0" class="table w-full max-w-lg z-0">
+              <table v-if="myRequest.length != 0" class="table table-compact sm:table z-0 ">
                   <thead>
                   <tr >
                       <th class="bg-slate-300 bg-opacity-95">Datetime</th>
@@ -351,6 +351,7 @@ export default {
               } else {
                   this.user.type = "driver"
               }
+              this.retrieveMyRequest()
           } else {
               // alert("Application encountered a severe issue. Please login again.")
               this.logout()
@@ -360,7 +361,6 @@ export default {
           this.logout()
       })
       this.setDateTime()
-      this.retrieveMyRequest()
   },
   methods: {
     removeRequest() {
@@ -409,6 +409,8 @@ export default {
                     const childKey = childSnapshot.key; //request id
                     const childData = childSnapshot.val(); //request details
                     if(childData.uid == this.auth.currentUser.uid) {
+                      console.log("uid: " + childData.uid)
+                      console.log("my uid: " + this.auth.currentUser.uid)
                       // console.log("my request")
                       // console.log(childData)
                       let request = childData
@@ -429,6 +431,8 @@ export default {
                     if(childData.uid == this.auth.currentUser.uid) {
                       // console.log("my request")
                       // console.log(childData)
+                      console.log("uid: " + childData.uid)
+                      console.log("my uid: " + this.auth.currentUser.uid)
                       let request = childData
                       request["rid"] = childKey
                       this.myRequest.push(request)
@@ -658,6 +662,9 @@ export default {
         signOut(this.auth).then(() => {
             this.$router.push('/login')
         })
+    },
+    newReq() {
+      window.location.reload()
     },
     change() {
         const db = getDatabase()

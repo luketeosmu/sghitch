@@ -148,18 +148,19 @@ export default {
             validReq: [],
             validNearbyReq: [],
             allRequests: [],
+            vehiclePreference: "All Vehicles",
             // requests: [
             //         {
             //             centerStart: {
+            //                 lat: "1.431630",
+            //                 lng: "103.785591",
+            //             },
+            //             centerDest: {
             //                 lat: "1.360540",
             //                 lng: "103.957380"
             //             },
-            //             centerDest: {
-            //                 lat: "1.431630",
-            //                 lng: "103.785590",
-            //             },
             //             s_address: "Tampines St 45 529498",
-            //             datetime: "2022-11-13T06:49",
+            //             datetime: "2022-11-13T22:50",
             //             startNeighborhood: "Tampines",
             //             pax: "3",
             //             available: "1",
@@ -170,101 +171,10 @@ export default {
             //             vehiclePreference: "Car, Lorry & Van Only",
             //             vehicleType: "Motorcycle",
             //             askingPrice: "10.00",
-            //             rid: "12345"
-            //         },
-            //         {
-            //             centerStart: {
-            //                 lat: "1.431630",
-            //                 lng: "103.785591",
-            //             },
-            //             centerDest: {
-            //                 lat: "1.360540",
-            //                 lng: "103.957380"
-            //             },
-            //             d_address: "Tampines St 45 529498",
-            //             datetime: "2022-11-13T06:50",
-            //             destNeighborhood: "Tampines",
-            //             pax: "3",
-            //             available: "2",
-            //             s_address: "Marsiling Mrt",
-            //             startNeighborhood: "Woodlands",
-            //             uid: "12345",
-            //             user: "kim jong kook",
-            //             vehiclePreference: "Car only",
-            //             vehicleType: "Car",
-            //             askingPrice: "10.00",
-            //             rid: "52321"
-            //         },
-            //         {
-            //             centerStart: {
-            //                 lat: "1.360540",
-            //                 lon: "103.957380",
-            //             },
-            //             centerDest: {
-            //                 lat: "1.360540",
-            //                 lon: "103.957380"
-            //             },
-            //             d_address: "Tampines St 45 529498",
-            //             datetime: "2022-11-12T20:00",
-            //             destNeighborhood: "Tampines",
-            //             pax: "3",
-            //             available: "2",
-            //             s_address: "Marsiling Mrt",
-            //             startNeighborhood: "Woodlands",
-            //             uid: "12345",
-            //             user: "kim jong kook",
-            //             vehiclePreference: "Car only",
-            //             vehicleType: "Car",
-            //             askingPrice: "10.00"
-            //         },
-            //         {
-            //             centerStart: {
-            //                 lat: "1.439500",
-            //                 lon: "103.775630",
-            //             },
-            //             centerDest: {
-            //                 lat: "1.320610",
-            //                 lon: "103.886932"
-            //             },
-            //             d_address: "Geylang Shady Place",
-            //             datetime: "2022-11-12T20:00",
-            //             destNeighborhood: "Geylang",
-            //             pax: "3",
-            //             available: "2",
-            //             s_address: "Woodlands Ave 1 730308",
-            //             startNeighborhood: "Woodlands",
-            //             uid: "12345",
-            //             user: "john tao",
-            //             vehiclePreference: "Car only",
-            //             vehicleType: "Car",
-            //             askingPrice: "10.00"
-            //         },
-            //         {
-            //             centerStart: {
-            //                 lat: "1.289440",
-            //                 lon: "103.849983",
-            //             },
-            //             centerDest: {
-            //                 lat: "1.360540",
-            //                 lon: "103.957380"
-            //             },
-            //             d_address: "Tampines St 45 529498",
-            //             datetime: "2022-11-12T22:25",
-            //             destNeighborhood: "Tampines",
-            //             vehicleNo: "ABC 123",
-            //             pax: "3",
-            //             available: "2",
-            //             s_address: "SMU",
-            //             startNeighborhood: "Museum",
-            //             uid: "12345",
-            //             user: "prof kyong",
-            //             vehiclePreference: "Car only",
-            //             vehicleType: "Car",
-            //             askingPrice: "10.00",
-            //             rid: "rid123"
+            //             rid: "12345",
+            //             // photoURL: "./images/profileBG.jpg"
             //         },
             // ],
-            vehiclePreference: "All Vehicles"
         }
     },
     mounted() {
@@ -291,7 +201,6 @@ export default {
         this.setDateStr()
         this.setTimeStr()
         this.currentLocation()
-        // this.
     },
     methods: {
         changeFoo(foo){
@@ -408,6 +317,7 @@ export default {
         checkTime(reqTime) {
             // console.log("CHECKTIME")
             // console.log("this time: " + this.time)
+            console.log("ReqTime: " + reqTime)
             let selectedHour = 0
             let selectedMins = 0
             selectedHour = parseInt(this.time.split(":")[0])
@@ -415,15 +325,27 @@ export default {
             let hour = parseInt(reqTime.split(":")[0])
             let mins = parseInt(reqTime.split(":")[1])
             let timeDiff = selectedMins - mins                      // for same hour
-            let diff = 60 - mins + selectedMins                     // for hour + 1 (e.g. request time: 9:40pm, current time: 10:05pm)
+            let diff = 60 - selectedMins + mins                     // for hour + 1 (e.g. request time: 9:40pm, current time: 10:05pm)
+            console.log("timeDiff:" + timeDiff)
+            console.log("hour:" + hour)
+            console.log("selectedHour:" + selectedHour)
             if(hour == selectedHour && (timeDiff <= 30 && timeDiff >= -15) ) {
                 // console.log("true")
                 return true
+            } else if(hour - 1 == selectedHour) {
+                console.log("diff:" + diff)
+                console.log("mins:" + mins)
+                console.log("selected mins:" + selectedMins)
+                if(diff <= 30) {
+                    return true
+                }
             } else if(hour + 1 == selectedHour) {
+                diff = 60 - mins + selectedMins
                 if(diff <= 30) {
                     return true
                 }
             }
+            console.log("returning false")
             return false
         },
         checkDate(reqDate) {
@@ -463,9 +385,15 @@ export default {
             for(let request of this.allRequests) {
                 // console.log(request.rid)
                 if(request.uid != this.auth.currentUser.uid && this.checkTime(request.datetime.split("T")[1]) && this.checkDate(request.datetime.split("T")[0])) {
+                    console.log("everything true, valid req 1")
                     // console.log(request.d_address)
-                    // console.log("everything true, valid req")
-                    this.validReq.push(request)
+                    if(this.user.type == 'hitcher' && this.vehiclePreferenceIsValid(request.vehicleType)) {
+                        console.log("everything true, valid req 2")
+                        this.validReq.push(request)
+                    } else if(this.user.type == 'driver') {
+                        console.log("everything true, valid req 3")
+                        this.validReq.push(request)
+                    }
                 }
             }
             this.validReq.sort(function(a,b) {
