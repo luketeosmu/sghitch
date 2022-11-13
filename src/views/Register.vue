@@ -73,7 +73,7 @@
 </template>
 <script>
 // import UserService from '../services/UserService'
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword, updateProfile, sendEmailVerification } from 'firebase/auth'
 import { getDatabase, ref, set } from 'firebase/database'
 import { doc, setDoc, getFirestore } from 'firebase/firestore'
 export default {
@@ -149,8 +149,12 @@ export default {
                         }
                         set(ref(db, 'userInfo/' + auth.currentUser.uid), user_input)
                         .then(() => {
-                            this.clicked = false
-                            this.$router.push('/login')
+                            sendEmailVerification(auth.currentUser)
+                            .then(() => {
+                                this.clicked = false
+                                auth.currentUser.emailVerified = false
+                                this.$router.push('/login')
+                            })
                         })
                     })
                 })
