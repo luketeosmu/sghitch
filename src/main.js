@@ -10,8 +10,6 @@ import MapsService from './services/MapsService'
 import Home from './views/Home.vue'
 import ForgotPassword from './views/ForgotPassword.vue'
 import LoginAs from './views/LoginAs.vue'
-import RegisterAs from './views/RegisterAs.vue'
-import RegisterOTP from './views/RegisterOTP.vue'
 import ShowAll from './views/ShowAll.vue'
 import Chat from './views/Chat.vue'
 import AccountSettings from './views/AccountSettings.vue'
@@ -98,16 +96,6 @@ const routes = [
         path: '/loginas',
         name: 'LoginAs',
         component: LoginAs
-    },
-    {
-        path: '/registeras',
-        name: 'RegisterAs',
-        component: RegisterAs
-    },
-    {
-        path: '/registerotp',
-        name: 'RegisterOTP',
-        component: RegisterOTP
     },
     {
         path: '/accountsettings',
