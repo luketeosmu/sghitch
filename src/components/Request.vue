@@ -248,17 +248,21 @@ export default {
             offer['datetime'] = request.datetime
             offer['vehicleNo'] = this.vehicleNo
             offer['uid'] = auth.currentUser.uid
-            offer['displayName'] = auth.currentUser.displayName
-            offer['offerPrice'] = this.offerPrice
+            offer['driverName'] = auth.currentUser.displayName
+            offer['askingPrice'] = this.offerPrice
             offer['rid'] = request.rid
+            offer['status'] = 'pending'
+            
             console.log(offer)
             console.log(request.uid)
             const db = getDatabase();
-            const postListRef = ref(db, 'hitcherOffers/' + request.uid);
+            const postListRef = storageRef(db, 'hitcherOffers/' + request.uid);
+            console.log(postListRef)
             const newPostRef = push(postListRef);
+            console.log(newPostRef)
             set(newPostRef, offer)
             .then(() => {
-                this.$router.push('./')
+                this.$router.push('/')
             })
         }
     }

@@ -408,7 +408,7 @@ export default {
             const auth = getAuth()
             set(ref(db, 'userInfo/' + auth.currentUser.uid + '/acceptedOffer'), null);
             //remove requesters accepted offer too using offer.uid? idk need test
-            // set(ref(db, 'userInfo/' + offer.uid + '/acceptedOffer'), null);
+            set(ref(db, 'userInfo/' + offer.uid + '/acceptedOffer'), null);
             remove(ref(db, 'driverOffers/' + auth.currentUser.uid + '/' + offer.oid))
         },
         setTimeStr(time) {
