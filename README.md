@@ -9,7 +9,7 @@ and to also help drivers save on fuel costs.
 
 Hitch was developed in [Vue.js](https://vuejs.org/guide/introduction.html) as a [Vite](https://vitejs.dev/guide/) Project. Styled with [TailwindCSS](https://tailwindcss.com/docs/installation) and [DaisyUI](https://daisyui.com/docs/install/).
 
-## Project Setup
+## Project Setup (ensure that you are in the root directory)
 
 ```sh
 npm install
@@ -21,7 +21,7 @@ npm install
 npm run dev
 ```
 
-### Compile and Minify for Production
+### Optional - Compile and Minify for Production
 
 ```sh
 npm run build
