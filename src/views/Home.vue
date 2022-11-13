@@ -464,7 +464,7 @@ export default {
                 // console.log(request.rid)
                 if(request.uid != this.auth.currentUser.uid && this.checkTime(request.datetime.split("T")[1]) && this.checkDate(request.datetime.split("T")[0])) {
                     // console.log(request.d_address)
-                    console.log("everything true, valid req")
+                    // console.log("everything true, valid req")
                     this.validReq.push(request)
                 }
             }
@@ -500,17 +500,17 @@ export default {
         setValidNearbyReq() {
             this.validNearbyReq = []
             for(let request of this.validReq) {
-                console.log("SETVALIDNEARBY")
-                console.log(request.centerStart.lat)
-                console.log(request.centerStart.lng)
-                console.log(this.currentLat)
-                console.log(this.currentLng)
-                console.log(request.user)
-                console.log("distance is= " + this.getDistanceFromLatLonInKm(request.centerStart.lat, request.centerStart.lng, this.currentLat, this.currentLng))
-                console.log(this.inputDistance)
-                console.log("END")
+                // console.log("SETVALIDNEARBY")
+                // console.log(request.centerStart.lat)
+                // console.log(request.centerStart.lng)
+                // console.log(this.currentLat)
+                // console.log(this.currentLng)
+                // console.log(request.user)
+                // console.log("distance is= " + this.getDistanceFromLatLonInKm(request.centerStart.lat, request.centerStart.lng, this.currentLat, this.currentLng))
+                // console.log(this.inputDistance)
+                // console.log("END")
                 if(this.getDistanceFromLatLonInKm(request.centerStart.lat, request.centerStart.lng, this.currentLat, this.currentLng) <= this.inputDistance ) { //change this 
-                    console.log(request.centerStart.lat + " " + request.centerStart.lng)
+                    // console.log(request.centerStart.lat + " " + request.centerStart.lng)
                     this.validNearbyReq.push(request)
                 }
             }
@@ -578,7 +578,7 @@ export default {
                         // this.allRequests.push(request) //add object to new allRequests array in data()
                         childData["rid"] = childKey         //add request ID to request object
                         this.allRequests.push(childData)
-                        console.log(childData)
+                        // console.log(childData)
                         this.setValidReq()
                         this.setValidNearbyReq()
                     });
@@ -598,7 +598,7 @@ export default {
                         // this.allRequests.push(request) //add object to new allRequests array in data()
                         childData["rid"] = childKey         //add request ID to request object
                         this.allRequests.push(childData)
-                        console.log(childData)
+                        // console.log(childData)
                         this.setValidReq()
                         this.setValidNearbyReq()
                     });
