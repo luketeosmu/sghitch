@@ -57,6 +57,12 @@
                         <span>Error! There are still fields that are incomplete</span>
                     </div>
                 </div>
+                <div v-show="userExists" class="alert alert-error shadow-lg mt-4">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span>Error! User already exists</span>
+                    </div>
+                </div>
                 <button v-if="!clicked" @click='register()' type="button" class="btn w-full hover:bg-gray-400 bg-white bg-opacity-80 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Sign up</button>
                 <button v-else type="button" class="btn loading w-full bg-white bg-opacity-80 mt-4 py-2 rounded-2xl text-black font-semibold mb-2">Loading</button>
                 <span @click='login()' class="text-sm ml-2 hover:text-blue-300 cursor-pointer text-white">Already have an account? Login here! </span> <br><br>
@@ -99,6 +105,7 @@ export default {
             formIsValid: false,
             isHidden: false,
             clicked: false,
+            userExists: false,
         }
     },
     mounted(){
@@ -118,17 +125,21 @@ export default {
                 }
                 else{
                     this.checkErrorArr = false
+                    break
                 }
             }
 
             if(this.input.email != "" && this.input.firstName != "" && this.input.lastName != "" && this.input.password != "" && this.input.confirmPassword != ""){
                 this.formIsValid = true
+            }else{
+                this.formIsValid = false
             }
 
             if(this.formIsValid && this.checkErrorArr){
 
                  //hide error box
                  this.isHidden = false
+                 this.userExists = false
 
                 const auth = getAuth()
                 const displayName = this.input.firstName + " " + this.input.lastName
@@ -160,12 +171,12 @@ export default {
                 })
                 .catch((error) => {
                     this.clicked = false
-                    console.log(error.code)
-                    // alert(error.message)
+                    this.userExists = true
                 })
             } else {
                 this.clicked = false
                 this.isHidden = true
+                this.userExists = false
             }
         },
 
