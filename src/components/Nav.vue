@@ -62,7 +62,7 @@
                     <!-- to dynamically change -->
                     <span class="text-lg text-white font-light font-roboto">Notifications</span>
                     <hr>
-                    <div v-if="this.acceptedOffer == null && this.offers.length == 0" class="text-lg text-gray-200 font-roboto font-bold text-center my-auto">
+                    <div v-if="this.acceptedOffer == null && this.rejectedOffer == null && this.offers.length == 0" class="text-lg text-gray-200 font-roboto font-bold text-center my-auto">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-24 h-24 mx-auto mb-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                         </svg>
@@ -84,7 +84,7 @@
                         </div>
                     </li>
                     <li v-if="this.rejectedOffer != null">
-                        <label v-if="this.auth.currentUser.displayName == this.rejected.displayName" class="hover:bg-slate-500 active:bg-slate-500 text-white" >
+                        <label v-if="this.auth.currentUser.displayName == this.rejectedOffer.displayName" class="hover:bg-slate-500 active:bg-slate-500 text-white" >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
                             </svg>
@@ -243,7 +243,7 @@
                 <div class="grid grid-cols-2 gap-x-5 mt-5" v-show="offer.status=='pending'">
                     <!-- <button  @click='offer.status = "accepted", this.acceptedOffer = offer, this.offers = []' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold flex justify-center items-center text-center">Accept</button> -->
                     <button  @click='acceptOffer(offer), offer.status = "accepted"' type="button" class="btn btn-ghost block bg-slate-600 hover:bg-slate-500 px-3 rounded-xl text-white font-semibold flex justify-center items-center text-center">Accept</button>
-                    <button  @click='offer.status = "rejected"' type="button" class="btn btn-ghost block bg-white hover:bg-slate-100 px-3 rounded-xl text-slate-600 font-semibold flex justify-center items-center text-center">Decline</button>
+                    <button  @click='declineOffer(offer), offer.status = "rejected"' type="button" class="btn btn-ghost block bg-white hover:bg-slate-100 px-3 rounded-xl text-slate-600 font-semibold flex justify-center items-center text-center">Decline</button>
                 </div>
             </label>
         </label>
@@ -508,6 +508,8 @@ export default {
             // console.log(offer.oid)
         },
         declineOffer(offer) {
+            const db = getDatabase()
+            const auth = getAuth()
             remove(ref(db, 'driverOffers/' + auth.currentUser.uid + '/' + offer.oid)).catch((error)=> {
                 console.log(error)
             })
