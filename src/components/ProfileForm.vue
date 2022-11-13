@@ -108,7 +108,6 @@ export default {
 
             this.item.reviewText = ""
 
-            alert("Thanks for the review!")
             location.reload()
         },
         show(){
