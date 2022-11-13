@@ -150,6 +150,9 @@ export default {
                         })
                     })
                 }).catch((error) => {
+                    console.log(error.code)
+                    console.log(error.message)
+                    console.log(error)
                 })
             }else{
                 this.clicked = false
@@ -188,6 +191,9 @@ export default {
                             location.reload()
                         })
                     }).catch((error) => {
+                        console.log(error.code)
+                        console.log(error.message)
+                        console.log(error)
                     })
                 } else {
                 }
@@ -234,8 +240,10 @@ export default {
                 console.log('Upload is ' + progress + '% done');
                 switch (snapshot.state) {
                 case 'paused':
+                    console.log('Upload is paused');
                     break;
                 case 'running':
+                    console.log('Upload is running');
                     break;
                 }
             }, 
@@ -270,8 +278,10 @@ export default {
                                 location.reload()
                             }).catch((error) => {
                                 this.loading = false
+                                console.log(error.code)
+                                console.log(error.message)
+                                console.log(error)  
                             });
-                            
                     });
                 }
             );  
