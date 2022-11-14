@@ -77,7 +77,8 @@
 
 <script>
 
-
+import { getAuth, signOut } from 'firebase/auth'
+import { getDatabase, ref, child, get, update, onValue } from 'firebase/database';
 import Nav from "../components/Nav.vue"
 import ProfileForm from "../components/ProfileForm.vue"
 export default {
@@ -130,7 +131,7 @@ export default {
                 } else {
                     this.user.type = "driver"
                 }
-                this.retrieveAllReq()
+                // this.retrieveAllReq()
             } else {
                 alert("Application encountered a severe issue. Please login again.")
                 this.logout()
